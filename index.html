@@ -97,7 +97,7 @@
       </div>
     </a>
 
-    <a href="work/premios-esland.html" class="work-card" data-autovideo="premios-esland.mp4">
+    <a href="work/premios-esland.html" class="work-card" data-autovideo="videos/premios-esland.mp4">
       <div class="work-thumb-media">
         <img src="https://images.squarespace-cdn.com/content/v1/662a3e1b89c94f579585155e/ad080ab5-cc71-48fe-a163-138840c6c4f0/ESLAND+PREMIOS.png" alt="Premios ESLAND">
       </div>
@@ -278,13 +278,27 @@
           if (!video) {
             video = document.createElement('video');
             video.className = 'thumb-video';
-            video.src = card.dataset.autovideo;
+            // El orden importa: silenciar ANTES de asignar el src
             video.muted = true;
-            video.loop = true;
-            video.playsInline = true;
-            video.preload = 'metadata';
+            video.defaultMuted = true;
             video.setAttribute('muted', '');
             video.setAttribute('playsinline', '');
+            video.setAttribute('webkit-playsinline', '');
+            video.loop = true;
+            video.playsInline = true;
+            video.autoplay = true;
+            video.preload = 'auto';
+            video.src = card.dataset.autovideo;
+            // Reintenta cuando el navegador ya tiene datos
+            video.addEventListener('canplay', () => {
+              video.play().catch(() => {});
+            });
+            video.addEventListener('loadeddata', () => {
+              video.play().catch(() => {});
+            });
+            video.addEventListener('playing', () => {
+              video.classList.add('is-playing');
+            });
             media.appendChild(video);
           }
           video.play().catch(() => {});
