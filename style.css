@@ -413,3 +413,136 @@ footer .social-icons a{color:var(--ink-dim);}
 }
 .contact-row:hover{border-color:#ffffff;color:#ffffff;}
 .contact-row .label{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint);margin-right:auto;}
+
+/* ============================================
+   PÁGINA DE PROYECTO
+   ============================================ */
+
+.project-hero{
+  position:relative;height:70vh;min-height:460px;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.project-hero-bg{position:absolute;inset:0;}
+.project-hero-bg img{
+  width:100%;height:100%;object-fit:cover;
+  filter:grayscale(20%) contrast(1.08) brightness(0.7);
+}
+.project-hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg, rgba(13,12,11,0.55) 0%, rgba(13,12,11,0.3) 45%, rgba(13,12,11,0.85) 100%);
+}
+.project-hero-content{
+  position:relative;z-index:2;width:100%;max-width:1180px;
+  padding:0 32px;text-align:center;
+}
+.project-title{
+  font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;
+  color:#fff;font-size:clamp(38px,7vw,104px);line-height:0.95;letter-spacing:0.01em;
+  margin-bottom:clamp(28px,5vw,56px);
+}
+.project-meta{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  gap:24px;max-width:900px;margin:0 auto;
+}
+.meta-item{flex:1;text-align:center;}
+.meta-label{
+  display:block;font-family:'Anton',sans-serif;text-transform:uppercase;
+  font-size:clamp(15px,1.8vw,26px);color:#fff;letter-spacing:0.02em;margin-bottom:8px;
+}
+.meta-value{
+  display:block;font-family:'Inter',sans-serif;font-weight:300;
+  font-size:clamp(13px,1.3vw,17px);color:#cfcabd;
+}
+
+.project-body{padding:clamp(56px,8vw,110px) 0;}
+.project-body .wrap.narrow{max-width:820px;}
+.project-body .wrap.center{text-align:center;}
+.project-h2{
+  font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;
+  color:#6FBF8B;
+  font-size:clamp(30px,5vw,64px);line-height:1;margin-bottom:28px;
+}
+.project-body p{
+  font-family:'Inter',sans-serif;font-weight:300;
+  font-size:clamp(15px,1.5vw,18px);line-height:1.75;color:#d8d4c9;
+  margin-bottom:18px;
+}
+.project-body strong{font-weight:700;color:#fff;}
+
+/* Vídeo */
+.project-video{padding:0 0 clamp(56px,8vw,100px);}
+.video-frame{
+  position:relative;width:100%;aspect-ratio:16/9;
+  background:#000;overflow:hidden;cursor:pointer;
+}
+.video-poster{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  filter:brightness(0.62);transition:filter .4s ease,transform .6s ease;
+}
+.video-frame:hover .video-poster{filter:brightness(0.75);transform:scale(1.02);}
+.video-play{
+  position:absolute;inset:0;margin:auto;width:max-content;height:max-content;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  background:none;border:0;color:#fff;cursor:pointer;
+  font-family:'Inter',sans-serif;font-size:13px;letter-spacing:0.16em;
+  text-transform:uppercase;
+}
+.video-play svg{
+  border:1.6px solid rgba(255,255,255,0.8);border-radius:50%;
+  padding:14px;transition:background .3s ease,transform .3s ease;
+}
+.video-frame:hover .video-play svg{background:rgba(255,255,255,0.15);transform:scale(1.06);}
+.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:3;}
+.video-frame.is-loaded .video-poster,
+.video-frame.is-loaded .video-play{display:none;}
+
+/* Galería de rodaje */
+.project-gallery{padding:0 0 clamp(56px,8vw,100px);}
+.gallery-viewport{position:relative;}
+.gallery-track{
+  display:flex;gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:0 clamp(16px,4vw,60px);
+  scrollbar-width:none;-ms-overflow-style:none;
+}
+.gallery-track::-webkit-scrollbar{display:none;}
+.gal-item{
+  flex:0 0 clamp(260px,38vw,540px);scroll-snap-align:center;margin:0;
+}
+.gal-item img{
+  width:100%;aspect-ratio:1/1;object-fit:cover;display:block;
+  filter:grayscale(8%) brightness(0.92);transition:filter .4s ease;
+}
+.gal-item img:hover{filter:grayscale(0%) brightness(1);}
+.gal-btn{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:4;
+  width:52px;height:52px;border-radius:50%;
+  background:rgba(255,255,255,0.92);color:#0D0C0B;
+  border:0;display:grid;place-items:center;cursor:pointer;
+  transition:background .25s ease,transform .25s ease;
+}
+.gal-btn:hover{background:#fff;transform:translateY(-50%) scale(1.06);}
+.gal-btn.prev{left:clamp(8px,2vw,28px);}
+.gal-btn.next{right:clamp(8px,2vw,28px);}
+
+/* Navegación entre proyectos */
+.project-nav{
+  display:flex;justify-content:space-between;align-items:center;gap:20px;
+  padding:clamp(30px,5vw,60px) clamp(20px,5vw,70px);
+  border-top:1px solid rgba(255,255,255,0.12);
+}
+.pnav{
+  display:flex;align-items:center;gap:14px;
+  font-family:'Anton',sans-serif;text-transform:uppercase;
+  font-size:clamp(14px,1.8vw,22px);color:#fff;letter-spacing:0.02em;
+  transition:opacity .25s ease;
+}
+.pnav:hover{opacity:0.65;}
+.pnav-arrow{font-size:1.1em;line-height:1;}
+
+@media (max-width:760px){
+  .project-hero{height:60vh;min-height:380px;}
+  .project-meta{flex-direction:column;gap:18px;}
+  .gal-btn{width:42px;height:42px;}
+  .project-nav{flex-direction:column;align-items:stretch;gap:16px;text-align:center;}
+  .pnav{justify-content:center;}
+}
