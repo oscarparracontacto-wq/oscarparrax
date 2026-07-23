@@ -35,7 +35,7 @@
 <!-- HERO -->
 <section class="project-hero">
   <div class="project-hero-bg">
-    <img src="https://images.squarespace-cdn.com/content/v1/662a3e1b89c94f579585155e/ad080ab5-cc71-48fe-a163-138840c6c4f0/ESLAND+PREMIOS.png" alt="Premios ESLAND">
+    <img src="../img/esland-hero.webp" alt="Premios ESLAND">
   </div>
   <div class="project-hero-overlay"></div>
 
@@ -65,7 +65,6 @@
 <!-- DESCRIPCIÓN -->
 <section class="project-body">
   <div class="wrap narrow">
-    <h2 class="project-h2">Premios ESLAND</h2>
     <p>Los <strong>Premios ESLAND</strong> son una iniciativa privada liderada por el streamer <strong>TheGrefg</strong>, creada para apoyar y destacar la creación de contenido hispanohablante.</p>
     <p>En la primera edición se nos encargó la producción de seis vídeos, cada uno como introducción a la entrega de su respectivo galardón, destacando momentos clave de la industria del streaming.</p>
   </div>
@@ -74,8 +73,8 @@
 <!-- VÍDEO EMBEBIDO -->
 <section class="project-video">
   <div class="wrap">
-    <div class="video-frame" id="videoFrame" data-video="w9_WXx2C61Y">
-      <img class="video-poster" src="https://img.youtube.com/vi/w9_WXx2C61Y/maxresdefault.jpg" alt="Ver vídeo Premios ESLAND">
+    <div class="video-frame" id="videoFrame" data-video="9Z064j-ANYs">
+      <img class="video-poster" src="../img/esland-video-bg.webp" alt="Ver vídeo Premios ESLAND">
       <button class="video-play" aria-label="Reproducir vídeo">
         <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
         <span>Ver vídeo</span>
@@ -178,21 +177,51 @@
     });
   })();
 
-  // Carrusel de rodaje
+  // Carrusel de rodaje en bucle infinito
   (() => {
     const track = document.getElementById('galTrack');
     const prev = document.getElementById('galPrev');
     const next = document.getElementById('galNext');
     if (!track) return;
 
-    function step() {
+    // Duplicamos el set de imágenes para poder dar la vuelta sin cortes
+    const originals = Array.from(track.children);
+    const setCount = originals.length;
+    originals.forEach(node => track.appendChild(node.cloneNode(true)));
+    originals.forEach(node => track.insertBefore(node.cloneNode(true), track.firstChild));
+
+    function itemStep() {
       const item = track.querySelector('.gal-item');
       if (!item) return 400;
-      const gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap) || 24;
+      const styles = getComputedStyle(track);
+      const gap = parseFloat(styles.columnGap || styles.gap) || 24;
       return item.getBoundingClientRect().width + gap;
     }
-    prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
-    next.addEventListener('click', () => track.scrollBy({ left:  step(), behavior: 'smooth' }));
+
+    // Arrancamos en el set del medio
+    function setWidth() { return itemStep() * setCount; }
+    function recenter() {
+      const w = setWidth();
+      if (track.scrollLeft < w * 0.5) {
+        track.scrollLeft += w;
+      } else if (track.scrollLeft > w * 1.5) {
+        track.scrollLeft -= w;
+      }
+    }
+
+    // Posición inicial sin animación
+    requestAnimationFrame(() => { track.scrollLeft = setWidth(); });
+
+    let wrapTimer = null;
+    track.addEventListener('scroll', () => {
+      clearTimeout(wrapTimer);
+      // Esperamos a que el scroll suave termine antes de saltar
+      wrapTimer = setTimeout(recenter, 120);
+    }, { passive: true });
+
+    prev.addEventListener('click', () => track.scrollBy({ left: -itemStep(), behavior: 'smooth' }));
+    next.addEventListener('click', () => track.scrollBy({ left:  itemStep(), behavior: 'smooth' }));
+    window.addEventListener('resize', () => { track.scrollLeft = setWidth(); });
   })();
 </script>
 </body>
