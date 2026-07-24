@@ -471,7 +471,7 @@ footer .social-icons a{color:var(--ink-dim);}
 }
 .project-video::before{
   content:'';position:absolute;inset:0;
-  background-image:url('img/esland-video-bg.webp');
+  background-image:var(--video-bg, none);
   background-size:cover;background-position:center;
   filter:grayscale(45%) brightness(0.5);
 }
