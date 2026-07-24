@@ -44,6 +44,7 @@
   </div>
   <div class="hero-figure" id="heroFigure" data-parallax="0.6"></div>
   <div class="hero-grain"></div>
+  <div class="film-grain"></div>
   <div class="pixel-aura" id="heroPixelAura"></div>
   <div class="camera-hud">
     <div class="hud-frame"></div>
@@ -269,6 +270,15 @@
       }
     });
   });
+
+  // Capa de grano sobre las miniaturas de proyecto
+  (() => {
+    document.querySelectorAll('.work-card .work-thumb-media').forEach((media) => {
+      const g = document.createElement('div');
+      g.className = 'film-grain';
+      media.appendChild(g);
+    });
+  })();
 
   // Miniaturas con vídeo propio: se reproducen solas al entrar en pantalla
   (() => {
