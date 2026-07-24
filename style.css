@@ -205,6 +205,34 @@ footer .social-icons a{color:var(--ink-dim);}
 /* Un poco más sutil en las miniaturas de proyecto */
 .work-thumb-media .film-grain{opacity:0.12;z-index:2;}
 
+/* Variante fuerte: estática de televisor antiguo */
+.film-grain.tv-static{
+  opacity:0.42;
+  mix-blend-mode:screen;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grainShift 0.28s steps(1) infinite;
+}
+/* Líneas de barrido que recorren la imagen, como una tele desincronizada */
+.tv-scanlines{
+  position:absolute;inset:0;pointer-events:none;z-index:5;
+  background-image:repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0.22) 0px,
+    rgba(0,0,0,0.22) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  opacity:0.55;
+  animation:scanRoll 7s linear infinite;
+}
+@keyframes scanRoll{
+  0%{background-position:0 0;}
+  100%{background-position:0 100px;}
+}
+@media (prefers-reduced-motion: reduce){
+  .tv-scanlines{animation:none;}
+}
+
 @media (prefers-reduced-motion: reduce){
   .film-grain{animation:none;}
 }
