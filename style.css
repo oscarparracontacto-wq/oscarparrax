@@ -560,6 +560,15 @@ footer .social-icons a{color:var(--ink-dim);}
 }
 .video-frame:hover .video-play svg{background:rgba(255,255,255,0.15);transform:scale(1.06);}
 .video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:3;}
+.video-frame.is-external{
+  display:block;text-decoration:none;
+}
+.video-frame.is-external .video-play{
+  position:absolute;inset:0;margin:auto;width:max-content;height:max-content;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  color:#fff;font-family:'Inter',sans-serif;font-size:13px;
+  letter-spacing:0.16em;text-transform:uppercase;
+}
 .video-frame.is-loaded .video-play{display:none;}
 
 /* Galería de rodaje */
