@@ -184,8 +184,8 @@ footer .social-icons a{color:var(--ink-dim);}
 .film-grain{
   position:absolute;top:-50%;left:-50%;width:200%;height:200%;
   pointer-events:none;z-index:4;
-  opacity:0.16;
-  mix-blend-mode:overlay;
+  opacity:0.30;
+  mix-blend-mode:normal;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
   background-repeat:repeat;
   animation:grainShift 0.7s steps(1) infinite;
@@ -203,27 +203,27 @@ footer .social-icons a{color:var(--ink-dim);}
   100% {transform:translate(0,0);}
 }
 /* Un poco más sutil en las miniaturas de proyecto */
-.work-thumb-media .film-grain{opacity:0.12;z-index:2;}
+.work-thumb-media .film-grain{opacity:0.22;z-index:2;}
 
 /* Variante fuerte: estática de televisor antiguo */
 .film-grain.tv-static{
-  opacity:0.42;
-  mix-blend-mode:screen;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
-  animation:grainShift 0.28s steps(1) infinite;
+  opacity:0.85;
+  mix-blend-mode:normal;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='discrete' tableValues='0 0 0 0.35 0.7 1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grainShift 0.2s steps(1) infinite;
 }
 /* Líneas de barrido que recorren la imagen, como una tele desincronizada */
 .tv-scanlines{
   position:absolute;inset:0;pointer-events:none;z-index:5;
   background-image:repeating-linear-gradient(
     0deg,
-    rgba(0,0,0,0.22) 0px,
-    rgba(0,0,0,0.22) 1px,
+    rgba(0,0,0,0.35) 0px,
+    rgba(0,0,0,0.35) 1px,
     transparent 1px,
-    transparent 3px
+    transparent 4px
   );
-  opacity:0.55;
-  animation:scanRoll 7s linear infinite;
+  opacity:0.7;
+  animation:scanRoll 6s linear infinite;
 }
 @keyframes scanRoll{
   0%{background-position:0 0;}
@@ -532,11 +532,11 @@ footer .social-icons a{color:var(--ink-dim);}
   content:'';position:absolute;inset:0;
   background-image:var(--video-bg, none);
   background-size:cover;background-position:center;
-  filter:grayscale(45%) brightness(0.5);
+  filter:grayscale(25%) brightness(0.85);
 }
 .project-video::after{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg, rgba(13,12,11,0.75) 0%, rgba(13,12,11,0.45) 50%, rgba(13,12,11,0.85) 100%);
+  background:linear-gradient(180deg, rgba(13,12,11,0.45) 0%, rgba(13,12,11,0.2) 50%, rgba(13,12,11,0.55) 100%);
 }
 .project-video .wrap{position:relative;z-index:2;}
 .video-frame{
