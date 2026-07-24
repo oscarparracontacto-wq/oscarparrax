@@ -276,8 +276,11 @@
   (() => {
     document.querySelectorAll('.work-card .work-thumb-media').forEach((media) => {
       const g = document.createElement('div');
-      g.className = 'film-grain';
+      g.className = 'film-grain tv-static';
       media.appendChild(g);
+      const sl = document.createElement('div');
+      sl.className = 'tv-scanlines';
+      media.appendChild(sl);
     });
   })();
 

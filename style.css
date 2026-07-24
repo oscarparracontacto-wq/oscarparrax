@@ -202,7 +202,8 @@ footer .social-icons a{color:var(--ink-dim);}
   100% {transform:translate(0,0);}
 }
 /* Un poco más sutil en las miniaturas de proyecto */
-.work-thumb-media .film-grain{opacity:0.14;z-index:2;}
+.work-thumb-media .film-grain{z-index:2;}
+.work-thumb-media .tv-scanlines{z-index:2;}
 
 /* Variante fuerte: estática de televisor antiguo */
 .film-grain.tv-static{
@@ -394,7 +395,7 @@ footer .social-icons a{color:var(--ink-dim);}
   position:absolute;top:-20%;left:-20%;width:140%;height:140%;border:0;pointer-events:none;
 }
 .work-overlay{
-  position:absolute;inset:0;z-index:2;pointer-events:none;
+  position:absolute;inset:0;z-index:4;pointer-events:none;
   background:linear-gradient(180deg, transparent 45%, rgba(13,12,11,0.94) 100%);
   display:flex;align-items:flex-end;padding:clamp(20px,3vw,44px);
 }
@@ -537,6 +538,7 @@ footer .social-icons a{color:var(--ink-dim);}
   content:'';position:absolute;inset:0;z-index:1;
   background:linear-gradient(180deg, rgba(13,12,11,0.45) 0%, rgba(13,12,11,0.2) 50%, rgba(13,12,11,0.55) 100%);
 }
+.project-video .video-grain{z-index:1;}
 .project-video .wrap{position:relative;z-index:2;}
 .video-frame{
   position:relative;width:100%;aspect-ratio:16/9;
