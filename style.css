@@ -138,7 +138,7 @@ footer .social-icons a{color:var(--ink-dim);}
 .hero-bg{position:absolute;inset:0;transform:translateY(var(--py,0));will-change:transform;}
 .hero-bg img{
   width:100%;height:100%;object-fit:cover;object-position:center 15%;
-  filter:url(#heroWave) grayscale(35%) sepia(12%) contrast(1.15) saturate(1.05) brightness(0.92);
+  filter:url(#heroWave) grayscale(12%) sepia(6%) contrast(1.1) saturate(1.08) brightness(0.95);
   animation:heroSway 12s ease-in-out infinite;
   transform-origin:center;will-change:transform;
 }
@@ -172,9 +172,8 @@ footer .social-icons a{color:var(--ink-dim);}
 
 /* Vintage grain + scanlines over the hero image */
 .hero-grain{
-  position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:0.5;
+  position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:0.28;
   background-image:
-    repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 1px, transparent 1px, transparent 3px),
     radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%);
 }
 
@@ -184,8 +183,8 @@ footer .social-icons a{color:var(--ink-dim);}
 .film-grain{
   position:absolute;top:-50%;left:-50%;width:200%;height:200%;
   pointer-events:none;z-index:4;
-  opacity:0.30;
-  mix-blend-mode:normal;
+  opacity:0.18;
+  mix-blend-mode:soft-light;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
   background-repeat:repeat;
   animation:grainShift 0.7s steps(1) infinite;
@@ -203,12 +202,12 @@ footer .social-icons a{color:var(--ink-dim);}
   100% {transform:translate(0,0);}
 }
 /* Un poco más sutil en las miniaturas de proyecto */
-.work-thumb-media .film-grain{opacity:0.22;z-index:2;}
+.work-thumb-media .film-grain{opacity:0.14;z-index:2;}
 
 /* Variante fuerte: estática de televisor antiguo */
 .film-grain.tv-static{
-  opacity:0.40;
-  mix-blend-mode:normal;
+  opacity:0.10;
+  mix-blend-mode:soft-light;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='discrete' tableValues='0 0 0 0.35 0.7 1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
   animation:grainShift 0.2s steps(1) infinite;
 }
@@ -222,7 +221,7 @@ footer .social-icons a{color:var(--ink-dim);}
     transparent 1px,
     transparent 4px
   );
-  opacity:0.4;
+  opacity:0.14;
   animation:scanRoll 6s linear infinite;
 }
 @keyframes scanRoll{
@@ -479,7 +478,7 @@ footer .social-icons a{color:var(--ink-dim);}
 .project-hero-bg{position:absolute;inset:0;}
 .project-hero-bg img{
   width:100%;height:100%;object-fit:cover;
-  filter:grayscale(20%) contrast(1.08) brightness(0.7);
+  filter:grayscale(6%) contrast(1.06) brightness(0.82);
 }
 .project-hero-overlay{
   position:absolute;inset:0;
