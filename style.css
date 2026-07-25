@@ -391,6 +391,9 @@ footer .social-icons a{color:var(--ink-dim);}
 }
 .thumb-video.is-playing{opacity:1;}
 .work-card:hover .thumb-video{filter:grayscale(0%) brightness(0.95);}
+/* Los clips de KOI traen barras negras quemadas: se amplían para ocultarlas */
+.work-card.koi-fill .thumb-video{transform:scale(1.35);}
+.work-card.koi-fill:hover .thumb-video{transform:scale(1.4);}
 .thumb-video-frame{
   position:absolute;top:-20%;left:-20%;width:140%;height:140%;border:0;pointer-events:none;
 }
