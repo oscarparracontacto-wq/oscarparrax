@@ -418,9 +418,6 @@ footer .social-icons a{color:var(--ink-dim);}
 .meta-field .label{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint);}
 .meta-field .value{margin-top:8px;font-family:'Archivo Black',sans-serif;font-size:18px;color:var(--ink);}
 
-.project-body p{font-size:17px;line-height:1.8;color:var(--ink-dim);max-width:68ch;margin-bottom:20px;}
-.project-body strong{font-weight:500;color:var(--ink);}
-
 .video-block{margin:48px 0;}
 .video-block img{width:100%;aspect-ratio:16/9;object-fit:cover;margin-bottom:20px;}
 .video-block h3{font-family:'Archivo Black',sans-serif;font-size:22px;margin-bottom:16px;}
