@@ -9,6 +9,31 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../style.css">
+<style>
+/* ===== PRUEBA: efecto de cámara más fuerte + capa extra de ruido ===== */
+/* Solo en esta página, a modo de test */
+.project-hero .film-grain.tv-static,
+.project-video .film-grain.tv-static{
+  opacity:0.24;
+}
+.project-hero .tv-scanlines,
+.project-video .tv-scanlines{
+  opacity:0.22;
+}
+.extra-noise{
+  position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+  pointer-events:none;z-index:4;
+  opacity:0.16;
+  mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n2)' opacity='0.6'/%3E%3C/svg%3E");
+  background-repeat:repeat;
+  animation:grainShift 0.9s steps(1) infinite;
+  will-change:transform;
+}
+@media (prefers-reduced-motion: reduce){
+  .extra-noise{animation:none;}
+}
+</style>
 </head>
 <body>
 
@@ -40,6 +65,7 @@
   <div class="project-hero-overlay"></div>
   <div class="film-grain tv-static"></div>
   <div class="tv-scanlines"></div>
+  <div class="extra-noise"></div>
 
   <div class="project-hero-content">
     <h1 class="project-title">Rewind Hispano</h1>
@@ -82,6 +108,7 @@
   <img class="project-video-bg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" src="../img/rewind-2023-video-bg.webp" alt="" aria-hidden="true">
   <div class="film-grain tv-static video-grain"></div>
   <div class="tv-scanlines"></div>
+  <div class="extra-noise"></div>
   <div class="wrap">
     <h2 class="project-h2" style="color:#fff;text-align:center;">2023</h2>
     <div class="video-frame" data-video="TjkRhh3Gh1U">
@@ -116,6 +143,7 @@
   <img class="project-video-bg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" src="../img/rewind-2022-video-bg.webp" alt="" aria-hidden="true">
   <div class="film-grain tv-static video-grain"></div>
   <div class="tv-scanlines"></div>
+  <div class="extra-noise"></div>
   <div class="wrap">
     <h2 class="project-h2" style="color:#fff;text-align:center;">2022</h2>
     <div class="video-frame" data-video="IbAuuxBFwoo">
@@ -152,6 +180,7 @@
   <img class="project-video-bg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" src="../img/rewind-2021-video-bg.webp" alt="" aria-hidden="true">
   <div class="film-grain tv-static video-grain"></div>
   <div class="tv-scanlines"></div>
+  <div class="extra-noise"></div>
   <div class="wrap">
     <h2 class="project-h2" style="color:#fff;text-align:center;">2021</h2>
     <div class="video-frame" data-video="_FMplFlIiOU">
@@ -186,6 +215,7 @@
   <img class="project-video-bg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" src="../img/rewind-2020-video-bg.webp" alt="" aria-hidden="true">
   <div class="film-grain tv-static video-grain"></div>
   <div class="tv-scanlines"></div>
+  <div class="extra-noise"></div>
   <div class="wrap">
     <h2 class="project-h2" style="color:#fff;text-align:center;">2020</h2>
     <div class="video-frame" data-video="h4NJCc4AQxw">
