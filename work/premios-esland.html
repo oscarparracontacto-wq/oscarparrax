@@ -24,12 +24,17 @@
   background-size:60px 2px;
   background-position:0 10px;
   background-attachment:local;
+  transition:background-color .5s ease;
 }
 .gal-item{
   position:relative;
   background:#f3eee1;
   padding:14px 10px 20px;
+  transition:background-color .5s ease;
 }
+body.iso-hi .gallery-track{background-image:linear-gradient(rgba(20,18,16,0.9), rgba(20,18,16,0.9));}
+body.iso-hi .gal-item{background:#141210;}
+body.iso-hi .lightbox-photo{background:#141210;}
 .gal-item:nth-child(odd){transform:rotate(-1.6deg);}
 .gal-item:nth-child(even){transform:rotate(1.3deg);}
 .gal-item:nth-child(3n){transform:rotate(-0.4deg);}
@@ -245,7 +250,8 @@
       if (!item) return 400;
       const styles = getComputedStyle(track);
       const gap = parseFloat(styles.columnGap || styles.gap) || 24;
-      return item.getBoundingClientRect().width + gap;
+      // offsetWidth (no getBoundingClientRect): la rotación de las fotos no debe alterar el cálculo del paso
+      return item.offsetWidth + gap;
     }
 
     // Arrancamos en el set del medio
