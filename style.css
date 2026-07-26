@@ -121,22 +121,35 @@ header .wrap::after{
 }
 .cam-iso:hover .iso-value{color:#8FD6A6;}
 
-/* Estado "ISO alto": la barra se invierte a blanco, como un flash */
-header.iso-hi{background:#f4f2ec;border-bottom-color:rgba(0,0,0,0.12);border-top-color:rgba(0,0,0,0.05);}
-header.iso-hi::before,
-header.iso-hi::after{
+/* Estado "ISO alto": invierte header, footer, descripciones de proyecto y logos, como un flash */
+body.iso-hi header{background:#f4f2ec;border-bottom-color:rgba(0,0,0,0.12);border-top-color:rgba(0,0,0,0.05);}
+body.iso-hi header::before,
+body.iso-hi header::after{
   background:radial-gradient(circle at 35% 35%, rgba(0,0,0,0.5), rgba(0,0,0,0.05) 70%);
   box-shadow:0 0 0 1px rgba(0,0,0,0.2);
 }
-header.iso-hi .wrap::after{background:rgba(0,0,0,0.12);}
-header.iso-hi nav a,
-header.iso-hi .social-icons a,
-header.iso-hi .cam-iso .iso-label,
-header.iso-hi .cam-iso .iso-value{color:#0D0C0B;}
-header.iso-hi nav a::after{background:#0D0C0B;}
-header.iso-hi .batt-body{border-color:rgba(0,0,0,0.5);}
-header.iso-hi .batt-nub{background:rgba(0,0,0,0.5);}
-header.iso-hi .nav-toggle{color:#0D0C0B;}
+body.iso-hi header .wrap::after{background:rgba(0,0,0,0.12);}
+body.iso-hi header nav a,
+body.iso-hi header .social-icons a,
+body.iso-hi .cam-iso .iso-label,
+body.iso-hi .cam-iso .iso-value{color:#0D0C0B;}
+body.iso-hi header nav a::after{background:#0D0C0B;}
+body.iso-hi .batt-body{border-color:rgba(0,0,0,0.5);}
+body.iso-hi .batt-nub{background:rgba(0,0,0,0.5);}
+body.iso-hi .nav-toggle{color:#0D0C0B;}
+
+body.iso-hi footer{background:#f4f2ec;border-top-color:rgba(13,12,11,0.15);}
+body.iso-hi footer p,
+body.iso-hi footer .social-icons a{color:#0D0C0B;}
+
+body.iso-hi .project-body{background:#f4f2ec;}
+body.iso-hi .project-body p{color:#0D0C0B;}
+body.iso-hi .project-body strong{color:#0D0C0B;}
+
+body.iso-hi .logos-section{background:#f4f2ec;}
+body.iso-hi .logos-section .eyebrow{color:#0D0C0B;}
+body.iso-hi .logo-word{color:#0D0C0B;}
+body.iso-hi .logo-real{filter:invert(1);}
 
 nav ul{list-style:none;display:flex;gap:32px;}
 nav a{
