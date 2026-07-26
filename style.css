@@ -20,7 +20,9 @@ body{
   font-weight:300;
   -webkit-font-smoothing:antialiased;
   cursor:none;
+  transition:background-color .5s ease;
 }
+body.iso-hi{background:#f4f2ec;}
 a, button, .work-card, .btn{
   cursor:none;
 }
@@ -187,6 +189,7 @@ nav a:hover::after{width:100%;}
 
 /* FOOTER */
 footer{border-top:1px solid var(--line);padding:40px 0;margin-top:100px;transition:background-color .5s ease, border-color .5s ease;}
+footer.work-footer{margin-top:0;}
 footer .wrap{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:16px;}
 footer p{font-size:12px;color:var(--ink-faint);letter-spacing:0.03em;text-align:center;transition:color .5s ease;}
 
