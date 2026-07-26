@@ -93,27 +93,50 @@ header .wrap::after{
   background:rgba(255,255,255,0.08);pointer-events:none;
 }
 
-/* "Interruptores" físicos: el bloque de Trabajo y el de redes sociales
-   quedan enmarcados como si fueran un switch de la carcasa */
-.cam-switch-group{
-  position:relative;display:flex;align-items:center;
-  padding:6px 16px;
-  border:1px solid rgba(255,255,255,0.14);
-  border-radius:3px;
-  background:rgba(255,255,255,0.03);
+.hdr-left{display:flex;align-items:center;gap:26px;}
+.hdr-right{display:flex;align-items:center;gap:22px;}
+
+/* Indicador de batería de cámara (decorativo) */
+.cam-battery{display:flex;align-items:center;gap:2px;}
+.batt-body{
+  position:relative;width:26px;height:13px;
+  border:1.4px solid rgba(255,255,255,0.5);border-radius:2px;
+  background:rgba(255,255,255,0.04);overflow:hidden;
 }
-nav.cam-switch-group ul{margin:0;}
-nav.cam-switch-group a{display:flex;align-items:center;gap:7px;}
-nav.cam-switch-group a::before{
-  content:'';width:5px;height:5px;border-radius:50%;flex:none;
-  background:rgba(255,255,255,0.35);
-  transition:background .2s ease, box-shadow .2s ease;
+.batt-level{position:absolute;top:1.5px;bottom:1.5px;left:1.5px;width:65%;
+  background:#8FD6A6;border-radius:1px;}
+.batt-nub{width:3px;height:6px;background:rgba(255,255,255,0.5);border-radius:0 2px 2px 0;}
+
+/* Control de ISO — clic para alternar 100 / 1600 */
+.cam-iso{
+  background:none;border:none;cursor:pointer;padding:2px;
+  display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;
 }
-nav.cam-switch-group a:hover::before{
-  background:#8FD6A6;
-  box-shadow:0 0 6px rgba(143,214,166,0.8);
+.cam-iso .iso-label{
+  font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint);
 }
-.social-icons.cam-switch-group{gap:14px;}
+.cam-iso .iso-value{
+  font-family:monospace;font-size:13px;color:#fff;margin-left:11px;
+  transition:color .2s ease;
+}
+.cam-iso:hover .iso-value{color:#8FD6A6;}
+
+/* Estado "ISO alto": la barra se invierte a blanco, como un flash */
+header.iso-hi{background:#f4f2ec;border-bottom-color:rgba(0,0,0,0.12);border-top-color:rgba(0,0,0,0.05);}
+header.iso-hi::before,
+header.iso-hi::after{
+  background:radial-gradient(circle at 35% 35%, rgba(0,0,0,0.5), rgba(0,0,0,0.05) 70%);
+  box-shadow:0 0 0 1px rgba(0,0,0,0.2);
+}
+header.iso-hi .wrap::after{background:rgba(0,0,0,0.12);}
+header.iso-hi nav a,
+header.iso-hi .social-icons a,
+header.iso-hi .cam-iso .iso-label,
+header.iso-hi .cam-iso .iso-value{color:#0D0C0B;}
+header.iso-hi nav a::after{background:#0D0C0B;}
+header.iso-hi .batt-body{border-color:rgba(0,0,0,0.5);}
+header.iso-hi .batt-nub{background:rgba(0,0,0,0.5);}
+header.iso-hi .nav-toggle{color:#0D0C0B;}
 
 nav ul{list-style:none;display:flex;gap:32px;}
 nav a{
@@ -133,8 +156,7 @@ nav a:hover::after{width:100%;}
 @media (max-width:760px){
   header::before,header::after{display:none;}
   header .wrap::after{display:none;}
-  nav.cam-switch-group{border:none;padding:0;background:none;}
-  nav.cam-switch-group a::before{display:none;}
+  .hdr-right{display:none;}
   nav ul{
     position:fixed;top:73px;left:0;right:0;background:var(--bg);
     flex-direction:column;gap:0;border-bottom:1px solid var(--line);
