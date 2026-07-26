@@ -14,18 +14,30 @@
 
 <header>
   <div class="wrap">
-    <nav class="cam-switch-group">
-      <ul id="navList">
-        <li><a href="../index.html">Trabajo</a></li>
-      </ul>
-    </nav>
-    <div class="social-icons cam-switch-group">
-      <a href="https://www.instagram.com/oscarparrax/" target="_blank" rel="noopener" aria-label="Instagram">
-        <svg class="social-ico" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5" stroke="#fff" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" stroke="#fff" stroke-width="1.8"/><circle cx="17.4" cy="6.6" r="1.25" fill="#fff"/></svg>
-      </a>
-      <a href="https://www.linkedin.com/in/%C3%B3scar-parra-serrano-302180251" target="_blank" rel="noopener" aria-label="LinkedIn">
-        <svg class="social-ico" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6.94 5.5a1.94 1.94 0 1 1-3.88 0 1.94 1.94 0 0 1 3.88 0ZM3.4 8.4h3.08V21H3.4V8.4Zm5.06 0h2.95v1.72h.04c.41-.78 1.42-1.6 2.92-1.6 3.12 0 3.7 2.05 3.7 4.72V21h-3.08v-5.55c0-1.32-.02-3.02-1.84-3.02-1.84 0-2.12 1.44-2.12 2.92V21H8.46V8.4Z"/></svg>
-      </a>
+    <div class="hdr-left">
+      <nav>
+        <ul id="navList">
+          <li><a href="../index.html">Trabajo</a></li>
+        </ul>
+      </nav>
+      <div class="social-icons">
+        <a href="https://www.instagram.com/oscarparrax/" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg class="social-ico" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/><circle cx="17.4" cy="6.6" r="1.25" fill="currentColor"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/%C3%B3scar-parra-serrano-302180251" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg class="social-ico" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6.94 5.5a1.94 1.94 0 1 1-3.88 0 1.94 1.94 0 0 1 3.88 0ZM3.4 8.4h3.08V21H3.4V8.4Zm5.06 0h2.95v1.72h.04c.41-.78 1.42-1.6 2.92-1.6 3.12 0 3.7 2.05 3.7 4.72V21h-3.08v-5.55c0-1.32-.02-3.02-1.84-3.02-1.84 0-2.12 1.44-2.12 2.92V21H8.46V8.4Z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="hdr-right">
+      <div class="cam-battery" aria-hidden="true">
+        <span class="batt-body"><span class="batt-level"></span></span>
+        <span class="batt-nub"></span>
+      </div>
+      <button class="cam-iso" id="isoToggle" type="button" aria-pressed="false">
+        <span class="iso-label">ISO</span>
+        <span class="iso-value">100</span>
+      </button>
     </div>
     <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">☰</button>
   </div>
@@ -224,6 +236,19 @@
     next.addEventListener('click', () => track.scrollBy({ left:  itemStep(), behavior: 'smooth' }));
     window.addEventListener('resize', () => { track.scrollLeft = setWidth(); });
   })();
+</script>
+<script>
+  // Interruptor de ISO en la barra superior (100 <-> 1600): invierte la barra a blanco
+  document.querySelectorAll('.cam-iso').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const val = btn.querySelector('.iso-value');
+      const header = btn.closest('header');
+      const isHigh = val.textContent.trim() === '1600';
+      val.textContent = isHigh ? '100' : '1600';
+      if (header) header.classList.toggle('iso-hi', !isHigh);
+      btn.setAttribute('aria-pressed', String(!isHigh));
+    });
+  });
 </script>
 </body>
 </html>
