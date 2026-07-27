@@ -252,6 +252,9 @@ footer p{font-size:12px;color:var(--ink-faint);letter-spacing:0.03em;text-align:
   position:absolute;left:0;right:0;bottom:-1px;width:100%;height:90px;
   z-index:5;display:block;pointer-events:none;
 }
+/* La curva del hero también se invierte con el ISO, como el fondo de la descripción */
+.hero-divider path{fill:#0D0C0B;transition:fill .5s ease;}
+body.iso-hi .hero-divider path{fill:#f4f2ec;}
 
 /* Vintage grain + scanlines over the hero image */
 .hero-grain{
@@ -559,7 +562,7 @@ footer p{font-size:12px;color:var(--ink-faint);letter-spacing:0.03em;text-align:
    ============================================ */
 
 .project-hero{
-  position:relative;height:62vh;min-height:380px;overflow:hidden;
+  position:relative;height:48vh;min-height:360px;overflow:hidden;
   display:flex;align-items:center;justify-content:center;
 }
 .project-hero-bg{position:absolute;inset:0;}
@@ -608,6 +611,9 @@ footer p{font-size:12px;color:var(--ink-faint);letter-spacing:0.03em;text-align:
   margin-bottom:14px;transition:color .5s ease;
 }
 .project-body strong{font-weight:700;color:#fff;transition:color .5s ease;}
+.project-body a{color:inherit;text-decoration:underline;text-decoration-color:rgba(255,255,255,0.4);transition:color .5s ease, text-decoration-color .5s ease;}
+.project-body a:hover{text-decoration-color:currentColor;}
+body.iso-hi .project-body a{text-decoration-color:rgba(13,12,11,0.4);}
 
 /* Vídeo */
 .project-video{
@@ -657,6 +663,9 @@ footer p{font-size:12px;color:var(--ink-faint);letter-spacing:0.03em;text-align:
 }
 .video-frame.is-loaded .video-play{display:none;}
 
+/* El grano/escaneado del vídeo solo afecta al fondo, nunca al vídeo ya en reproducción */
+.project-video .tv-scanlines{z-index:1;}
+
 /* Galería de rodaje */
 .project-gallery{padding:36px 0;}
 .gallery-viewport{position:relative;}
@@ -667,13 +676,33 @@ footer p{font-size:12px;color:var(--ink-faint);letter-spacing:0.03em;text-align:
 }
 .gallery-track::-webkit-scrollbar{display:none;}
 .gal-item{
-  flex:0 0 clamp(200px,28vw,400px);margin:0;
+  position:relative;overflow:hidden;
+  flex:0 0 clamp(180px,24vw,360px);margin:0;
 }
+.gal-item .film-grain{z-index:2;}
+.gal-item .tv-scanlines{z-index:2;}
 .gal-item img{
   width:100%;aspect-ratio:1/1;object-fit:cover;display:block;
   filter:grayscale(8%) brightness(0.92);transition:filter .4s ease;
 }
 .gal-item img:hover{filter:grayscale(0%) brightness(1);}
+
+/* Lightbox: la foto se despega del carrusel y se centra en grande */
+.lightbox-backdrop{
+  position:fixed;inset:0;z-index:9998;
+  background:rgba(13,12,11,0);opacity:0;pointer-events:none;
+  transition:background .4s ease, opacity .4s ease;
+}
+.lightbox-backdrop.is-open{background:rgba(13,12,11,0.9);opacity:1;pointer-events:auto;}
+.lightbox-photo{
+  position:fixed;z-index:9999;margin:0;box-sizing:border-box;
+  overflow:hidden;
+  transition:top .45s cubic-bezier(.22,.68,0,1.01), left .45s cubic-bezier(.22,.68,0,1.01),
+             width .45s cubic-bezier(.22,.68,0,1.01), height .45s cubic-bezier(.22,.68,0,1.01);
+}
+.lightbox-photo img{
+  width:100%;height:100%;object-fit:cover;display:block;
+}
 .gal-btn{
   position:absolute;top:50%;transform:translateY(-50%);z-index:4;
   width:52px;height:52px;border-radius:50%;
