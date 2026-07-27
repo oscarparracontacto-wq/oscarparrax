@@ -9,47 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../style.css">
-<style>
-/* ===== PRUEBA: carrusel simple + grano, con zoom al clicar ===== */
-/* Solo en esta página, a modo de test */
-
-.project-hero{height:48vh;min-height:360px;}
-
-/* La curva del hero también se invierte con el ISO, como el fondo de la descripción */
-.hero-divider path{fill:#0D0C0B;transition:fill .5s ease;}
-body.iso-hi .hero-divider path{fill:#f4f2ec;}
-
-/* El grano/escaneado del vídeo solo afecta al fondo, nunca al vídeo ya en reproducción */
-.project-video .tv-scanlines{z-index:1;}
-
-/* Enlace en negrita dentro de la descripción, hacia la web oficial de los premios */
-.project-body a{color:inherit;text-decoration:underline;text-decoration-color:rgba(255,255,255,0.4);transition:color .5s ease, text-decoration-color .5s ease;}
-.project-body a:hover{text-decoration-color:currentColor;}
-body.iso-hi .project-body a{text-decoration-color:rgba(13,12,11,0.4);}
-
-.gal-item{position:relative;overflow:hidden;}
-.gal-item .film-grain{z-index:2;}
-.gal-item .tv-scanlines{z-index:2;}
-/* Cuadros del carrusel un poco más pequeños que en el resto del sitio */
-.gallery-track .gal-item{flex:0 0 clamp(180px,24vw,360px);}
-
-/* Lightbox: la foto se despega del carrusel y se centra en grande */
-.lightbox-backdrop{
-  position:fixed;inset:0;z-index:9998;
-  background:rgba(13,12,11,0);opacity:0;pointer-events:none;
-  transition:background .4s ease, opacity .4s ease;
-}
-.lightbox-backdrop.is-open{background:rgba(13,12,11,0.9);opacity:1;pointer-events:auto;}
-.lightbox-photo{
-  position:fixed;z-index:9999;margin:0;box-sizing:border-box;
-  overflow:hidden;
-  transition:top .45s cubic-bezier(.22,.68,0,1.01), left .45s cubic-bezier(.22,.68,0,1.01),
-             width .45s cubic-bezier(.22,.68,0,1.01), height .45s cubic-bezier(.22,.68,0,1.01);
-}
-.lightbox-photo img{
-  width:100%;height:100%;object-fit:cover;display:block;
-}
-</style>
 </head>
 <body>
 
@@ -169,7 +128,7 @@ body.iso-hi .project-body a{text-decoration-color:rgba(13,12,11,0.4);}
 <nav class="project-nav">
   <a class="pnav prev" href="caixabank-wealth-management.html">
     <span class="pnav-arrow">←</span>
-    <span class="pnav-label">CaixaBank Wealth Management</span>
+    <span class="pnav-label">CaixaBank Convención</span>
   </a>
   <a class="pnav next" href="partido-de-las-estrellas.html">
     <span class="pnav-label">Partido de las Estrellas</span>

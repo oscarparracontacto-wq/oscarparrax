@@ -3,47 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CaixaBank Wealth Management — Óscar Parra</title>
-<meta name="description" content="CaixaBank Wealth Management: piezas de convención con virtual production e IA. Dirección — Óscar Parra.">
+<title>CaixaBank Convención — Óscar Parra</title>
+<meta name="description" content="CaixaBank Convención: piezas de convención con virtual production e IA. Dirección — Óscar Parra.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../style.css">
-<style>
-/* ===== Mismo tratamiento de prueba que Premios ESLAND ===== */
-
-.project-hero{height:48vh;min-height:360px;}
-
-/* La curva del hero también se invierte con el ISO, como el fondo de la descripción */
-.hero-divider path{fill:#0D0C0B;transition:fill .5s ease;}
-body.iso-hi .hero-divider path{fill:#f4f2ec;}
-
-/* El grano/escaneado del vídeo solo afecta al fondo, nunca al vídeo ya en reproducción */
-.project-video .tv-scanlines{z-index:1;}
-
-.gal-item{position:relative;overflow:hidden;}
-.gal-item .film-grain{z-index:2;}
-.gal-item .tv-scanlines{z-index:2;}
-/* Cuadros del carrusel un poco más pequeños que en el resto del sitio */
-.gallery-track .gal-item{flex:0 0 clamp(180px,24vw,360px);}
-
-/* Lightbox: la foto se despega del carrusel y se centra en grande */
-.lightbox-backdrop{
-  position:fixed;inset:0;z-index:9998;
-  background:rgba(13,12,11,0);opacity:0;pointer-events:none;
-  transition:background .4s ease, opacity .4s ease;
-}
-.lightbox-backdrop.is-open{background:rgba(13,12,11,0.9);opacity:1;pointer-events:auto;}
-.lightbox-photo{
-  position:fixed;z-index:9999;margin:0;box-sizing:border-box;
-  overflow:hidden;
-  transition:top .45s cubic-bezier(.22,.68,0,1.01), left .45s cubic-bezier(.22,.68,0,1.01),
-             width .45s cubic-bezier(.22,.68,0,1.01), height .45s cubic-bezier(.22,.68,0,1.01);
-}
-.lightbox-photo img{
-  width:100%;height:100%;object-fit:cover;display:block;
-}
-</style>
 </head>
 <body>
 
@@ -81,14 +46,14 @@ body.iso-hi .hero-divider path{fill:#f4f2ec;}
 <!-- HERO -->
 <section class="project-hero">
   <div class="project-hero-bg">
-    <img src="../img/caixabank-hero.webp" alt="CaixaBank Wealth Management">
+    <img src="../img/caixabank-hero.webp" alt="CaixaBank Convención">
   </div>
   <div class="project-hero-overlay"></div>
   <div class="film-grain tv-static"></div>
   <div class="tv-scanlines"></div>
 
   <div class="project-hero-content">
-    <h1 class="project-title">CaixaBank Wealth Management</h1>
+    <h1 class="project-title">CaixaBank Convención</h1>
     <div class="project-meta">
       <div class="meta-item">
         <span class="meta-label">Año</span>
@@ -140,11 +105,11 @@ body.iso-hi .hero-divider path{fill:#f4f2ec;}
       <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
     <div class="gallery-track" id="galTrack">
-      <figure class="gal-item"><img src="../img/caixabank-rodaje-1.webp" alt="Rodaje CaixaBank Wealth Management — plató virtual" loading="lazy"></figure>
-      <figure class="gal-item"><img src="../img/caixabank-rodaje-2.webp" alt="Rodaje CaixaBank Wealth Management — equipo en plató" loading="lazy"></figure>
-      <figure class="gal-item"><img src="../img/caixabank-rodaje-3.webp" alt="Rodaje CaixaBank Wealth Management — set histórico" loading="lazy"></figure>
-      <figure class="gal-item"><img src="../img/caixabank-rodaje-4.webp" alt="Rodaje CaixaBank Wealth Management — plano de actores" loading="lazy"></figure>
-      <figure class="gal-item"><img src="../img/caixabank-rodaje-5.webp" alt="Rodaje CaixaBank Wealth Management — dirección en set" loading="lazy"></figure>
+      <figure class="gal-item"><img src="../img/caixabank-rodaje-1.webp" alt="Rodaje CaixaBank Convención — plató virtual" loading="lazy"></figure>
+      <figure class="gal-item"><img src="../img/caixabank-rodaje-2.webp" alt="Rodaje CaixaBank Convención — equipo en plató" loading="lazy"></figure>
+      <figure class="gal-item"><img src="../img/caixabank-rodaje-3.webp" alt="Rodaje CaixaBank Convención — set histórico" loading="lazy"></figure>
+      <figure class="gal-item"><img src="../img/caixabank-rodaje-4.webp" alt="Rodaje CaixaBank Convención — plano de actores" loading="lazy"></figure>
+      <figure class="gal-item"><img src="../img/caixabank-rodaje-5.webp" alt="Rodaje CaixaBank Convención — dirección en set" loading="lazy"></figure>
     </div>
     <button class="gal-btn next" id="galNext" aria-label="Siguiente">
       <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -214,7 +179,7 @@ body.iso-hi .hero-divider path{fill:#f4f2ec;}
       iframe.setAttribute('frameborder', '0');
       iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
       iframe.setAttribute('allowfullscreen', '');
-      iframe.setAttribute('title', 'CaixaBank Wealth Management');
+      iframe.setAttribute('title', 'CaixaBank Convención');
       frame.appendChild(iframe);
       frame.classList.add('is-loaded');
     });
