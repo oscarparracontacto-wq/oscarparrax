@@ -22,6 +22,11 @@ body.iso-hi .hero-divider path{fill:#f4f2ec;}
 /* El grano/escaneado del vídeo solo afecta al fondo, nunca al vídeo ya en reproducción */
 .project-video .tv-scanlines{z-index:1;}
 
+/* Enlace en negrita dentro de la descripción, hacia la web oficial de los premios */
+.project-body a{color:inherit;text-decoration:underline;text-decoration-color:rgba(255,255,255,0.4);transition:color .5s ease, text-decoration-color .5s ease;}
+.project-body a:hover{text-decoration-color:currentColor;}
+body.iso-hi .project-body a{text-decoration-color:rgba(13,12,11,0.4);}
+
 .gal-item{position:relative;overflow:hidden;}
 .gal-item .film-grain{z-index:2;}
 .gal-item .tv-scanlines{z-index:2;}
@@ -114,7 +119,7 @@ body.iso-hi .hero-divider path{fill:#f4f2ec;}
 <!-- DESCRIPCIÓN -->
 <section class="project-body">
   <div class="wrap center">
-    <p>Seis piezas cortas que abren cada categoría de los Premios ESLAND, los galardones de streaming en español creados por TheGrefg.</p>
+    <p>Seis piezas cortas que abren cada categoría de los <strong><a href="https://premiosesland.com/" target="_blank" rel="noopener">Premios ESLAND</a></strong>, los galardones de streaming en español creados por <strong>TheGrefg</strong>.</p>
   </div>
 </section>
 
@@ -156,7 +161,7 @@ body.iso-hi .hero-divider path{fill:#f4f2ec;}
 <!-- CIERRE -->
 <section class="project-body">
   <div class="wrap center">
-    <p>La gala completa alcanzó el millón de espectadores en directo, uno de los picos de audiencia del evento.</p>
+    <p>La gala completa alcanzó el <strong>millón de espectadores</strong> en directo, uno de los picos de audiencia del evento.</p>
   </div>
 </section>
 
