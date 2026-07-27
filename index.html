@@ -97,6 +97,16 @@
   </div>
 </section>
 
+<section class="work-toolbar">
+  <div class="wrap">
+    <span class="work-toolbar-label">Trabajo</span>
+    <button class="ai-filter" id="aiFilter" type="button" aria-pressed="false">
+      <span class="ai-filter-label">IA</span>
+      <span class="ai-filter-value">OFF</span>
+    </button>
+  </div>
+</section>
+
 <section class="work-full-bleed">
   <div class="work-grid">
 
@@ -112,7 +122,7 @@
       </div>
     </a>
 
-    <a href="work/caixabank-wealth-management.html" class="work-card" data-autovideo="videos/caixabank-wealth-management.mp4">
+    <a href="work/caixabank-wealth-management.html" class="work-card" data-ai="true" data-autovideo="videos/caixabank-wealth-management.mp4">
       <div class="work-thumb-media">
         <img src="img/caixabank-thumb.webp" alt="CaixaBank Convención">
       </div>
@@ -453,6 +463,22 @@
       btn.setAttribute('aria-pressed', String(!isHigh));
     });
   });
+</script>
+<script>
+  // Filtro de IA: ilumina los proyectos marcados con data-ai y oscurece el resto
+  (() => {
+    const btn = document.getElementById('aiFilter');
+    const grid = document.querySelector('.work-grid');
+    if (!btn || !grid) return;
+    btn.addEventListener('click', () => {
+      const val = btn.querySelector('.ai-filter-value');
+      const isOn = btn.classList.contains('is-on');
+      btn.classList.toggle('is-on', !isOn);
+      val.textContent = isOn ? 'OFF' : 'ON';
+      grid.classList.toggle('ai-filter-on', !isOn);
+      btn.setAttribute('aria-pressed', String(!isOn));
+    });
+  })();
 </script>
 </body>
 </html>
