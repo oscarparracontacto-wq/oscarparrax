@@ -448,7 +448,7 @@ body.iso-hi .hero-divider path{fill:#f4f2ec;}
 }
 @keyframes scrollLogos{
   from{transform:translateX(0);}
-  to{transform:translateX(-50%);}
+  to{transform:translateX(-16.6667%);}
 }
 .logo-word{
   font-family:'Archivo Black',sans-serif;font-weight:800;font-size:clamp(22px,2.6vw,34px);
@@ -607,7 +607,7 @@ body.iso-hi .hero-divider path{fill:#f4f2ec;}
   background:linear-gradient(180deg, rgba(13,12,11,0.55) 0%, rgba(13,12,11,0.3) 45%, rgba(13,12,11,0.85) 100%);
 }
 .project-hero-content{
-  position:relative;z-index:6;width:100%;max-width:1180px;
+  position:relative;z-index:2;width:100%;max-width:1180px;
   padding:0 32px;text-align:center;
 }
 .project-title{
