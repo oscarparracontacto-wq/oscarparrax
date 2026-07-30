@@ -99,10 +99,10 @@
 
 <section class="work-toolbar">
   <div class="wrap">
-    <button class="ai-filter" id="aiFilter" type="button" aria-pressed="false">
-      <span class="ai-filter-label">IA</span>
-      <span class="ai-filter-value">OFF</span>
-    </button>
+    <div class="view-filter" role="group" aria-label="Filtrar proyectos">
+      <button class="view-filter-btn is-active" id="filterAll" type="button" aria-pressed="true">Todos</button>
+      <button class="view-filter-btn" id="filterAI" type="button" aria-pressed="false">IA</button>
+    </div>
   </div>
 </section>
 
@@ -464,19 +464,62 @@
   });
 </script>
 <script>
-  // Filtro de IA: ilumina los proyectos marcados con data-ai y oscurece el resto
+  // Filtro de vista: "Todos" muestra la rejilla completa, "IA" ilumina los proyectos con data-ai,
+  // los oscurece el resto, y además los reordena al frente con una animación tipo FLIP.
   (() => {
-    const btn = document.getElementById('aiFilter');
+    const btnAll = document.getElementById('filterAll');
+    const btnAI = document.getElementById('filterAI');
     const grid = document.querySelector('.work-grid');
-    if (!btn || !grid) return;
-    btn.addEventListener('click', () => {
-      const val = btn.querySelector('.ai-filter-value');
-      const isOn = btn.classList.contains('is-on');
-      btn.classList.toggle('is-on', !isOn);
-      val.textContent = isOn ? 'OFF' : 'ON';
-      grid.classList.toggle('ai-filter-on', !isOn);
-      btn.setAttribute('aria-pressed', String(!isOn));
-    });
+    if (!btnAll || !btnAI || !grid) return;
+
+    const originalOrder = Array.from(grid.querySelectorAll('.work-card'));
+    const aiCards = originalOrder.filter(c => c.hasAttribute('data-ai'));
+    const restCards = originalOrder.filter(c => !c.hasAttribute('data-ai'));
+    const aiOrder = [...aiCards, ...restCards];
+
+    // Técnica FLIP: medimos la posición actual de cada tarjeta, reordenamos el DOM
+    // (lo que provoca el salto instantáneo del grid), y animamos desde la posición
+    // vieja a la nueva con un transform que se libera en el siguiente frame.
+    const reorder = (newOrder) => {
+      const firstRects = new Map();
+      originalOrder.forEach(c => firstRects.set(c, c.getBoundingClientRect()));
+
+      newOrder.forEach(el => grid.appendChild(el));
+
+      originalOrder.forEach(c => {
+        const first = firstRects.get(c);
+        const last = c.getBoundingClientRect();
+        const dx = first.left - last.left;
+        const dy = first.top - last.top;
+        if (dx || dy) {
+          c.style.transition = 'none';
+          c.style.transform = `translate(${dx}px, ${dy}px)`;
+          c.style.zIndex = '2';
+        }
+      });
+      // Forzamos reflow para que el transform inicial se aplique antes de animar
+      void grid.offsetHeight;
+      requestAnimationFrame(() => {
+        originalOrder.forEach(c => {
+          c.style.transition = 'transform .55s cubic-bezier(.22,.68,0,1.01), filter .5s ease, opacity .5s ease';
+          c.style.transform = '';
+        });
+      });
+      window.setTimeout(() => {
+        originalOrder.forEach(c => { c.style.transition = ''; c.style.zIndex = ''; });
+      }, 620);
+    };
+
+    const setView = (aiOnly) => {
+      btnAll.classList.toggle('is-active', !aiOnly);
+      btnAI.classList.toggle('is-active', aiOnly);
+      btnAll.setAttribute('aria-pressed', String(!aiOnly));
+      btnAI.setAttribute('aria-pressed', String(aiOnly));
+      grid.classList.toggle('ai-filter-on', aiOnly);
+      reorder(aiOnly ? aiOrder : originalOrder);
+    };
+    btnAll.addEventListener('click', () => setView(false));
+    btnAI.addEventListener('click', () => setView(true));
   })();
 </script>
 </body>

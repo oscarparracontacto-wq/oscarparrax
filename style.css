@@ -466,20 +466,22 @@ body.iso-hi .hero-divider path{fill:#f4f2ec;}
   max-width:1120px;margin:0 auto;padding:0;
   display:flex;align-items:center;justify-content:center;
 }
-.ai-filter{
-  background:none;border:1px solid var(--line);border-radius:20px;cursor:pointer;
-  padding:7px 16px;display:flex;align-items:center;gap:9px;
-  transition:border-color .3s ease;
+.view-filter{
+  display:inline-flex;align-items:center;gap:2px;
+  background:none;border:1px solid var(--line);border-radius:20px;
+  padding:3px;
 }
-.ai-filter:hover{border-color:var(--line-strong);}
-.ai-filter .ai-filter-label{
-  font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint);
+.view-filter-btn{
+  background:none;border:none;cursor:pointer;border-radius:16px;
+  font-family:monospace;font-size:12px;letter-spacing:0.04em;
+  color:var(--ink-faint);padding:6px 18px;
+  transition:background .3s ease, color .3s ease;
 }
-.ai-filter .ai-filter-value{
-  font-family:monospace;font-size:12px;color:#fff;transition:color .3s ease;
+.view-filter-btn:hover{color:#fff;}
+.view-filter-btn.is-active{
+  background:var(--accent-light);color:#0D0C0B;
 }
-.ai-filter.is-on{border-color:var(--accent-light);}
-.ai-filter.is-on .ai-filter-value{color:var(--accent-light);}
+.view-filter-btn.is-active:hover{color:#0D0C0B;}
 
 .work-full-bleed{width:100%;}
 .work-grid{
