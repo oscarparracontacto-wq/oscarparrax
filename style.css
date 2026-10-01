@@ -161,32 +161,10 @@ body.iso-hi .cam-iso:hover .iso-value{color:#E4483D;}
     inset 0 3px 5px rgba(0,0,0,0.85),
     inset 0 -1px 1px rgba(255,255,255,0.05);
 }
-body.iso-hi .cam-iso{
-  background:radial-gradient(circle at 34% 28%, #3a3936 0%, #181716 65%, #0a0908 100%);
-}
+/* La barra superior (header) se queda siempre con su aspecto por defecto,
+   no se invierte con el ISO — solo el resto de bloques (footer, textos, logos...) */
 
-/* Estado "ISO alto": invierte header, footer, descripciones de proyecto y logos, como un flash */
-body.iso-hi header{
-  background:
-    linear-gradient(rgba(244,242,236,0.86), rgba(244,242,236,0.86)),
-    url('img/header-texture.jpg');
-  background-repeat:repeat;
-  background-size:140px 140px;
-  border-bottom-color:rgba(0,0,0,0.12);border-top-color:rgba(0,0,0,0.05);
-}
-body.iso-hi header::before,
-body.iso-hi header::after{
-  background:radial-gradient(circle at 35% 35%, rgba(0,0,0,0.5), rgba(0,0,0,0.05) 70%);
-  box-shadow:0 0 0 1px rgba(0,0,0,0.2);
-}
-body.iso-hi header nav a,
-body.iso-hi header .social-icons a{color:#0D0C0B;}
-body.iso-hi header nav a::after{background:#0D0C0B;}
-body.iso-hi .batt-body{border-color:rgba(0,0,0,0.5);}
-body.iso-hi .batt-level{background:#0D0C0B;}
-body.iso-hi .batt-nub{background:rgba(0,0,0,0.5);}
-body.iso-hi .nav-toggle{color:#0D0C0B;}
-
+/* Estado "ISO alto": invierte footer, descripciones de proyecto y logos, como un flash */
 body.iso-hi footer{background:#f4f2ec;border-top-color:rgba(13,12,11,0.15);}
 body.iso-hi footer p{color:#0D0C0B;}
 
@@ -217,12 +195,18 @@ nav a:hover::after{width:100%;}
 
 @media (max-width:760px){
   header::before,header::after{display:none;}
+  /* Barra más estrecha en móvil */
+  header{background-size:70px 70px;}
+  header .wrap{padding:14px 20px;}
   /* Hamburguesa a la izquierda, batería/ISO a la derecha (como en escritorio) */
   .nav-toggle{order:1;}
   .hdr-left{order:2;}
-  .hdr-right{order:3;display:flex;}
+  .hdr-right{order:3;display:flex;gap:14px;}
+  .cam-iso{width:36px;height:36px;}
+  .cam-iso .iso-label{font-size:6px;}
+  .cam-iso .iso-value{font-size:9.5px;}
   nav ul{
-    position:fixed;top:73px;left:0;right:0;background:var(--bg);
+    position:fixed;top:61px;left:0;right:0;background:var(--bg);
     flex-direction:column;gap:0;border-bottom:1px solid var(--line);
     max-height:0;overflow:hidden;transition:max-height .3s ease;
   }
