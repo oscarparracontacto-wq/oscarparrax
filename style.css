@@ -492,6 +492,13 @@ body.iso-hi .hero-divider path{fill:#f4f2ec;}
 }
 .view-filter-btn.is-active:hover{color:#0D0C0B;}
 
+/* Modo ISO alto (fondo claro): el filtro Todos/IA invierte sus colores igual que el resto */
+body.iso-hi .view-filter{border-color:rgba(13,12,11,0.2);}
+body.iso-hi .view-filter-btn{color:rgba(13,12,11,0.55);}
+body.iso-hi .view-filter-btn:hover{color:#0D0C0B;}
+body.iso-hi .view-filter-btn.is-active{background:#0D0C0B;color:#f4f2ec;}
+body.iso-hi .view-filter-btn.is-active:hover{color:#f4f2ec;}
+
 .work-full-bleed{width:100%;}
 .work-grid{
   display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--line);
