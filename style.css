@@ -414,7 +414,7 @@ body.iso-hi .hero-divider path{fill:#f4f2ec;}
 }
 
 @media (max-width:760px){
-  .hero-banner{height:56vh;min-height:420px;}
+  .hero-banner{height:40vh;min-height:320px;}
 }
 
 .intro{padding:90px 0 60px;}
@@ -766,7 +766,7 @@ body.iso-hi .project-nav{background:#f4f2ec;border-top-color:rgba(13,12,11,0.15)
 body.iso-hi .pnav{color:#0D0C0B;}
 
 @media (max-width:760px){
-  .project-hero{height:56vh;min-height:340px;}
+  .project-hero{height:40vh;min-height:300px;}
   .project-meta{flex-direction:column;gap:18px;}
   .gal-btn{width:42px;height:42px;}
   .project-nav{flex-direction:column;align-items:stretch;gap:16px;text-align:center;}
