@@ -612,11 +612,11 @@ body.iso-hi .hero-divider path{fill:#f4f2ec;}
 }
 .project-title{
   font-family:'Archivo Black',sans-serif;font-weight:400;text-transform:uppercase;
-  color:#fff;font-size:clamp(38px,7vw,104px);line-height:0.95;letter-spacing:0.01em;
+  color:#fff;font-size:clamp(32px,5.6vw,82px);line-height:0.95;letter-spacing:0.01em;
   margin-bottom:clamp(16px,2.4vw,28px);
 }
 .project-meta{
-  display:flex;justify-content:space-between;align-items:flex-start;
+  display:flex;justify-content:center;align-items:center;
   gap:24px;max-width:900px;margin:0 auto;
 }
 .meta-item{flex:1;text-align:center;}
