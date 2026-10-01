@@ -403,13 +403,13 @@ body.iso-hi .hero-divider path{fill:#f4f2ec;}
   transform:translateY(var(--py,0));will-change:transform;
 }
 .hero-tagline{
-  font-family:'Inter',sans-serif;font-weight:400;font-size:clamp(13px,1.4vw,17px);
+  font-family:'Inter',sans-serif;font-weight:400;font-size:clamp(17px,2vw,24px);
   color:#dcd8cd;letter-spacing:0.02em;margin-bottom:8px;
 }
 .hero-tagline strong{font-weight:700;color:#ffffff;text-transform:uppercase;}
 .hero-title{
   font-family:'Archivo Black',sans-serif;font-weight:400;text-transform:uppercase;
-  color:#ffffff;font-size:clamp(60px,11.5vw,168px);letter-spacing:0.005em;line-height:0.9;
+  color:#ffffff;font-size:clamp(50px,9.5vw,140px);letter-spacing:0.005em;line-height:0.9;
   transform:scaleY(0.8);transform-origin:center;
 }
 
