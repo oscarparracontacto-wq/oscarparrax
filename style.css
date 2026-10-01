@@ -121,21 +121,49 @@ header .wrap{
   background:#ffffff;border-radius:1px;transition:background-color .5s ease;}
 .batt-nub{width:3px;height:6px;background:rgba(255,255,255,0.5);border-radius:0 2px 2px 0;transition:background-color .5s ease;}
 
-/* Control de ISO — clic para alternar 100 / 1600 */
+/* Control de ISO — clic para alternar 100 / 1600. Botón físico de cámara: aro metálico,
+   cúpula convexa cuando está "fuera", y se hunde (sombras invertidas) cuando está pulsado. */
 .cam-iso{
-  background:none;border:none;cursor:pointer;padding:2px;
-  display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;
+  position:relative;
+  width:44px;height:44px;border-radius:50%;
+  background:radial-gradient(circle at 34% 28%, #2b2a28 0%, #121110 65%, #0a0908 100%);
+  border:none;cursor:pointer;padding:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+  line-height:1.1;
+  box-shadow:
+    0 0 0 2px rgba(0,0,0,0.9),
+    0 0 0 3.5px rgba(255,255,255,0.14),
+    0 0 0 4.5px rgba(0,0,0,0.9),
+    0 3px 5px rgba(0,0,0,0.6),
+    inset 0 2px 2px rgba(255,255,255,0.16),
+    inset 0 -3px 4px rgba(0,0,0,0.6);
+  transition:box-shadow .15s ease, transform .15s ease, background .5s ease;
 }
 .cam-iso .iso-label{
-  font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint);
+  font-size:7px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint);
   transition:color .5s ease;
 }
 .cam-iso .iso-value{
-  font-family:monospace;font-size:13px;color:#fff;margin-left:11px;
+  font-family:monospace;font-size:11px;color:#fff;margin-left:0;
   transition:color .2s ease;
 }
 .cam-iso:hover .iso-value{color:#E4483D;}
 body.iso-hi .cam-iso:hover .iso-value{color:#E4483D;}
+
+/* Estado pulsado: el botón se hunde en su alojamiento */
+.cam-iso:active,
+.cam-iso[aria-pressed="true"]{
+  transform:translateY(1px);
+  box-shadow:
+    0 0 0 2px rgba(0,0,0,0.9),
+    0 0 0 3.5px rgba(255,255,255,0.1),
+    0 0 0 4.5px rgba(0,0,0,0.9),
+    inset 0 3px 5px rgba(0,0,0,0.85),
+    inset 0 -1px 1px rgba(255,255,255,0.05);
+}
+body.iso-hi .cam-iso{
+  background:radial-gradient(circle at 34% 28%, #3a3936 0%, #181716 65%, #0a0908 100%);
+}
 
 /* Estado "ISO alto": invierte header, footer, descripciones de proyecto y logos, como un flash */
 body.iso-hi header{background:#f4f2ec;border-bottom-color:rgba(0,0,0,0.12);border-top-color:rgba(0,0,0,0.05);}
@@ -145,9 +173,7 @@ body.iso-hi header::after{
   box-shadow:0 0 0 1px rgba(0,0,0,0.2);
 }
 body.iso-hi header nav a,
-body.iso-hi header .social-icons a,
-body.iso-hi .cam-iso .iso-label,
-body.iso-hi .cam-iso .iso-value{color:#0D0C0B;}
+body.iso-hi header .social-icons a{color:#0D0C0B;}
 body.iso-hi header nav a::after{background:#0D0C0B;}
 body.iso-hi .batt-body{border-color:rgba(0,0,0,0.5);}
 body.iso-hi .batt-level{background:#0D0C0B;}
