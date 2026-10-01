@@ -26,6 +26,12 @@ body.iso-hi{background:#f4f2ec;}
 a, button, .work-card, .btn{
   cursor:none;
 }
+/* En pantallas táctiles no hay ratón real, así que el círculo que lo sustituye
+   se queda "flotando" sin moverse. Lo ocultamos y devolvemos el cursor normal. */
+@media (hover:none), (pointer:coarse){
+  body, a, button, .work-card, .btn{cursor:auto;}
+  .cursor-ring{display:none;}
+}
 .cursor-ring{
   position:fixed;top:0;left:0;width:34px;height:34px;
   border:2px solid #ffffff;border-radius:50%;
@@ -174,7 +180,10 @@ nav a:hover::after{width:100%;}
 
 @media (max-width:760px){
   header::before,header::after{display:none;}
-  .hdr-right{display:none;}
+  /* Hamburguesa a la izquierda, batería/ISO a la derecha (como en escritorio) */
+  .nav-toggle{order:1;}
+  .hdr-left{order:2;}
+  .hdr-right{order:3;display:flex;}
   nav ul{
     position:fixed;top:73px;left:0;right:0;background:var(--bg);
     flex-direction:column;gap:0;border-bottom:1px solid var(--line);
