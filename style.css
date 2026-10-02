@@ -403,14 +403,15 @@ body.iso-hi .hero-divider path{fill:#f4f2ec;}
 @keyframes hud-blink{0%,45%{opacity:1;}50%,95%{opacity:0.15;}100%{opacity:1;}}
 
 .camera-hud .hud-timecode{
-  position:absolute;top:26px;right:26px;font-size:12px;letter-spacing:0.06em;
+  position:absolute;bottom:26px;left:26px;font-size:12px;letter-spacing:0.06em;
   font-variant-numeric:tabular-nums;
 }
 
-.camera-hud .hud-info{
-  position:absolute;bottom:26px;left:26px;font-size:11px;letter-spacing:0.08em;
-  text-transform:uppercase;opacity:0.85;
+.camera-hud .hud-battery{
+  position:absolute;top:26px;right:26px;display:flex;align-items:center;gap:8px;
+  font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.9;
 }
+.camera-hud .hud-fps{font-size:11px;letter-spacing:0.08em;}
 .camera-hud .hud-focus{
   position:absolute;bottom:26px;right:26px;font-size:11px;letter-spacing:0.08em;
   text-transform:uppercase;opacity:0.85;
@@ -424,7 +425,9 @@ body.iso-hi .hero-divider path{fill:#f4f2ec;}
 .camera-hud .hud-crosshair::after{top:-6px;left:50%;width:1px;height:6px;}
 
 @media (max-width:760px){
-  .camera-hud .hud-rec,.camera-hud .hud-timecode,.camera-hud .hud-info,.camera-hud .hud-focus{font-size:10px;}
+  .camera-hud .hud-rec,.camera-hud .hud-timecode,.camera-hud .hud-battery,.camera-hud .hud-focus{font-size:10px;}
+  .camera-hud .hud-battery{gap:5px;}
+  .camera-hud .cam-battery .batt-body{width:20px;height:10px;}
   .camera-hud .hud-frame{inset:10px;}
 }
 .hero-overlay-content{
