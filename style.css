@@ -408,10 +408,8 @@ body.iso-hi .hero-divider path{fill:#f4f2ec;}
 }
 
 .camera-hud .hud-battery{
-  position:absolute;top:26px;right:26px;display:flex;align-items:center;gap:8px;
-  font-size:11px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.9;
+  position:absolute;top:26px;right:26px;display:flex;align-items:center;
 }
-.camera-hud .hud-fps{font-size:11px;letter-spacing:0.08em;}
 .camera-hud .hud-focus{
   position:absolute;bottom:26px;right:26px;font-size:11px;letter-spacing:0.08em;
   text-transform:uppercase;opacity:0.85;
