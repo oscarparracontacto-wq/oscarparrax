@@ -115,56 +115,18 @@ header .wrap{
 .hdr-left{display:flex;align-items:center;gap:26px;}
 .hdr-right{display:flex;align-items:center;gap:22px;}
 
-/* Visor óptico de cámara, grande, tipo ocular de visor electrónico: carcasa
-   de goma ovalada y brillante (con el barrido de luz típico del caucho
-   pulido), y hacia dentro un marco escalonado de varios anillos concéntricos
-   antes de llegar al cristal rectangular — como las fotos de referencia. */
+/* Visor óptico de cámara: foto real recortada (fondo quitado, sin marca de
+   agua verificado) en vez de ilustración — el usuario pidió usar la imagen
+   literal. Solo el ocular, sin la zapata de montaje de la foto original. */
 .hdr-viewfinder{
   position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:70px;height:78px;
-  border-radius:50% 50% 42% 42% / 58% 58% 40% 40%;
+  width:136px;height:87px;
   pointer-events:none;z-index:2;
-  background-image:
-    radial-gradient(ellipse 85% 42% at 50% 9%, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.09) 30%, transparent 58%),
-    linear-gradient(205deg, rgba(255,255,255,0.04) 0%, transparent 28%, rgba(0,0,0,0.22) 68%, rgba(0,0,0,0.48) 100%),
-    radial-gradient(ellipse at 50% 88%, rgba(0,0,0,0.5) 0%, transparent 42%),
-    radial-gradient(ellipse at 38% 28%, #2e2b1f 0%, #18160f 55%, #0a0908 100%);
+  background-image:url('img/header-viewfinder.png');
   background-repeat:no-repeat;
-  background-size:100% 100%;
-  box-shadow:
-    0 0 0 1px rgba(0,0,0,0.92),
-    0 7px 14px rgba(0,0,0,0.55),
-    inset 0 2px 3px rgba(255,255,255,0.16),
-    inset 0 -6px 9px rgba(0,0,0,0.55);
-}
-/* Marco escalonado del visor: varios anillos concéntricos (bisel exterior,
-   costura, bisel interior) logrados con sombras internas de borde duro
-   apiladas, antes de llegar al cristal — el detalle de "más capas" pedido */
-.hdr-viewfinder::before{
-  content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:40px;height:46px;border-radius:11px;
-  background:linear-gradient(165deg, #211e16 0%, #13110a 50%, #060504 100%);
-  box-shadow:
-    inset 0 3px 5px rgba(0,0,0,0.85),
-    inset 0 0 0 2px rgba(0,0,0,0.75),
-    inset 0 0 0 3px rgba(200,190,165,0.1),
-    inset 0 0 0 7px rgba(4,3,3,0.92),
-    inset 0 0 0 8.5px rgba(150,140,115,0.1),
-    inset 0 0 0 10px rgba(2,2,2,0.95);
-}
-/* Cristal rectangular: reflejos grisáceos difusos (como el visor real) con
-   un leve toque cálido en el brillo principal */
-.hdr-viewfinder::after{
-  content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:26px;height:30px;border-radius:4px;
-  background-image:
-    radial-gradient(ellipse at 34% 20%, rgba(238,235,225,0.6) 0%, rgba(210,200,185,0.2) 15%, transparent 30%),
-    radial-gradient(ellipse at 70% 68%, rgba(195,198,200,0.22) 0%, transparent 26%),
-    linear-gradient(160deg, rgba(70,66,58,0.55) 0%, rgba(22,20,18,0.8) 45%, rgba(4,4,4,0.97) 100%);
-  box-shadow:
-    inset 0 0 3px rgba(0,0,0,0.85),
-    inset 0 -2px 3px rgba(0,0,0,0.5),
-    0 0 5px rgba(255,255,255,0.08);
+  background-size:contain;
+  background-position:center;
+  filter:brightness(0.82) contrast(1.08) drop-shadow(0 6px 10px rgba(0,0,0,0.55)) drop-shadow(0 1px 0 rgba(0,0,0,0.8));
 }
 
 /* Indicador de batería de cámara (decorativo) */
@@ -303,10 +265,8 @@ nav a:active{transform:translateY(1px);}
   .cam-iso{width:36px;height:36px;}
   .cam-iso .iso-label{font-size:6px;}
   .cam-iso .iso-value{font-size:9.5px;}
-  /* Visor óptico más pequeño en móvil, pero conservando casi todo el alto de la barra */
-  .hdr-viewfinder{width:46px;height:52px;border-radius:50% 50% 42% 42% / 58% 58% 40% 40%;}
-  .hdr-viewfinder::before{width:27px;height:31px;border-radius:8px;}
-  .hdr-viewfinder::after{width:17px;height:20px;border-radius:3px;}
+  /* Visor óptico más pequeño en móvil, misma ilustración a escala */
+  .hdr-viewfinder{width:84px;height:52px;}
   nav ul{
     position:fixed;top:61px;left:0;right:0;background:var(--bg);
     flex-direction:column;gap:0;border-bottom:1px solid var(--line);
