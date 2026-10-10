@@ -104,20 +104,20 @@
   </div>
 </section>
 
-<!-- DESCRIPCIÓN -->
+<!-- TEXTO + VÍDEO + CARRUSEL, todo sobre el fondo de la imagen del vídeo -->
+<section class="project-stage">
+  <img class="project-video-bg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" src="../img/rewind-2023-video-bg.webp" alt="" aria-hidden="true">
+  <div class="film-grain tv-static video-grain"></div>
+  <div class="tv-scanlines"></div>
+  <div class="extra-noise"></div>
+  <div class="stage-content">
 <section class="project-body">
   <div class="wrap center">
     <p>Un cortometraje anual que repasa lo más destacado del año en la comunidad hispanohablante: memes, música, videojuegos y cultura digital.</p>
   </div>
 </section>
 
-
-<!-- ===== 2023 ===== -->
 <section class="project-video">
-  <img class="project-video-bg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" src="../img/rewind-2023-video-bg.webp" alt="" aria-hidden="true">
-  <div class="film-grain tv-static video-grain"></div>
-  <div class="tv-scanlines"></div>
-  <div class="extra-noise"></div>
   <div class="wrap">
     <h2 class="project-h2" style="color:#fff;text-align:center;">2023</h2>
     <div class="video-frame" data-video="TjkRhh3Gh1U">
@@ -146,13 +146,17 @@
     </button>
   </div>
 </section>
+  </div>
+</section>
 
-<!-- ===== 2022 ===== -->
-<section class="project-video">
+<!-- TEXTO + VÍDEO + CARRUSEL, todo sobre el fondo de la imagen del vídeo -->
+<section class="project-stage">
   <img class="project-video-bg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" src="../img/rewind-2022-video-bg.webp" alt="" aria-hidden="true">
   <div class="film-grain tv-static video-grain"></div>
   <div class="tv-scanlines"></div>
   <div class="extra-noise"></div>
+  <div class="stage-content">
+<section class="project-video">
   <div class="wrap">
     <h2 class="project-h2" style="color:#fff;text-align:center;">2022</h2>
     <div class="video-frame" data-video="IbAuuxBFwoo">
@@ -183,13 +187,17 @@
     </button>
   </div>
 </section>
+  </div>
+</section>
 
-<!-- ===== 2021 ===== -->
-<section class="project-video">
+<!-- TEXTO + VÍDEO + CARRUSEL, todo sobre el fondo de la imagen del vídeo -->
+<section class="project-stage">
   <img class="project-video-bg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" src="../img/rewind-2021-video-bg.webp" alt="" aria-hidden="true">
   <div class="film-grain tv-static video-grain"></div>
   <div class="tv-scanlines"></div>
   <div class="extra-noise"></div>
+  <div class="stage-content">
+<section class="project-video">
   <div class="wrap">
     <h2 class="project-h2" style="color:#fff;text-align:center;">2021</h2>
     <div class="video-frame" data-video="_FMplFlIiOU">
@@ -218,13 +226,17 @@
     </button>
   </div>
 </section>
+  </div>
+</section>
 
-<!-- ===== 2020 (solo vídeo, sin carrusel) ===== -->
-<section class="project-video">
+<!-- TEXTO + VÍDEO + CARRUSEL, todo sobre el fondo de la imagen del vídeo -->
+<section class="project-stage">
   <img class="project-video-bg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" src="../img/rewind-2020-video-bg.webp" alt="" aria-hidden="true">
   <div class="film-grain tv-static video-grain"></div>
   <div class="tv-scanlines"></div>
   <div class="extra-noise"></div>
+  <div class="stage-content">
+<section class="project-video">
   <div class="wrap">
     <h2 class="project-h2" style="color:#fff;text-align:center;">2020</h2>
     <div class="video-frame" data-video="h4NJCc4AQxw">
@@ -236,11 +248,11 @@
   </div>
 </section>
 
-
-<!-- CIERRE -->
 <section class="project-body">
   <div class="wrap center">
     <p>Esta edición reunió a más de 300 personas en su producción y se estrenó en los cines Callao de Madrid, con menciones en medios como El País, Marca y Movistar.</p>
+  </div>
+</section>
   </div>
 </section>
 
@@ -293,26 +305,80 @@
     toggle.addEventListener('click', () => list.classList.toggle('open'));
   })();
 
-  // Vídeo: carga el reproductor solo al pulsar (más rápido y sin cookies hasta entonces)
-  // Esta página tiene VARIOS bloques de vídeo (uno por edición), así que se gestionan todos a la vez.
+  // Vídeo: al pulsar "Ver vídeo", la pantalla se agranda hasta ocupar casi toda la ventana y empieza a reproducirse.
+  // Al pulsar fuera (o con Esc) vuelve a su sitio y el vídeo se detiene. Hay un bloque por cada .video-frame con data-video.
   (() => {
-    document.querySelectorAll('.video-frame[data-video]').forEach((frame) => {
-      frame.addEventListener('click', () => {
-        if (frame.classList.contains('is-loaded')) return;
-        const id = frame.dataset.video;
-        if (!id) return; // vídeo aún pendiente de subir
-        const iframe = document.createElement('iframe');
-        iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
-        iframe.setAttribute('frameborder', '0');
-        iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
-        iframe.setAttribute('allowfullscreen', '');
-        iframe.setAttribute('title', 'Rewind Hispano');
-        frame.appendChild(iframe);
-        frame.classList.add('is-loaded');
-      });
-    });
-  })();
+    const frames = Array.from(document.querySelectorAll('.video-frame[data-video]'));
+    if (!frames.length) return;
+    const DUR = 560;                                     // ms de la animación de zoom
+    const EASE = 'cubic-bezier(.22,.68,0,1.01)';
+    let current = null;
 
+    function target() {
+      const vw = window.innerWidth, vh = window.innerHeight;
+      const w = Math.min(vw * (vw < 760 ? 0.96 : 0.92), vh * 0.86 * 16 / 9);   // casi toda la pantalla, sin llegar a ser entera
+      const h = w * 9 / 16;
+      return { top: (vh - h) / 2, left: (vw - w) / 2, width: w, height: h };
+    }
+    function setRect(el, r) {
+      el.style.top = r.top + 'px'; el.style.left = r.left + 'px';
+      el.style.width = r.width + 'px'; el.style.height = r.height + 'px';
+    }
+
+    function open(frame) {
+      if (current || frame.classList.contains('is-loaded')) return;
+      const id = frame.dataset.video;
+      if (!id) return;                                   // vídeo aún pendiente de subir
+      const r = frame.getBoundingClientRect();
+      const ph = document.createElement('div');          // guarda el hueco mientras la pantalla está "volando"
+      ph.className = 'video-frame-ph';
+      frame.parentNode.insertBefore(ph, frame);
+      const backdrop = document.createElement('div');
+      backdrop.className = 'lightbox-backdrop video-backdrop';
+      document.body.appendChild(backdrop);
+
+      frame.style.transition = 'none';
+      frame.classList.add('is-zoom', 'is-loaded');
+      setRect(frame, r);
+      void frame.offsetWidth;
+      frame.style.transition = `top ${DUR}ms ${EASE}, left ${DUR}ms ${EASE}, width ${DUR}ms ${EASE}, height ${DUR}ms ${EASE}`;
+
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+      iframe.setAttribute('frameborder', '0');
+      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.setAttribute('title', document.title);
+      frame.appendChild(iframe);
+
+      requestAnimationFrame(() => { backdrop.classList.add('is-open'); setRect(frame, target()); });
+
+      let closing = false;
+      const onResize = () => { if (!closing) { frame.style.transition = 'none'; setRect(frame, target()); } };
+      function close() {
+        if (closing) return;
+        closing = true;
+        window.removeEventListener('resize', onResize);
+        document.removeEventListener('keydown', onKey);
+        frame.style.transition = `top ${DUR}ms ${EASE}, left ${DUR}ms ${EASE}, width ${DUR}ms ${EASE}, height ${DUR}ms ${EASE}`;
+        setRect(frame, ph.getBoundingClientRect());
+        backdrop.classList.remove('is-open');
+        setTimeout(() => {
+          iframe.remove();                                // el vídeo se detiene
+          frame.classList.remove('is-zoom', 'is-loaded');
+          frame.removeAttribute('style');
+          ph.remove(); backdrop.remove();
+          current = null;
+        }, DUR + 40);
+      }
+      const onKey = (e) => { if (e.key === 'Escape') close(); };
+      backdrop.addEventListener('click', close);
+      document.addEventListener('keydown', onKey);
+      window.addEventListener('resize', onResize);
+      current = { close };
+    }
+    frames.forEach((frame) => frame.addEventListener('click', () => open(frame)));
+  })();
   // Carruseles de rodaje en bucle infinito
   // Esta página tiene VARIOS carruseles (2023, 2022, 2021), cada uno se inicializa por separado.
   (() => {
