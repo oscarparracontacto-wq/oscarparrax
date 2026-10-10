@@ -1340,25 +1340,6 @@ body.video-open .cursor-ring{opacity:0;}
   .project-stage .project-body.desc-oneline p{white-space:nowrap;font-size:clamp(11px,1.15vw,16px);}
 }
 
-/* ===== CAMBIOS 59 (PRUEBA, solo Premios ESLAND): flechas de anterior/siguiente sin texto, lo más compactas posible ===== */
-.project-nav.nav-arrows{padding:clamp(2px,.4vw,6px) clamp(20px,5vw,70px) clamp(12px,1.4vw,20px);}
-.project-nav.nav-arrows .pnav{font-size:clamp(26px,2.6vw,34px);line-height:1;padding:4px 8px;}
-.project-nav.nav-arrows .pnav-arrow{font-size:1em;}
-@media (max-width:760px){
-  .project-stage .project-nav.nav-arrows{padding:10px 20px;}
-  .project-nav.nav-arrows .pnav{font-size:26px;}
-}
-/* Escritorio: las flechas se sientan en la misma línea que el último texto (a izquierda y derecha), sin añadir altura */
-@media (min-width:761px){
-  .project-stage .project-nav.nav-arrows{
-    height:46px;padding:0 clamp(20px,5vw,70px);align-items:center;
-    margin-top:calc(-1 * (clamp(10px,1.4vw,20px) + 13px + 23px));
-    margin-bottom:clamp(6px,.8vw,12px);
-    position:relative;pointer-events:none;
-  }
-  .project-stage .project-nav.nav-arrows .pnav{pointer-events:auto;}
-}
-
 /* ===== CAMBIOS 60 (PRUEBA, solo Premios ESLAND): fondo del banner algo más oscuro y bloque vídeo + carrusel más pequeño/estrecho ===== */
 .project-hero.hero-slim .project-hero-bg img{filter:grayscale(6%) contrast(1.06) brightness(0.62);}
 @media (min-width:761px){
@@ -1367,12 +1348,35 @@ body.video-open .cursor-ring{opacity:0;}
 }
 
 /* ===== CAMBIOS 61: lo probado en Esland (banner estrecho y oscuro, vídeo + carrusel vertical, textos en una línea, flechas sin texto) pasa a todos los proyectos ===== */
-/* Páginas sin texto de cierre: las flechas no se suben a la línea del texto, quedan justo debajo del bloque */
-@media (min-width:761px){
-  .project-stage .stage-split + .project-nav.nav-arrows{margin-top:0;height:auto;padding-top:0;padding-bottom:clamp(6px,.8vw,12px);}
-  .project-stage .stage-split + .project-nav.nav-arrows .pnav{padding:2px 8px;}
-}
 /* Texto demasiado largo para una sola línea (CaixaBank): ocupa todo el ancho y se parte en dos líneas equilibradas */
 @media (min-width:761px){
   .project-stage .project-body.desc-oneline.desc-wrap p{white-space:normal;text-wrap:balance;}
 }
+
+/* ===== CAMBIOS 62: flechas de anterior/siguiente FIJAS en el centro de la pantalla (izquierda y derecha), en un cuadrado con la flecha.
+   Se ven siempre, estés donde estés de la página; ya no ocupan sitio abajo del todo. (Sustituye a las flechas de los cambios 59/61.) ===== */
+.project-stage .project-nav.nav-arrows{
+  position:static;display:block;height:0;min-height:0;margin:0;padding:0;border:0;background:none;
+}
+.project-stage .project-nav.nav-arrows .pnav{
+  position:fixed;top:50%;transform:translateY(-50%);z-index:50;
+  display:flex;align-items:center;justify-content:center;
+  width:clamp(40px,3.4vw,52px);height:clamp(40px,3.4vw,52px);max-width:none;padding:0;gap:0;
+  background:rgba(7,6,5,0.55);
+  border:1px solid rgba(255,255,255,0.4);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  color:#fff;text-shadow:none;opacity:1;
+  transition:background .25s ease,border-color .25s ease;
+}
+.project-stage .project-nav.nav-arrows .pnav.prev{left:clamp(10px,1.6vw,28px);right:auto;}
+.project-stage .project-nav.nav-arrows .pnav.next{right:clamp(10px,1.6vw,28px);left:auto;}
+.project-stage .project-nav.nav-arrows .pnav:hover{background:rgba(255,255,255,0.18);border-color:#fff;opacity:1;}
+.project-stage .project-nav.nav-arrows .pnav-arrow{font-size:clamp(20px,1.8vw,26px);line-height:1;}
+@media (max-width:760px){
+  .project-stage .project-nav.nav-arrows .pnav{width:36px;height:36px;}
+  .project-stage .project-nav.nav-arrows .pnav.prev{left:6px;}
+  .project-stage .project-nav.nav-arrows .pnav.next{right:6px;}
+  .project-stage .project-nav.nav-arrows .pnav-arrow{font-size:18px;}
+}
+/* con el vídeo ampliado, las flechas se apartan */
+body.video-open .project-stage .project-nav.nav-arrows .pnav{opacity:0;pointer-events:none;}
