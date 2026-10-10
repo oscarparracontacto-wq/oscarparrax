@@ -662,52 +662,10 @@
       grid.classList.toggle('ai-filter-on', aiOnly);
       reorder(aiOnly ? aiOrder : originalOrder);
     };
-    btnAll.addEventListener('click', () => setView(false));
-    btnAI.addEventListener('click', () => setView(true));
-  })();
-</script>
-<div class="fx-grain" aria-hidden="true"></div>
-<script>
-  // PRUEBA: textura de ruido de píxel (se genera una vez en un canvas pequeño y se amplía sin suavizar)
-  (() => {
-    const el = document.querySelector('.fx-grain');
-    if (!el) return;
-    const N = 192, cv = document.createElement('canvas');
-    cv.width = cv.height = N;
-    const ctx = cv.getContext('2d');
-    const img = ctx.createImageData(N, N);
-    const d = img.data;
-    const put = (x, y, r, g, b, a) => {
-      if (x < 0 || y < 0 || x >= N || y >= N) return;
-      const i = (y * N + x) * 4;
-      d[i] = r; d[i+1] = g; d[i+2] = b; d[i+3] = a;
-    };
-    // grano base: píxeles sueltos blancos / negros con opacidad irregular
-    for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
-      const v = Math.random() < 0.5 ? 0 : 255;
-      const a = Math.pow(Math.random(), 2.4) * 150;
-      put(x, y, v, v, v, a);
-    }
-    // bloques de 2x2 y 3x3 más marcados, dispersos (el toque "píxel" grande)
-    for (let k = 0; k < 700; k++) {
-      const bx = (Math.random() * N) | 0, by = (Math.random() * N) | 0;
-      const sz = Math.random() < 0.8 ? 1 : 2;
-      const v = Math.random() < 0.5 ? 0 : 255, a = 50 + Math.random() * 80;
-      for (let j = 0; j < sz; j++) for (let i2 = 0; i2 < sz; i2++) put(bx + i2, by + j, v, v, v, a);
-    }
-    // algún píxel de color suelto, tipo fallo digital (rojo / verde / azul)
-    const tints = [[255, 40, 40], [40, 255, 90], [60, 120, 255]];
-    for (let k = 0; k < 90; k++) {
-      const t = tints[(Math.random() * 3) | 0];
-      put((Math.random() * N) | 0, (Math.random() * N) | 0, t[0], t[1], t[2], 90 + Math.random() * 100);
-    }
-    ctx.putImageData(img, 0, 0);
-    el.style.setProperty('--fx-noise', `url(${cv.toDataURL('image/png')})`);
-    // El grano se desplaza con el scroll (así parece parte de la página y no una capa fija)
-    let ticking = false;
-    const sync = () => { ticking = false; el.style.setProperty('--fx-y', (-window.scrollY) + 'px'); };
-    window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(sync); } }, { passive: true });
-    sync();
+    // Todo el control es un interruptor: pulses donde pulses (palabra, hueco o borde) cambia entre Todos e IA
+    const filter = btnAll.closest('.view-filter') || btnAll.parentElement;
+    let aiOn = false;
+    filter.addEventListener('click', () => { aiOn = !aiOn; setView(aiOn); });
   })();
 </script>
 </body>
