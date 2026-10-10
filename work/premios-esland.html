@@ -47,7 +47,7 @@
 </header>
 
 <!-- HERO -->
-<section class="project-hero hero-slim">
+<section class="project-hero">
   <div class="project-hero-bg">
     <img src="../img/esland-hero.webp" alt="Premios ESLAND">
   </div>
@@ -80,8 +80,12 @@
   <div class="film-grain tv-static video-grain"></div>
   <div class="tv-scanlines"></div>
   <div class="stage-content">
-<!-- TEST: vídeo grande a la izquierda y carrusel en vertical a la derecha, como un solo grupo centrado -->
-<div class="stage-split">
+<section class="project-body desc-oneline">
+  <div class="wrap center">
+    <p>Seis piezas cortas que abren cada categoría de los <strong><a href="https://premiosesland.com/" target="_blank" rel="noopener">Premios ESLAND</a></strong>, los galardones de streaming en español creados por <strong>TheGrefg</strong>.</p>
+  </div>
+</section>
+
 <section class="project-video">
   <div class="wrap">
     <div class="video-frame" id="videoFrame" data-video="9Z064j-ANYs">
@@ -94,7 +98,7 @@
 </section>
 
 <section class="project-gallery">
-  <div class="gallery-viewport is-vertical">
+  <div class="gallery-viewport">
     <div class="gallery-track" id="galTrack">
       <figure class="gal-item"><img src="../img/esland-rodaje-3.webp" alt="Rodaje Premios ESLAND — dirección de actor" loading="lazy"></figure>
       <figure class="gal-item"><img src="../img/esland-rodaje-1.webp" alt="Rodaje Premios ESLAND — plano de cámara" loading="lazy"></figure>
@@ -103,16 +107,8 @@
     </div>
   </div>
 </section>
-</div>
 
-<!-- DESCRIPCIONES: ahora debajo del vídeo y el carrusel -->
-<section class="project-body">
-  <div class="wrap center">
-    <p>Seis piezas cortas que abren cada categoría de los <strong><a href="https://premiosesland.com/" target="_blank" rel="noopener">Premios ESLAND</a></strong>, los galardones de streaming en español creados por <strong>TheGrefg</strong>.</p>
-  </div>
-</section>
-
-<section class="project-body">
+<section class="project-body desc-oneline">
   <div class="wrap center">
     <p>La gala completa alcanzó el <strong>millón de espectadores</strong> en directo, uno de los picos de audiencia del evento.</p>
   </div>
@@ -302,7 +298,6 @@
   (() => {
     const BASE = 24;                 // píxeles por segundo
     const TAU = 0.6;                 // segundos que tarda el impulso en apagarse
-    const mq = window.matchMedia('(max-width:760px)');
     document.querySelectorAll('.gallery-viewport').forEach((viewport) => {
       const track = viewport.querySelector('.gallery-track');
       if (!track) return;
@@ -317,19 +312,12 @@
       }
       let setW = 0, x = 0, vel = 0, dragging = false, running = false, last = performance.now();
       let pid = null, startX = 0, lastX = 0, lastT = 0, vSmooth = 0;
-      // Si el visor es vertical (solo en ordenador), el carrusel corre de arriba abajo; en móvil vuelve a ser horizontal
-      let vert = false;
-      const isVert = () => viewport.classList.contains('is-vertical') && !mq.matches;
-      const pos = (e) => vert ? e.clientY : e.clientX;
 
       function measure() {
-        vert = isVert();
-        const cs = getComputedStyle(track);
-        const gap = parseFloat(vert ? cs.rowGap : cs.columnGap) || 16;
-        const size = vert ? originals[0].offsetHeight : originals[0].offsetWidth;   // no depende de la rotación/zoom de las fotos
-        setW = n * (size + gap);
+        const gap = parseFloat(getComputedStyle(track).columnGap) || 16;
+        setW = n * (originals[0].offsetWidth + gap);      // offsetWidth: no depende de la rotación/zoom de las fotos
       }
-      function render() { track.style.transform = vert ? `translate3d(0,${-x}px,0)` : `translate3d(${-x}px,0,0)`; }
+      function render() { track.style.transform = `translate3d(${-x}px,0,0)`; }
       function frame(now) {
         const dt = Math.min(0.25, (now - last) / 1000);
         last = now;
@@ -346,7 +334,7 @@
       function stop() { running = false; }
 
       measure(); render();
-      window.addEventListener('resize', () => { measure(); render(); });
+      window.addEventListener('resize', measure);
       window.addEventListener('load', measure);
       if ('IntersectionObserver' in window) {
         new IntersectionObserver((es) => es[0].isIntersecting ? start() : stop()).observe(viewport);
@@ -354,21 +342,21 @@
 
       viewport.addEventListener('pointerdown', (e) => {
         if (e.pointerType === 'mouse' && e.button !== 0) return;
-        pid = e.pointerId; startX = lastX = pos(e); lastT = e.timeStamp; vSmooth = 0;
+        pid = e.pointerId; startX = lastX = e.clientX; lastT = e.timeStamp; vSmooth = 0;
       });
       viewport.addEventListener('pointermove', (e) => {
         if (pid === null || e.pointerId !== pid) return;
         if (!dragging) {
-          if (Math.abs(pos(e) - startX) < 6) return;     // todavía es un toque, no un arrastre
-          dragging = true; vel = 0; lastX = pos(e); lastT = e.timeStamp;
+          if (Math.abs(e.clientX - startX) < 6) return;     // todavía es un toque, no un arrastre
+          dragging = true; vel = 0; lastX = e.clientX; lastT = e.timeStamp;
           try { viewport.setPointerCapture(pid); } catch (_) {}
           return;
         }
-        const dx = pos(e) - lastX;
+        const dx = e.clientX - lastX;
         const dtm = Math.max(1, e.timeStamp - lastT);
         x -= dx;                                             // la foto sigue al puntero
         vSmooth = vSmooth * 0.6 + (-dx / dtm * 1000) * 0.4;  // px/s del carrusel
-        lastX = pos(e); lastT = e.timeStamp;
+        lastX = e.clientX; lastT = e.timeStamp;
         if (!running) { if (setW > 0) x = ((x % setW) + setW) % setW; render(); }
       });
       function release(e) {
