@@ -1365,3 +1365,14 @@ body.video-open .cursor-ring{opacity:0;}
   .stage-split{max-width:1020px;gap:clamp(14px,1.8vw,26px);}
   .stage-split > .project-gallery{flex:0 0 clamp(116px,11vw,158px);}
 }
+
+/* ===== CAMBIOS 61: lo probado en Esland (banner estrecho y oscuro, vídeo + carrusel vertical, textos en una línea, flechas sin texto) pasa a todos los proyectos ===== */
+/* Páginas sin texto de cierre: las flechas no se suben a la línea del texto, quedan justo debajo del bloque */
+@media (min-width:761px){
+  .project-stage .stage-split + .project-nav.nav-arrows{margin-top:0;height:auto;padding-top:0;padding-bottom:clamp(6px,.8vw,12px);}
+  .project-stage .stage-split + .project-nav.nav-arrows .pnav{padding:2px 8px;}
+}
+/* Texto demasiado largo para una sola línea (CaixaBank): ocupa todo el ancho y se parte en dos líneas equilibradas */
+@media (min-width:761px){
+  .project-stage .project-body.desc-oneline.desc-wrap p{white-space:normal;text-wrap:balance;}
+}

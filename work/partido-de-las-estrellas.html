@@ -47,7 +47,7 @@
 </header>
 
 <!-- HERO -->
-<section class="project-hero">
+<section class="project-hero hero-slim">
   <div class="project-hero-bg">
     <img src="../img/partido-hero.webp" alt="Partido de las Estrellas">
   </div>
@@ -80,12 +80,13 @@
   <div class="film-grain tv-static video-grain"></div>
   <div class="tv-scanlines"></div>
   <div class="stage-content">
-<section class="project-body">
+<section class="project-body desc-oneline">
   <div class="wrap center">
     <p>Un spot de Mahou que lleva a un grupo de aficionados a vivir la experiencia de jugar en el Cívitas Metropolitano, celebrando la amistad a través del fútbol.</p>
   </div>
 </section>
 
+<div class="stage-split">
 <section class="project-video">
   <div class="wrap">
     <div class="video-frame" id="videoFrame" data-video="pKEYrT9q6zk">
@@ -98,7 +99,7 @@
 </section>
 
 <section class="project-gallery">
-  <div class="gallery-viewport">
+  <div class="gallery-viewport is-vertical">
     <div class="gallery-track" id="galTrack">
       <figure class="gal-item"><img src="../img/partido-rodaje-1.webp" alt="Rodaje Partido de las Estrellas — equipo en el campo" loading="lazy"></figure>
       <figure class="gal-item"><img src="../img/partido-rodaje-2.webp" alt="Rodaje Partido de las Estrellas — set con banderas de luz" loading="lazy"></figure>
@@ -107,15 +108,14 @@
     </div>
   </div>
 </section>
+</div>
 
     <!-- NAVEGACIÓN ENTRE PROYECTOS -->
-    <nav class="project-nav">
-      <a class="pnav prev" href="premios-esland.html">
+    <nav class="project-nav nav-arrows" aria-label="Navegación entre proyectos">
+      <a class="pnav prev" href="premios-esland.html" aria-label="Proyecto anterior: Premios ESLAND">
         <span class="pnav-arrow">←</span>
-        <span class="pnav-label">Premios <br class="mbr">ESLAND</span>
       </a>
-      <a class="pnav next" href="koi-presentacion-jugadores.html">
-        <span class="pnav-label">KOI <br class="mbr">Jugadores</span>
+      <a class="pnav next" href="koi-presentacion-jugadores.html" aria-label="Proyecto siguiente: KOI Jugadores">
         <span class="pnav-arrow">→</span>
       </a>
     </nav>
@@ -292,6 +292,7 @@
   (() => {
     const BASE = 24;                 // píxeles por segundo
     const TAU = 0.6;                 // segundos que tarda el impulso en apagarse
+    const mq = window.matchMedia('(max-width:760px)');
     document.querySelectorAll('.gallery-viewport').forEach((viewport) => {
       const track = viewport.querySelector('.gallery-track');
       if (!track) return;
@@ -306,12 +307,19 @@
       }
       let setW = 0, x = 0, vel = 0, dragging = false, running = false, last = performance.now();
       let pid = null, startX = 0, lastX = 0, lastT = 0, vSmooth = 0;
+      // Si el visor es vertical (solo en ordenador), el carrusel corre de arriba abajo; en móvil vuelve a ser horizontal
+      let vert = false;
+      const isVert = () => viewport.classList.contains('is-vertical') && !mq.matches;
+      const pos = (e) => vert ? e.clientY : e.clientX;
 
       function measure() {
-        const gap = parseFloat(getComputedStyle(track).columnGap) || 16;
-        setW = n * (originals[0].offsetWidth + gap);      // offsetWidth: no depende de la rotación/zoom de las fotos
+        vert = isVert();
+        const cs = getComputedStyle(track);
+        const gap = parseFloat(vert ? cs.rowGap : cs.columnGap) || 16;
+        const size = vert ? originals[0].offsetHeight : originals[0].offsetWidth;   // no depende de la rotación/zoom de las fotos
+        setW = n * (size + gap);
       }
-      function render() { track.style.transform = `translate3d(${-x}px,0,0)`; }
+      function render() { track.style.transform = vert ? `translate3d(0,${-x}px,0)` : `translate3d(${-x}px,0,0)`; }
       function frame(now) {
         const dt = Math.min(0.25, (now - last) / 1000);
         last = now;
@@ -328,7 +336,7 @@
       function stop() { running = false; }
 
       measure(); render();
-      window.addEventListener('resize', measure);
+      window.addEventListener('resize', () => { measure(); render(); });
       window.addEventListener('load', measure);
       if ('IntersectionObserver' in window) {
         new IntersectionObserver((es) => es[0].isIntersecting ? start() : stop()).observe(viewport);
@@ -336,21 +344,21 @@
 
       viewport.addEventListener('pointerdown', (e) => {
         if (e.pointerType === 'mouse' && e.button !== 0) return;
-        pid = e.pointerId; startX = lastX = e.clientX; lastT = e.timeStamp; vSmooth = 0;
+        pid = e.pointerId; startX = lastX = pos(e); lastT = e.timeStamp; vSmooth = 0;
       });
       viewport.addEventListener('pointermove', (e) => {
         if (pid === null || e.pointerId !== pid) return;
         if (!dragging) {
-          if (Math.abs(e.clientX - startX) < 6) return;     // todavía es un toque, no un arrastre
-          dragging = true; vel = 0; lastX = e.clientX; lastT = e.timeStamp;
+          if (Math.abs(pos(e) - startX) < 6) return;     // todavía es un toque, no un arrastre
+          dragging = true; vel = 0; lastX = pos(e); lastT = e.timeStamp;
           try { viewport.setPointerCapture(pid); } catch (_) {}
           return;
         }
-        const dx = e.clientX - lastX;
+        const dx = pos(e) - lastX;
         const dtm = Math.max(1, e.timeStamp - lastT);
         x -= dx;                                             // la foto sigue al puntero
         vSmooth = vSmooth * 0.6 + (-dx / dtm * 1000) * 0.4;  // px/s del carrusel
-        lastX = e.clientX; lastT = e.timeStamp;
+        lastX = pos(e); lastT = e.timeStamp;
         if (!running) { if (setW > 0) x = ((x % setW) + setW) % setW; render(); }
       });
       function release(e) {
