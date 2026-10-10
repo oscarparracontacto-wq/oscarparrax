@@ -49,6 +49,22 @@
     <p class="hero-tagline">Film Director &amp; Generative AI</p>
     <h1 class="hero-title">Óscar Parra</h1>
   </div>
+  <div class="logo-ring" role="group" aria-label="Marcas con las que he trabajado">
+    <div class="ring-stage">
+      <img class="ring-logo" src="img/logo-mahou.webp" alt="Mahou" draggable="false">
+      <img class="ring-logo" src="img/logo-ford.webp" alt="Ford" draggable="false">
+      <img class="ring-logo" src="img/logo-laliga.webp" alt="LaLiga" draggable="false">
+      <img class="ring-logo" src="img/logo-takis.webp" alt="Takis" draggable="false">
+      <img class="ring-logo" src="img/logo-revolut.webp" alt="Revolut" draggable="false">
+      <img class="ring-logo" src="img/logo-caixabank.webp" alt="CaixaBank" draggable="false">
+      <img class="ring-logo" src="img/logo-mahou.webp" alt="Mahou" draggable="false">
+      <img class="ring-logo" src="img/logo-ford.webp" alt="Ford" draggable="false">
+      <img class="ring-logo" src="img/logo-laliga.webp" alt="LaLiga" draggable="false">
+      <img class="ring-logo" src="img/logo-takis.webp" alt="Takis" draggable="false">
+      <img class="ring-logo" src="img/logo-revolut.webp" alt="Revolut" draggable="false">
+      <img class="ring-logo" src="img/logo-caixabank.webp" alt="CaixaBank" draggable="false">
+    </div>
+  </div>
   <div class="hero-figure" id="heroFigure" data-parallax="0.6"></div>
   <div class="hero-grain"></div>
   <div class="film-grain tv-static"></div>
@@ -69,49 +85,6 @@
     </div>
     <div class="hud-timecode" id="hudTimecode">00:04:21:12</div>
     <div class="hud-focus">AF · f/2.0</div>
-  </div>
-</section>
-
-<section class="logos-section">
-  <div class="logos-track">
-    <div class="logos-row">
-      <img class="logo-real" src="img/logo-mahou.webp" alt="Mahou">
-      <img class="logo-real" src="img/logo-ford.webp" alt="Ford">
-      <img class="logo-real" src="img/logo-laliga.webp" alt="LaLiga">
-      <img class="logo-real" src="img/logo-takis.webp" alt="Takis">
-      <img class="logo-real" src="img/logo-revolut.webp" alt="Revolut">
-      <img class="logo-real" src="img/logo-caixabank.webp" alt="CaixaBank">
-      <img class="logo-real" src="img/logo-mahou.webp" alt="Mahou">
-      <img class="logo-real" src="img/logo-ford.webp" alt="Ford">
-      <img class="logo-real" src="img/logo-laliga.webp" alt="LaLiga">
-      <img class="logo-real" src="img/logo-takis.webp" alt="Takis">
-      <img class="logo-real" src="img/logo-revolut.webp" alt="Revolut">
-      <img class="logo-real" src="img/logo-caixabank.webp" alt="CaixaBank">
-      <img class="logo-real" src="img/logo-mahou.webp" alt="Mahou">
-      <img class="logo-real" src="img/logo-ford.webp" alt="Ford">
-      <img class="logo-real" src="img/logo-laliga.webp" alt="LaLiga">
-      <img class="logo-real" src="img/logo-takis.webp" alt="Takis">
-      <img class="logo-real" src="img/logo-revolut.webp" alt="Revolut">
-      <img class="logo-real" src="img/logo-caixabank.webp" alt="CaixaBank">
-      <img class="logo-real" src="img/logo-mahou.webp" alt="Mahou">
-      <img class="logo-real" src="img/logo-ford.webp" alt="Ford">
-      <img class="logo-real" src="img/logo-laliga.webp" alt="LaLiga">
-      <img class="logo-real" src="img/logo-takis.webp" alt="Takis">
-      <img class="logo-real" src="img/logo-revolut.webp" alt="Revolut">
-      <img class="logo-real" src="img/logo-caixabank.webp" alt="CaixaBank">
-      <img class="logo-real" src="img/logo-mahou.webp" alt="Mahou">
-      <img class="logo-real" src="img/logo-ford.webp" alt="Ford">
-      <img class="logo-real" src="img/logo-laliga.webp" alt="LaLiga">
-      <img class="logo-real" src="img/logo-takis.webp" alt="Takis">
-      <img class="logo-real" src="img/logo-revolut.webp" alt="Revolut">
-      <img class="logo-real" src="img/logo-caixabank.webp" alt="CaixaBank">
-      <img class="logo-real" src="img/logo-mahou.webp" alt="Mahou">
-      <img class="logo-real" src="img/logo-ford.webp" alt="Ford">
-      <img class="logo-real" src="img/logo-laliga.webp" alt="LaLiga">
-      <img class="logo-real" src="img/logo-takis.webp" alt="Takis">
-      <img class="logo-real" src="img/logo-revolut.webp" alt="Revolut">
-      <img class="logo-real" src="img/logo-caixabank.webp" alt="CaixaBank">
-    </div>
   </div>
 </section>
 
@@ -484,74 +457,87 @@
   })();
 </script>
 <script>
-  // Banda de logos: avanza sola a velocidad constante, pero se puede arrastrar con el cursor
-  // (o el dedo) para adelantarla o retrasarla. Al soltar, el impulso se va frenando
-  // poco a poco hasta volver a la velocidad normal.
+  // Carrusel 3D de marcas: un anillo de logos que gira solo, de forma lenta y constante.
+  // Se puede arrastrar con el cursor (o el dedo) para empujarlo; al soltar, el impulso se
+  // va frenando poco a poco hasta volver a la velocidad normal.
   (() => {
-    const track = document.querySelector('.logos-track');
-    const row = track && track.querySelector('.logos-row');
-    if (!row) return;
-    const imgs = row.querySelectorAll('.logo-real');
-    const SETS = 6;                       // el HTML repite el mismo grupo de logos 6 veces
-    const per = Math.round(imgs.length / SETS);
-    if (!per || imgs.length % SETS) return;
-    row.classList.add('is-js');
+    const ring = document.querySelector('.logo-ring');
+    const stage = ring && ring.querySelector('.ring-stage');
+    if (!stage) return;
+    const items = Array.from(stage.querySelectorAll('.ring-logo'));
+    const N = items.length, STEP = 360 / N;
+    const BASE = 6;              // grados por segundo (una vuelta completa cada 60 s)
+    const TAU = 0.6;             // segundos que tarda el impulso en apagarse
+    const TILT = -5;             // inclinación del anillo (se ve un poco desde arriba)
+    let R = 300, theta = 0, vel = 0, dragging = false, running = false;
+    let last = performance.now(), pid = null, lastX = 0, lastT = 0, vSmooth = 0;
 
-    const BASE_SECONDS = 40;              // mismo ritmo que la animación CSS original
-    const TAU = 0.6;                      // segundos que tarda el impulso en apagarse
-    let x = 0, vel = 0, dragging = false, last = performance.now();
-    let pid = null, lastX = 0, lastT = 0, vSmooth = 0, running = false;
+    function layout() {
+      R = items[0].offsetWidth * 3.4;                    // radio proporcional al tamaño del logo
+      ring.style.perspective = Math.round(R * 2.7) + 'px';
+      items.forEach((el, i) => {
+        el.style.transform = `rotateY(${i * STEP}deg) translateZ(${R}px)`;
+      });
+    }
+    const smooth = (t) => t <= 0 ? 0 : t >= 1 ? 1 : t * t * (3 - 2 * t);
 
-    const period = () => imgs[per].offsetLeft - imgs[0].offsetLeft;
-
+    function render() {
+      stage.style.transform = `translateZ(${-R}px) rotateX(${TILT}deg) rotateY(${theta}deg)`;
+      for (let i = 0; i < N; i++) {
+        const a = (i * STEP + theta) * Math.PI / 180;
+        const c = Math.cos(a);                           // 1 = de frente, 0 = de canto, <0 = por detrás
+        items[i].style.opacity = smooth((c + 0.1) / 0.75).toFixed(3);
+      }
+    }
     function frame(now) {
       const dt = Math.min(0.25, (now - last) / 1000);
       last = now;
-      const P = period();
-      if (!dragging && P > 0) {
-        x -= (P / BASE_SECONDS + vel) * dt;
+      if (!dragging) {
+        theta -= (BASE + vel) * dt;
         vel *= Math.exp(-dt / TAU);
-        if (Math.abs(vel) < 0.5) vel = 0;
+        if (Math.abs(vel) < 0.2) vel = 0;
       }
-      if (P > 0) {
-        x = ((x % P) - P) % P;            // mantenerlo siempre entre -P y 0 (bucle sin saltos)
-        row.style.transform = `translate3d(${x}px,0,0)`;
-      }
+      theta = ((theta % 360) + 360) % 360;
+      render();
       if (running) requestAnimationFrame(frame);
     }
     function start() { if (running) return; running = true; last = performance.now(); requestAnimationFrame(frame); }
     function stop() { running = false; }
 
-    // Solo animar mientras la banda es visible
+    layout(); render();
+    window.addEventListener('resize', () => { layout(); render(); });
+    window.addEventListener('load', () => { layout(); render(); });
     if ('IntersectionObserver' in window) {
-      new IntersectionObserver((es) => es[0].isIntersecting ? start() : stop()).observe(track);
+      new IntersectionObserver((es) => es[0].isIntersecting ? start() : stop()).observe(ring);
     } else { start(); }
 
-    track.addEventListener('pointerdown', (e) => {
+    ring.addEventListener('pointerdown', (e) => {
       if (e.pointerType === 'mouse' && e.button !== 0) return;
       dragging = true; pid = e.pointerId; lastX = e.clientX; lastT = e.timeStamp;
       vSmooth = 0; vel = 0;
-      track.setPointerCapture(pid);
+      ring.setPointerCapture(pid);
     });
-    track.addEventListener('pointermove', (e) => {
+    ring.addEventListener('pointermove', (e) => {
       if (!dragging || e.pointerId !== pid) return;
       const dx = e.clientX - lastX;
       const dtm = Math.max(1, e.timeStamp - lastT);
-      x += dx;
-      vSmooth = vSmooth * 0.6 + (dx / dtm * 1000) * 0.4;   // px/s del puntero
+      const dTheta = dx / R * 180 / Math.PI;             // el logo de enfrente sigue al puntero
+      theta += dTheta;
+      vSmooth = vSmooth * 0.6 + (dTheta / dtm * 1000) * 0.4;   // grados/s del puntero
       lastX = e.clientX; lastT = e.timeStamp;
+      if (!running) { render(); }
     });
     function release(e) {
       if (!dragging || e.pointerId !== pid) return;
       dragging = false;
-      const fresh = (e.timeStamp - lastT) < 120;            // si se soltó parado, sin impulso
-      vel = fresh ? Math.max(-4000, Math.min(4000, -vSmooth)) : 0;
-      try { track.releasePointerCapture(pid); } catch (_) {}
+      const fresh = (e.timeStamp - lastT) < 120;         // si se soltó parado, sin impulso
+      vel = fresh ? Math.max(-400, Math.min(400, -vSmooth)) : 0;
+      try { ring.releasePointerCapture(pid); } catch (_) {}
       pid = null;
     }
-    track.addEventListener('pointerup', release);
-    track.addEventListener('pointercancel', release);
-    track.addEventListener('dragstart', (e) => e.preventDefault());
+    ring.addEventListener('pointerup', release);
+    ring.addEventListener('pointercancel', release);
+    ring.addEventListener('dragstart', (e) => e.preventDefault());
   })();
 </script>
 <script>
@@ -648,20 +634,25 @@
       put(x, y, v, v, v, a);
     }
     // bloques de 2x2 y 3x3 más marcados, dispersos (el toque "píxel" grande)
-    for (let k = 0; k < 320; k++) {
+    for (let k = 0; k < 700; k++) {
       const bx = (Math.random() * N) | 0, by = (Math.random() * N) | 0;
-      const sz = Math.random() < 0.7 ? 2 : 3;
-      const v = Math.random() < 0.5 ? 0 : 255, a = 60 + Math.random() * 90;
+      const sz = Math.random() < 0.8 ? 1 : 2;
+      const v = Math.random() < 0.5 ? 0 : 255, a = 50 + Math.random() * 80;
       for (let j = 0; j < sz; j++) for (let i2 = 0; i2 < sz; i2++) put(bx + i2, by + j, v, v, v, a);
     }
     // algún píxel de color suelto, tipo fallo digital (rojo / verde / azul)
     const tints = [[255, 40, 40], [40, 255, 90], [60, 120, 255]];
-    for (let k = 0; k < 110; k++) {
+    for (let k = 0; k < 90; k++) {
       const t = tints[(Math.random() * 3) | 0];
       put((Math.random() * N) | 0, (Math.random() * N) | 0, t[0], t[1], t[2], 90 + Math.random() * 100);
     }
     ctx.putImageData(img, 0, 0);
     el.style.setProperty('--fx-noise', `url(${cv.toDataURL('image/png')})`);
+    // El grano se desplaza con el scroll (así parece parte de la página y no una capa fija)
+    let ticking = false;
+    const sync = () => { ticking = false; el.style.setProperty('--fx-y', (-window.scrollY) + 'px'); };
+    window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(sync); } }, { passive: true });
+    sync();
   })();
 </script>
 </body>

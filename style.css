@@ -323,12 +323,13 @@ nav a:active{
    Para quitarla: borrar el <div class="fx-grain"> de index.html (y el script "fx-grain").
    Ajustes rápidos: --fx-grain (intensidad del ruido 0-1) y --fx-grid (intensidad de la rejilla de píxeles). */
 .fx-grain{
-  --fx-grain:0.34;
-  --fx-grid:0.05;
+  --fx-grain:0.30;
+  --fx-grid:0.04;
   position:fixed;z-index:9000;pointer-events:none;
   top:-200px;left:-200px;width:calc(100% + 400px);height:calc(100% + 400px);
   background-image:var(--fx-noise, none);
-  background-size:384px 384px;           /* cada píxel del ruido ocupa 2px en pantalla */
+  background-size:192px 192px;           /* cada píxel del ruido ocupa 1px en pantalla */
+  background-position:0 var(--fx-y, 0px); /* se desplaza con el scroll, como si fuera parte de la página */
   image-rendering:pixelated;
   opacity:var(--fx-grain);
   animation:fxGrainJitter .9s steps(1) infinite;
@@ -340,7 +341,8 @@ nav a:active{
   background-image:
     linear-gradient(to right, rgba(0,0,0,var(--fx-grid)) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(0,0,0,var(--fx-grid)) 1px, transparent 1px);
-  background-size:3px 3px;
+  background-size:2px 2px;
+  background-position:0 var(--fx-y, 0px);
 }
 @keyframes fxGrainJitter{
   0%{transform:translate(0,0);}
@@ -354,6 +356,32 @@ nav a:active{
   100%{transform:translate(0,0);}
 }
 @media (prefers-reduced-motion:reduce){ .fx-grain{animation:none;} }
+
+/* Carrusel 3D de marcas dentro del banner (anillo de logos que gira).
+   --ring-w = ancho de cada logo; el radio del anillo se calcula en JS a partir de él. */
+.logo-ring{
+  --ring-w:clamp(78px,10.5vw,152px);
+  position:absolute;left:0;right:0;bottom:calc(104px - var(--ring-w) * 0.454);
+  height:calc(var(--ring-w) * 1.5);
+  z-index:3;
+  perspective:900px;perspective-origin:50% 38%;
+  touch-action:pan-y;user-select:none;-webkit-user-select:none;
+  -webkit-mask-image:linear-gradient(90deg, transparent 0%, #000 15%, #000 85%, transparent 100%);
+          mask-image:linear-gradient(90deg, transparent 0%, #000 15%, #000 85%, transparent 100%);
+}
+.ring-stage{
+  position:absolute;left:50%;top:50%;width:0;height:0;
+  transform-style:preserve-3d;
+  will-change:transform;
+}
+.ring-logo{
+  position:absolute;left:0;top:0;
+  width:var(--ring-w);height:calc(var(--ring-w) * 1.5);
+  margin:calc(var(--ring-w) * -0.75) 0 0 calc(var(--ring-w) * -0.5);
+  max-width:none;object-fit:contain;pointer-events:none;-webkit-user-drag:none;
+  filter:drop-shadow(0 2px 8px rgba(0,0,0,0.55));
+  will-change:transform,opacity;
+}
 
 /* FOOTER */
 footer{border-top:1px solid var(--line);padding:40px 0;margin-top:100px;transition:background-color .5s ease, border-color .5s ease;}
@@ -384,7 +412,7 @@ footer p{font-size:12px;color:var(--ink-faint);letter-spacing:0.03em;text-align:
 
 .hero-banner{
   position:relative;overflow:hidden;background:#000;
-  height:48vh;min-height:360px;
+  height:56vh;min-height:420px;
 }
 .hero-bg{position:absolute;inset:0;transform:translateY(var(--py,0));will-change:transform;}
 .hero-bg img{
@@ -583,7 +611,9 @@ body.iso-hi .hero-divider path{fill:#f4f2ec;}
 }
 
 @media (max-width:760px){
-  .hero-banner{height:30vh;min-height:260px;}
+  .hero-banner{height:44vh;min-height:390px;}
+  .hero-overlay-content{bottom:41%;}
+  .logo-ring{--ring-w:70px;}
 }
 
 .intro{padding:90px 0 60px;}
