@@ -1262,3 +1262,12 @@ body.video-open .cursor-ring{opacity:0;}
 }
 .video-expand:hover{background:rgba(0,0,0,0.9);}
 .video-frame.is-loaded:not(.is-zoom) .video-expand{display:grid;}
+
+/* ===== CAMBIOS 52 (solo móvil): banner de proyecto más estrecho y carrusel de rodaje más pequeño, con margen antes del borde ===== */
+@media (max-width:760px){
+  .project-hero{height:19vh;min-height:150px;}
+  .project-title{margin-bottom:6px;}
+  .gallery-viewport{max-width:calc(100vw - 36px);}
+  .gal-item{flex:0 0 clamp(86px,23vw,104px);}
+  .gallery-track{gap:10px;}
+}
