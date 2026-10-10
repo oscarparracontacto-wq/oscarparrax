@@ -1358,3 +1358,10 @@ body.video-open .cursor-ring{opacity:0;}
   }
   .project-stage .project-nav.nav-arrows .pnav{pointer-events:auto;}
 }
+
+/* ===== CAMBIOS 60 (PRUEBA, solo Premios ESLAND): fondo del banner algo más oscuro y bloque vídeo + carrusel más pequeño/estrecho ===== */
+.project-hero.hero-slim .project-hero-bg img{filter:grayscale(6%) contrast(1.06) brightness(0.62);}
+@media (min-width:761px){
+  .stage-split{max-width:1020px;gap:clamp(14px,1.8vw,26px);}
+  .stage-split > .project-gallery{flex:0 0 clamp(116px,11vw,158px);}
+}
