@@ -1453,3 +1453,5 @@ body.about-open{overflow:hidden;}
   .about-fx.is-in .about-fx-img{animation:none;}
   .about-fx.is-in .about-fx-flash{animation:none;}
 }
+
+/* VERSION */:root{--ver:'65';}
