@@ -361,8 +361,8 @@ nav a:active{
    --ring-w = ancho de cada logo; el radio del anillo se calcula en JS (ocupa casi todo el ancho).
    --ring-drop = distancia del logo frontal por debajo del centro del banner. */
 .logo-ring{
-  --ring-w:clamp(52px,6.2vw,90px);
-  --ring-drop:104px;
+  --ring-w:clamp(42px,4.8vw,70px);
+  --ring-drop:clamp(64px,9vh,86px);
   --ring-sag:0px;
   --ring-h:calc(var(--ring-w) * 1.5 + var(--ring-sag) * 2 + 60px);   /* alto de sobra: la máscara recorta lo que sobresale de la caja */
   position:absolute;left:0;right:0;
@@ -418,7 +418,7 @@ footer p{font-size:12px;color:var(--ink-faint);letter-spacing:0.03em;text-align:
 
 .hero-banner{
   position:relative;overflow:hidden;background:#000;
-  height:56vh;min-height:420px;
+  height:44vh;min-height:340px;
 }
 .hero-bg{position:absolute;inset:0;transform:translateY(var(--py,0));will-change:transform;}
 .hero-bg img{
@@ -615,17 +615,17 @@ body.iso-hi .hero-divider path{fill:#f4f2ec;}
 .hero-overlay-content{
   position:absolute;left:0;right:0;top:50%;z-index:2;
   padding:0 32px;text-align:center;
-  transform:translateY(calc(var(--py,0px) - 50% - 52px));will-change:transform;
+  transform:translateY(calc(var(--py,0px) - 50% - 46px));will-change:transform;
   perspective:1500px;perspective-origin:50% 60%;
 }
 .hero-tagline{
-  font-family:'Inter',sans-serif;font-weight:400;font-size:clamp(17px,2vw,24px);
+  font-family:'Inter',sans-serif;font-weight:400;font-size:clamp(15px,1.6vw,21px);
   color:#dcd8cd;letter-spacing:0.02em;margin-bottom:8px;
 }
 .hero-tagline strong{font-weight:700;color:#ffffff;text-transform:uppercase;}
 .hero-title{
   font-family:'Archivo Black',sans-serif;font-weight:400;text-transform:uppercase;
-  color:#ffffff;font-size:clamp(50px,9.5vw,140px);letter-spacing:0.005em;line-height:0.9;
+  color:#ffffff;font-size:clamp(44px,7.6vw,112px);letter-spacing:0.005em;line-height:0.9;
   transform:scaleY(0.8);transform-origin:center;
 }
 /* Letras sueltas (las separa el JS) para curvar el texto sobre un cilindro, como el carrusel */
@@ -635,9 +635,11 @@ body.iso-hi .hero-divider path{fill:#f4f2ec;}
 .hero-tagline .ch, .hero-title .ch{display:inline-block;will-change:transform;}
 
 @media (max-width:760px){
-  .hero-banner{height:34vh;min-height:310px;}
-  .hero-overlay-content{transform:translateY(calc(var(--py,0px) - 50% - 34px));}
-  .logo-ring{--ring-w:44px;--ring-drop:78px;}
+  .hero-banner{height:25vh;min-height:200px;}
+  .hero-overlay-content{padding:0 16px;transform:translateY(calc(var(--py,0px) - 50% - 27px));}
+  .hero-tagline{font-size:11.5px;margin-bottom:5px;}
+  .hero-title{font-size:clamp(26px,8.2vw,44px);}
+  .logo-ring{--ring-w:34px;--ring-drop:44px;}
 }
 
 .intro{padding:90px 0 60px;}
@@ -688,20 +690,25 @@ body.iso-hi .hero-divider path{fill:#f4f2ec;}
 }
 
 /* Barra sobre la rejilla de proyectos, con el filtro de IA */
-.work-toolbar{padding:clamp(20px,3vw,32px) 32px clamp(16px,2.4vw,28px);}
+.work-toolbar{position:relative;z-index:30;height:0;padding:0;}   /* sin altura: los proyectos empiezan justo tras el banner */
 .work-toolbar .wrap{
-  max-width:1120px;margin:0 auto;padding:0;
+  position:absolute;left:0;right:0;top:16px;
+  max-width:none;margin:0;padding:0;
   display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
 }
+.work-toolbar .view-filter{pointer-events:auto;}
 .view-filter{
   display:inline-flex;align-items:center;gap:2px;
-  background:none;border:1px solid var(--line);border-radius:20px;
+  background:rgba(13,12,11,0.55);border:1px solid rgba(255,255,255,0.22);border-radius:20px;
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  box-shadow:0 4px 14px rgba(0,0,0,0.45);
   padding:3px;
 }
 .view-filter-btn{
   background:none;border:none;cursor:pointer;border-radius:16px;
   font-family:monospace;font-size:12px;letter-spacing:0.04em;
-  color:var(--ink-faint);padding:6px 18px;
+  color:rgba(255,255,255,0.62);padding:6px 18px;
   transition:background .3s ease, color .3s ease;
 }
 .view-filter-btn:hover{color:#fff;}
@@ -711,11 +718,7 @@ body.iso-hi .hero-divider path{fill:#f4f2ec;}
 .view-filter-btn.is-active:hover{color:#0D0C0B;}
 
 /* Modo ISO alto (fondo claro): el filtro Todos/IA invierte sus colores igual que el resto */
-body.iso-hi .view-filter{border-color:rgba(13,12,11,0.2);}
-body.iso-hi .view-filter-btn{color:rgba(13,12,11,0.55);}
-body.iso-hi .view-filter-btn:hover{color:#0D0C0B;}
-body.iso-hi .view-filter-btn.is-active{background:#0D0C0B;color:#f4f2ec;}
-body.iso-hi .view-filter-btn.is-active:hover{color:#f4f2ec;}
+/* (ahora el filtro va sobre las imágenes de los proyectos, así que no se invierte con el ISO) */
 
 .work-full-bleed{width:100%;}
 .work-grid{
