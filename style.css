@@ -1462,10 +1462,8 @@ body.about-open{overflow:hidden;}
 body.about-prep .hero-banner > :not(.hero-bg):not(.hero-defs){opacity:0 !important;pointer-events:none;}
 body.about-prep .hero-banner .logo-ring{pointer-events:none;}
 
-/* ===== CAMBIOS 67: en ordenador, los proyectos de la home en formato 16:9 ===== */
-@media (min-width:761px){
-  .work-card{aspect-ratio:16/9;}
-}
+/* ===== CAMBIOS 67/72: los proyectos de la home en formato 16:9, en ordenador y en móvil ===== */
+.work-card{aspect-ratio:16/9;}
 
 
 /* ===== CAMBIOS 69: tarjetas de la home solo con el nombre pequeño + año, en blanco (sin el título grande) ===== */
@@ -1516,4 +1514,5 @@ header nav .nav-sub-in a:hover{background:rgba(255,255,255,0.14);opacity:1;}
 .cursor-ring::after{width:3px;height:3px;}
 
 
-/* VERSION */:root{--ver:'71';}
+
+/* VERSION */:root{--ver:'72';}
