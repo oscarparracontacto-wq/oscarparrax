@@ -1535,15 +1535,12 @@ header nav .nav-sub-in a:hover{background:rgba(255,255,255,0.14);opacity:1;}
 
 
 
-/* ===== CAMBIOS 76 (PRUEBA, solo móvil): los proyectos de la home ya no ocupan toda la pantalla; más pequeños y con borde negro ===== */
+/* ===== CAMBIOS 79 (solo móvil): se deshace la prueba de cambios76 (los proyectos vuelven a ocupar todo) y el botón Todos/IA es más pequeño y está un poco más arriba ===== */
 @media (max-width:760px){
-  .work-full-bleed{background:#000;}
-  .work-grid{padding:46px 16px 16px;gap:14px;}
+  .work-toolbar .wrap{top:7px;}
+  .view-filter{padding:2px;}
+  .view-filter-btn{font-size:10px;padding:4px 13px;}
 }
 
 
-
-
-
-
-/* VERSION */:root{--ver:'78';}
+/* VERSION */:root{--ver:'79';}
