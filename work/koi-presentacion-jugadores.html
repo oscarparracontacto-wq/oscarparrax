@@ -8,10 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../style.css?v=69">
+<link rel="stylesheet" href="../style.css?v=70">
 </head>
 <body>
-<div id="verTag" data-v="69" style="position:fixed;top:4px;right:10px;z-index:100000;font:500 9px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:rgba(255,255,255,.4);pointer-events:none;user-select:none;">v69</div>
+<div id="verTag" data-v="70" style="position:fixed;top:4px;right:10px;z-index:100000;font:500 9px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:rgba(255,255,255,.4);pointer-events:none;user-select:none;">v70</div>
 <script>(function(){var t=document.getElementById("verTag");if(!t)return;var c=getComputedStyle(document.documentElement).getPropertyValue("--ver").replace(/[^0-9]/g,"");if(c!==t.getAttribute("data-v")){t.textContent+=" · style.css antiguo ("+(c?"v"+c:"sin versión")+")";t.style.color="#ff6b5a";}})();</script>
 
 <header>
@@ -20,6 +20,22 @@
       <nav>
         <ul id="navList">
           <li><a href="../index.html">Main</a></li>
+          <li class="nav-work">
+            <a class="nav-work-link" href="../index.html#work" aria-haspopup="true" aria-expanded="false">Work</a>
+            <div class="nav-sub"><div class="nav-sub-in">
+              <a href="rewind-hispano.html">Rewind Hispano</a>
+              <a href="caixabank-wealth-management.html">CaixaBank Convención</a>
+              <a href="eneryeti.html">Eneryeti</a>
+              <a href="premios-esland.html">Premios ESLAND</a>
+              <a href="partido-de-las-estrellas.html">Partido de las Estrellas</a>
+              <a href="koi-presentacion-jugadores.html">KOI Jugadores</a>
+              <a href="koi-presentacion-creadores.html">KOI Creadores</a>
+              <a href="sueno-de-emilio.html">El Sueño de Emilio</a>
+              <a href="ford-kuga.html">Ford Kuga</a>
+              <a href="soy-un-npc.html">Soy un NPC</a>
+            </div></div>
+          </li>
+          <li><a href="../index.html#sobre-mi" data-about>About</a></li>
         </ul>
       </nav>
       <div class="social-icons">
@@ -29,28 +45,6 @@
         <a href="https://www.linkedin.com/in/%C3%B3scar-parra-serrano-302180251" target="_blank" rel="noopener" aria-label="LinkedIn">
           <svg class="social-ico" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6.94 5.5a1.94 1.94 0 1 1-3.88 0 1.94 1.94 0 0 1 3.88 0ZM3.4 8.4h3.08V21H3.4V8.4Zm5.06 0h2.95v1.72h.04c.41-.78 1.42-1.6 2.92-1.6 3.12 0 3.7 2.05 3.7 4.72V21h-3.08v-5.55c0-1.32-.02-3.02-1.84-3.02-1.84 0-2.12 1.44-2.12 2.92V21H8.46V8.4Z"/></svg>
         </a>
-      </div>
-    </div>
-    <div class="hdr-menu">
-      <button class="menu-btn" id="menuBtn" type="button" aria-label="Menú" aria-expanded="false" aria-controls="menuPanel"><span></span><span></span><span></span></button>
-      <div class="menu-panel" id="menuPanel" hidden>
-        <div class="menu-group">
-          <button type="button" class="menu-item menu-has-sub" aria-haspopup="true" aria-expanded="false">Proyectos <span class="menu-caret" aria-hidden="true">›</span></button>
-          <div class="menu-sub">
-            <a href="rewind-hispano.html">Rewind Hispano</a>
-            <a href="caixabank-wealth-management.html">CaixaBank Convención</a>
-            <a href="eneryeti.html">Eneryeti</a>
-            <a href="premios-esland.html">Premios ESLAND</a>
-            <a href="partido-de-las-estrellas.html">Partido de las Estrellas</a>
-            <a href="koi-presentacion-jugadores.html">KOI Jugadores</a>
-            <a href="koi-presentacion-creadores.html">KOI Creadores</a>
-            <a href="sueno-de-emilio.html">El Sueño de Emilio</a>
-            <a href="ford-kuga.html">Ford Kuga</a>
-            <a href="soy-un-npc.html">Soy un NPC</a>
-          </div>
-        </div>
-        <a class="menu-item" href="../index.html#sobre-mi" data-about>Sobre mí</a>
-        <button type="button" class="menu-item">Contacto</button>
       </div>
     </div>
     <div class="hdr-right">
@@ -534,24 +528,34 @@
   })();
 </script>
 <script>
-  // Menú de tres rayas: Proyectos (con lista a la derecha al mantener el cursor), Sobre mí y Contacto.
-  // Se abre al pulsar y se cierra al pulsar fuera o con Esc.
+  // Cabecera: Main · Work (al mantener el cursor se abre la lista de proyectos) · About.
   (() => {
-    const btn = document.getElementById('menuBtn'), panel = document.getElementById('menuPanel');
-    if (!btn || !panel) return;
-    const group = panel.querySelector('.menu-group'), sub = group && group.querySelector('.menu-sub'), head = group && group.querySelector('.menu-has-sub');
+    const li = document.querySelector('.nav-work');
+    if (!li) return;
+    const link = li.querySelector('.nav-work-link');
     const canHover = window.matchMedia('(hover:hover) and (pointer:fine)');
+    const grid = document.querySelector('.work-full-bleed');
     let timer = null;
-    const setSub = (open) => { if (!group) return; group.classList.toggle('is-sub-open', open); head.setAttribute('aria-expanded', String(open)); };
-    const set = (open) => { panel.hidden = !open; btn.setAttribute('aria-expanded', String(open)); btn.classList.toggle('is-open', open); if (!open) setSub(false); };
-    btn.addEventListener('click', (e) => { e.stopPropagation(); set(panel.hidden); });
-    document.addEventListener('click', (e) => { if (!panel.hidden && !panel.contains(e.target)) set(false); });
+    const set = (open) => { li.classList.toggle('is-open', open); link.setAttribute('aria-expanded', String(open)); };
+    const goGrid = () => {
+      const hdr = document.querySelector('header');
+      const top = grid.getBoundingClientRect().top + window.scrollY - (hdr ? hdr.offsetHeight : 0);
+      window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    };
+    li.addEventListener('mouseenter', () => { if (!canHover.matches) return; clearTimeout(timer); set(true); });
+    li.addEventListener('mouseleave', () => { if (!canHover.matches) return; clearTimeout(timer); timer = setTimeout(() => set(false), 220); });
+    li.addEventListener('focusin', (e) => { if (e.target.matches(':focus-visible')) set(true); });
+    li.addEventListener('focusout', (e) => { if (!li.contains(e.relatedTarget)) set(false); });
+    link.addEventListener('click', (e) => {
+      if (!canHover.matches) { e.preventDefault(); set(!li.classList.contains('is-open')); return; }   // táctil: abre/cierra la lista
+      if (grid) { e.preventDefault(); set(false); goGrid(); }                                           // ordenador en la home: baja a los proyectos
+    });
+    document.addEventListener('click', (e) => { if (!li.contains(e.target)) set(false); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
-    if (group) {
-      group.addEventListener('mouseenter', () => { if (!canHover.matches) return; clearTimeout(timer); setSub(true); });
-      group.addEventListener('mouseleave', () => { if (!canHover.matches) return; clearTimeout(timer); timer = setTimeout(() => setSub(false), 220); });
-      head.addEventListener('click', (e) => { e.stopPropagation(); setSub(canHover.matches ? true : !group.classList.contains('is-sub-open')); });
-      group.addEventListener('focusin', (e) => { if (e.target.matches(':focus-visible')) setSub(true); });
+    if (grid && location.hash === '#work') {
+      history.replaceState(null, '', location.pathname + location.search);
+      const go = () => setTimeout(goGrid, 350);
+      if (document.readyState === 'complete') go(); else window.addEventListener('load', go);
     }
   })();
 </script>

@@ -1472,4 +1472,40 @@ body.about-prep .hero-banner .logo-ring{pointer-events:none;}
 .work-overlay .tag{margin-top:0;color:#fff;}
 
 
-/* VERSION */:root{--ver:'69';}
+/* ===== CAMBIOS 70: cabecera Main · Work (lista de proyectos al mantener) · About; miniaturas sin filtro y con grano de cine ===== */
+/* Work: lista de proyectos debajo, al mantener el cursor */
+.nav-work{position:relative;}
+.nav-sub{position:absolute;top:100%;left:-14px;padding-top:16px;display:none;z-index:120;}
+.nav-work.is-open > .nav-sub{display:block;animation:navSubIn .2s ease;}
+@keyframes navSubIn{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:none;}}
+.nav-sub-in{
+  min-width:230px;background:#000;border:1px solid rgba(255,255,255,0.2);border-radius:3px;
+  box-shadow:0 10px 28px rgba(0,0,0,0.6);padding:6px;display:flex;flex-direction:column;gap:2px;
+}
+header nav .nav-sub-in a{
+  display:block;padding:10px 14px;border-radius:2px;white-space:nowrap;font-size:12px;letter-spacing:0.12em;
+  color:#fff;opacity:1;transition:background .2s ease;
+}
+header nav .nav-sub-in a:hover{background:rgba(255,255,255,0.14);opacity:1;}
+@media (max-width:760px){
+  header nav ul{gap:18px;}
+  .nav-sub{left:-8px;}
+  .nav-sub-in{min-width:210px;}
+  header nav .nav-sub-in a{font-size:11px;padding:9px 12px;}
+}
+/* Miniaturas de la home: sin el filtro del banner (ni gris ni oscurecido); solo un grano de cine sutil por encima */
+.work-thumb-media img,.thumb-video{filter:none;}
+.work-card:hover .work-thumb-media img{filter:brightness(1.06);}
+.work-card:hover .thumb-video{filter:brightness(1.06);}
+.film-grain.cine-grain{
+  opacity:0.2;mix-blend-mode:overlay;z-index:2;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px 180px;
+  animation:grainShift 0.5s steps(1) infinite;
+}
+@media (hover:hover){
+  .work-card:hover .work-thumb-media img{filter:brightness(1.06);transform:none;}
+}
+
+
+/* VERSION */:root{--ver:'70';}
