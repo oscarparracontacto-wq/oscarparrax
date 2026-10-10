@@ -1300,3 +1300,26 @@ body.video-open .cursor-ring{opacity:0;}
   .project-stage .pnav{text-shadow:none;}
   .stage-content > .project-gallery:nth-last-child(2){padding-bottom:30px;}
 }
+
+/* ===== CAMBIOS 55 (PRUEBA, solo Premios ESLAND): vídeo grande a la izquierda y carrusel vertical a la derecha, como un grupo centrado =====
+   Solo afecta a las páginas que usan .stage-split / .is-vertical (ahora solo Esland). Para revertir: en esa página, quitar el <div class="stage-split"> y la clase is-vertical. */
+@media (min-width:761px){
+  .stage-split{
+    display:flex;align-items:stretch;justify-content:center;
+    gap:clamp(18px,2.2vw,32px);
+    max-width:1300px;margin:0 auto;padding:clamp(6px,1vw,14px) clamp(24px,5vw,72px) clamp(14px,2vw,28px);
+  }
+  .stage-split > .project-video{flex:1 1 0;min-width:0;padding:0;}
+  .stage-split > .project-video .wrap{max-width:none;padding:0;}
+  .stage-split .video-frame:not(.is-zoom){max-width:none;}
+  .stage-split > .project-gallery{flex:0 0 clamp(150px,14vw,200px);padding:0;position:relative;}
+  .gallery-viewport.is-vertical{
+    position:absolute;inset:0;max-width:none;margin:0;touch-action:pan-x;
+    -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 18%,#000 82%,transparent 100%);
+            mask-image:linear-gradient(180deg,transparent 0%,#000 18%,#000 82%,transparent 100%);
+  }
+  .gallery-viewport.is-vertical .gallery-track{
+    flex-direction:column;width:100%;gap:clamp(10px,1.1vw,16px);
+  }
+  .gallery-viewport.is-vertical .gal-item{flex:0 0 auto;width:100%;}
+}
