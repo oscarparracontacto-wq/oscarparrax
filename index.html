@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Óscar Parra | Portfolio</title>
 <meta name="description" content="Descubre el portafolio de Óscar Parra, Film Director &amp; Generative AI, especializado en publicidad, contenido de marca y proyectos con IA.">
-<link rel="stylesheet" href="style.css?v=72">
+<link rel="stylesheet" href="style.css?v=73">
 </head>
 <body>
-<div id="verTag" data-v="72" style="position:fixed;top:4px;right:10px;z-index:100000;font:500 9px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:rgba(255,255,255,.4);pointer-events:none;user-select:none;">v72</div>
+<div id="verTag" data-v="73" style="position:fixed;top:4px;right:10px;z-index:100000;font:500 9px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:rgba(255,255,255,.4);pointer-events:none;user-select:none;">v73</div>
 <script>(function(){var t=document.getElementById("verTag");if(!t)return;var c=getComputedStyle(document.documentElement).getPropertyValue("--ver").replace(/[^0-9]/g,"");if(c!==t.getAttribute("data-v")){t.textContent+=" · style.css antiguo ("+(c?"v"+c:"sin versión")+")";t.style.color="#ff6b5a";}})();</script>
 
 <header>
@@ -475,7 +475,7 @@
     const box = document.querySelector('.hero-overlay-content');
     const els = box ? Array.from(box.querySelectorAll('.hero-tagline, .hero-title')) : [];
     if (!els.length) return;
-    const letters = [];
+    const letters = [], titleLetters = [];
     els.forEach((el) => {
       const text = el.textContent;
       el.textContent = '';
@@ -486,7 +486,10 @@
         for (const ch of word) {
           const sp = document.createElement('span');
           sp.className = 'ch';
-          sp.textContent = ch;
+          if (el.classList.contains('hero-title')) {            // letras del nombre: capa interior que crece al acercar el cursor
+            const cs = document.createElement('span'); cs.className = 'cs'; cs.textContent = ch; sp.appendChild(cs);
+            titleLetters.push(sp);
+          } else { sp.textContent = ch; }
           w.appendChild(sp);
           letters.push(sp);
         }
@@ -513,6 +516,43 @@
     curve();
     window.addEventListener('resize', curve);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(curve);
+
+    // Cada letra de "Óscar Parra" crece un poco al pasarle el cursor (mismo rollo que los logos de las marcas).
+    // En la última A aparece además una X pequeña a la derecha: "ParraX".
+    const hero = document.querySelector('.hero-banner');
+    const canHover = window.matchMedia('(hover:hover) and (pointer:fine)');
+    if (hero && titleLetters.length) {
+      const HM = 1.2;                                            // cuánto crece una letra (1.2 = un 20% más grande)
+      const smooth = (v) => v <= 0 ? 0 : v >= 1 ? 1 : v * v * (3 - 2 * v);
+      const cs = titleLetters.map((l) => l.querySelector('.cs'));
+      const cur = new Array(titleLetters.length).fill(1);
+      const lastIdx = titleLetters.length - 1;
+      const px = document.createElement('span');
+      px.className = 'px'; px.textContent = 'x'; px.setAttribute('aria-hidden', 'true');
+      titleLetters[lastIdx].appendChild(px);
+      let mx = null, my = null, running = false, last = performance.now();
+      function tick(now) {
+        const dt = Math.min(0.05, (now - last) / 1000); last = now;
+        let moving = false;
+        titleLetters.forEach((l, i) => {
+          let target = 1;
+          if (mx !== null) {
+            const r = l.getBoundingClientRect();
+            const dx = (mx - (r.left + r.width / 2)) / (r.width * 0.75 + 6);
+            const dy = (my - (r.top + r.height / 2)) / (r.height * 0.75 + 6);
+            target = 1 + (HM - 1) * smooth(1 - Math.hypot(dx, dy));
+          }
+          cur[i] += (target - cur[i]) * Math.min(1, dt * 11);
+          if (Math.abs(target - cur[i]) > 0.002) moving = true; else cur[i] = target;
+          cs[i].style.transform = cur[i] === 1 ? '' : 'scale(' + cur[i].toFixed(3) + ')';
+        });
+        px.classList.toggle('is-on', cur[lastIdx] > 1 + (HM - 1) * 0.45);
+        if (moving || mx !== null) requestAnimationFrame(tick); else running = false;
+      }
+      const go = () => { if (!running) { running = true; last = performance.now(); requestAnimationFrame(tick); } };
+      hero.addEventListener('mousemove', (e) => { if (!canHover.matches) return; mx = e.clientX; my = e.clientY; go(); });
+      hero.addEventListener('mouseleave', () => { mx = null; go(); });
+    }
   })();
 </script>
 <script>

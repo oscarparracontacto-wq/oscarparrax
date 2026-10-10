@@ -1515,4 +1515,15 @@ header nav .nav-sub-in a:hover{background:rgba(255,255,255,0.14);opacity:1;}
 
 
 
-/* VERSION */:root{--ver:'72';}
+/* ===== CAMBIOS 73: las letras de "Óscar Parra" crecen un poco con el cursor; en la última A aparece una X pequeña (ParraX) ===== */
+.hero-title .ch{position:relative;}
+.hero-title .ch .cs{display:inline-block;transform-origin:50% 62%;will-change:transform;}
+.hero-title .px{
+  position:absolute;left:94%;bottom:.06em;font-size:.34em;line-height:1;letter-spacing:0;
+  opacity:0;transform:translateX(-.35em) scale(.4);transform-origin:0 100%;
+  transition:opacity .3s ease, transform .4s cubic-bezier(.34,1.56,.4,1);pointer-events:none;
+}
+.hero-title .px.is-on{opacity:1;transform:none;}
+
+
+/* VERSION */:root{--ver:'73';}
