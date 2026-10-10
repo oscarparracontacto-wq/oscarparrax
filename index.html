@@ -488,7 +488,8 @@
       });
     });
     function curve() {
-      const Rc = Math.max(window.innerWidth * 0.9, 760);       // radio del cilindro (grande = curvatura suave)
+      const Rc = Math.max(window.innerWidth * 0.62, 520);      // radio del cilindro (más pequeño = más curvatura)
+      const TILT = 9 * Math.PI / 180;                          // misma idea que la inclinación del carrusel
       letters.forEach((sp) => { sp.style.transform = 'none'; });
       const cx = box.offsetWidth / 2;
       const info = letters.map((sp) => {
@@ -499,7 +500,8 @@
         const phi = Math.max(-1.2, Math.min(1.2, x / Rc));      // ángulo de la letra sobre el cilindro
         const dx = Rc * Math.sin(phi) - x;
         const dz = Rc * Math.cos(phi) - Rc;
-        sp.style.transform = `translate3d(${dx.toFixed(2)}px,0,${dz.toFixed(2)}px) rotateY(${(phi * 180 / Math.PI).toFixed(2)}deg)`;
+        const dy = (Rc - Rc * Math.cos(phi)) * Math.sin(TILT) * -1;   // los lados suben un poco, como el arco del anillo
+        sp.style.transform = `translate3d(${dx.toFixed(2)}px,${dy.toFixed(2)}px,${dz.toFixed(2)}px) rotateY(${(phi * 180 / Math.PI).toFixed(2)}deg)`;
       });
     }
     curve();
