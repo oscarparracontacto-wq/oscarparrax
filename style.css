@@ -1271,3 +1271,18 @@ body.video-open .cursor-ring{opacity:0;}
   .gal-item{flex:0 0 clamp(86px,23vw,104px);}
   .gallery-track{gap:10px;}
 }
+
+/* ===== CAMBIOS 53: vídeo precargado (el reproductor ya está listo al pulsar "Ver vídeo"); navegación entre proyectos en móvil ===== */
+/* El reproductor se carga oculto y en pausa; al pulsar "Ver vídeo" aparece y arranca */
+.video-frame[data-video] iframe{opacity:0;pointer-events:none;transition:opacity .25s ease;}
+.video-frame.is-loaded iframe{opacity:1;pointer-events:auto;}
+.mbr{display:none;}
+
+/* Móvil: "proyecto anterior" a la izquierda y "siguiente" a la derecha, con letra más pequeña y el nombre en dos líneas */
+@media (max-width:760px){
+  .project-nav{flex-direction:row;align-items:center;justify-content:space-between;gap:14px;padding:22px 20px;text-align:left;}
+  .pnav{max-width:48%;gap:8px;font-size:12px;line-height:1.2;justify-content:flex-start;}
+  .pnav.next{justify-content:flex-end;text-align:right;}
+  .pnav-arrow{font-size:1.15em;flex:0 0 auto;}
+  .mbr{display:inline;}
+}

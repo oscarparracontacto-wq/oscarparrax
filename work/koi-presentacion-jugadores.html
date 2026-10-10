@@ -122,10 +122,10 @@
 <nav class="project-nav">
   <a class="pnav prev" href="partido-de-las-estrellas.html">
     <span class="pnav-arrow">←</span>
-    <span class="pnav-label">Partido de las Estrellas</span>
+    <span class="pnav-label">Partido de <br class="mbr">las Estrellas</span>
   </a>
   <a class="pnav next" href="koi-presentacion-creadores.html">
-    <span class="pnav-label">KOI Creadores</span>
+    <span class="pnav-label">KOI <br class="mbr">Creadores</span>
     <span class="pnav-arrow">→</span>
   </a>
 </nav>
@@ -159,17 +159,76 @@
     });
   })();
 
-  // Vídeo: al pulsar "Ver vídeo", la pantalla se agranda hasta ocupar casi toda la ventana y empieza a reproducirse.
+  // Vídeo: el reproductor se precarga (en pausa y oculto) cuando la sección se acerca a la pantalla, así que al pulsar
+  // "Ver vídeo" ya está listo: la pantalla se agranda hasta ocupar casi toda la ventana y el vídeo arranca al instante.
   // Al pulsar fuera (o con Esc) vuelve a su tamaño y el vídeo SIGUE reproduciéndose (no se reinicia).
   // Con el vídeo ya en marcha, el botón de la esquina lo vuelve a ampliar. Hay un bloque por cada .video-frame con data-video.
   (() => {
     const frames = Array.from(document.querySelectorAll('.video-frame[data-video]'));
     if (!frames.length) return;
+    const YT = 'https://www.youtube-nocookie.com';
     const DUR = 560;                                     // ms de la animación de zoom
     const EASE = 'cubic-bezier(.22,.68,0,1.01)';
     const TR = `top ${DUR}ms ${EASE}, left ${DUR}ms ${EASE}, width ${DUR}ms ${EASE}, height ${DUR}ms ${EASE}`;
     let current = null;
 
+    // ---- Reproductor de YouTube (se crea una sola vez por vídeo) ----
+    function send(st, func) {
+      try { st.iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), YT); } catch (_) {}
+    }
+    function play(st) {
+      if (st.ready) { send(st, 'playVideo'); } else { st.wantPlay = true; }
+    }
+    function ensurePlayer(frame, autoplay) {
+      if (frame._yt) return frame._yt;
+      const id = frame.dataset.video;
+      if (!id) return null;
+      const iframe = document.createElement('iframe');
+      iframe.src = `${YT}/embed/${id}?enablejsapi=1&rel=0&modestbranding=1&playsinline=1&origin=${encodeURIComponent(location.origin)}${autoplay ? '&autoplay=1' : ''}`;
+      iframe.setAttribute('frameborder', '0');
+      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.setAttribute('title', document.title);
+      const st = { iframe, ready: false, wantPlay: false, timer: null };
+      frame._yt = st;
+      frame.appendChild(iframe);
+      const exp = document.createElement('button');      // botón para volver a ampliar con el vídeo en marcha
+      exp.type = 'button'; exp.className = 'video-expand'; exp.setAttribute('aria-label', 'Ampliar vídeo');
+      exp.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="square"/></svg>';
+      exp.addEventListener('click', (e) => { e.stopPropagation(); open(frame); });
+      frame.appendChild(exp);
+      // Avisamos al reproductor de que estamos escuchando; cuando responde, ya acepta órdenes
+      iframe.addEventListener('load', () => {
+        let tries = 0;
+        st.timer = setInterval(() => {
+          if (st.ready || ++tries > 40) { clearInterval(st.timer); return; }
+          try { iframe.contentWindow.postMessage(JSON.stringify({ event: 'listening', id: 1, channel: 'widget' }), YT); } catch (_) {}
+        }, 250);
+      });
+      return st;
+    }
+    window.addEventListener('message', (e) => {
+      if (e.origin !== YT) return;
+      const frame = frames.find((f) => f._yt && f._yt.iframe.contentWindow === e.source);
+      if (!frame) return;
+      let data = e.data;
+      if (typeof data === 'string') { try { data = JSON.parse(data); } catch (_) { return; } }
+      if (!data || !data.event) return;
+      const st = frame._yt;
+      if (!st.ready && (data.event === 'onReady' || data.event === 'initialDelivery' || data.event === 'infoDelivery')) {
+        st.ready = true; clearInterval(st.timer);
+        if (st.wantPlay) { st.wantPlay = false; send(st, 'playVideo'); }
+      }
+    });
+    // Precarga: cuando el vídeo está a menos de una pantalla, se prepara el reproductor (sin reproducirlo)
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((en) => { if (en.isIntersecting) { ensurePlayer(en.target, false); io.unobserve(en.target); } });
+      }, { rootMargin: '100% 0px' });
+      frames.forEach((f) => io.observe(f));
+    }
+
+    // ---- Zoom ----
     function target() {
       const vw = window.innerWidth, vh = window.innerHeight;
       const w = Math.min(vw * (vw < 760 ? 0.96 : 0.92), vh * 0.86 * 16 / 9);   // casi toda la pantalla, sin llegar a ser entera
@@ -183,8 +242,9 @@
 
     function open(frame) {
       if (current || frame.classList.contains('is-zoom')) return;
-      const id = frame.dataset.video;
-      if (!id) return;                                   // vídeo aún pendiente de subir
+      if (!frame.dataset.video) return;                  // vídeo aún pendiente de subir
+      const first = !frame.classList.contains('is-loaded');
+      const st = ensurePlayer(frame, true);              // si aún no estaba precargado, se crea ahora ya con autoplay
       const stage = frame.closest('.project-stage');
       const holder = frame.closest('.stage-content') || document.body;
       const r = frame.getBoundingClientRect();
@@ -203,21 +263,7 @@
       setRect(frame, r);
       void frame.offsetWidth;
       frame.style.transition = TR;
-
-      if (!frame.querySelector('iframe')) {              // el reproductor se crea una sola vez; después solo se agranda o se encoge
-        const iframe = document.createElement('iframe');
-        iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
-        iframe.setAttribute('frameborder', '0');
-        iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
-        iframe.setAttribute('allowfullscreen', '');
-        iframe.setAttribute('title', document.title);
-        frame.appendChild(iframe);
-        const exp = document.createElement('button');    // botón para volver a ampliar con el vídeo en marcha
-        exp.type = 'button'; exp.className = 'video-expand'; exp.setAttribute('aria-label', 'Ampliar vídeo');
-        exp.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="square"/></svg>';
-        exp.addEventListener('click', (e) => { e.stopPropagation(); open(frame); });
-        frame.appendChild(exp);
-      }
+      if (first && st) play(st);                         // el reproductor ya está listo: arranca al instante
 
       requestAnimationFrame(() => { backdrop.classList.add('is-open'); setRect(frame, target()); });
 
@@ -246,13 +292,13 @@
       window.addEventListener('resize', onResize);
       current = { close };
     }
-    frames.forEach((frame) => frame.addEventListener('click', () => { if (!frame.querySelector('iframe')) open(frame); }));
+    frames.forEach((frame) => frame.addEventListener('click', () => { if (!frame.classList.contains('is-loaded')) open(frame); }));
   })();
   // Carrusel de rodaje automático (como el de marcas de la home): avanza solo, despacio y en bucle.
   // Se puede arrastrar con el cursor (o el dedo) para empujarlo; al soltar, el impulso se va frenando
   // hasta volver a la velocidad normal. Pulsar una foto (sin arrastrar) la amplía.
   (() => {
-    const BASE = 32;                 // píxeles por segundo
+    const BASE = 24;                 // píxeles por segundo
     const TAU = 0.6;                 // segundos que tarda el impulso en apagarse
     document.querySelectorAll('.gallery-viewport').forEach((viewport) => {
       const track = viewport.querySelector('.gallery-track');
