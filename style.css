@@ -319,6 +319,42 @@ nav a:active{
   .nav-toggle{display:block;}
 }
 
+/* PRUEBA (solo index.html): capa global de grano / ruido de píxel "gamberra".
+   Para quitarla: borrar el <div class="fx-grain"> de index.html (y el script "fx-grain").
+   Ajustes rápidos: --fx-grain (intensidad del ruido 0-1) y --fx-grid (intensidad de la rejilla de píxeles). */
+.fx-grain{
+  --fx-grain:0.34;
+  --fx-grid:0.05;
+  position:fixed;z-index:9000;pointer-events:none;
+  top:-200px;left:-200px;width:calc(100% + 400px);height:calc(100% + 400px);
+  background-image:var(--fx-noise, none);
+  background-size:384px 384px;           /* cada píxel del ruido ocupa 2px en pantalla */
+  image-rendering:pixelated;
+  opacity:var(--fx-grain);
+  animation:fxGrainJitter .9s steps(1) infinite;
+  will-change:transform;
+}
+/* Rejilla fina de píxeles por encima (no se mueve) */
+.fx-grain::after{
+  content:'';position:fixed;inset:0;
+  background-image:
+    linear-gradient(to right, rgba(0,0,0,var(--fx-grid)) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0,0,0,var(--fx-grid)) 1px, transparent 1px);
+  background-size:3px 3px;
+}
+@keyframes fxGrainJitter{
+  0%{transform:translate(0,0);}
+  12%{transform:translate(-57px,31px);}
+  25%{transform:translate(43px,-84px);}
+  37%{transform:translate(-120px,-22px);}
+  50%{transform:translate(78px,96px);}
+  62%{transform:translate(-31px,-143px);}
+  75%{transform:translate(133px,12px);}
+  87%{transform:translate(-96px,70px);}
+  100%{transform:translate(0,0);}
+}
+@media (prefers-reduced-motion:reduce){ .fx-grain{animation:none;} }
+
 /* FOOTER */
 footer{border-top:1px solid var(--line);padding:40px 0;margin-top:100px;transition:background-color .5s ease, border-color .5s ease;}
 footer.work-footer{margin-top:0;}
