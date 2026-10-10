@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Óscar Parra | Portfolio</title>
 <meta name="description" content="Descubre el portafolio de Óscar Parra, Film Director &amp; Generative AI, especializado en publicidad, contenido de marca y proyectos con IA.">
-<link rel="stylesheet" href="style.css?v=74">
+<link rel="stylesheet" href="style.css?v=75">
 </head>
 <body>
-<div id="verTag" data-v="74" style="position:fixed;top:4px;right:10px;z-index:100000;font:500 9px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:rgba(255,255,255,.4);pointer-events:none;user-select:none;">v74</div>
+<div id="verTag" data-v="75" style="position:fixed;top:4px;right:10px;z-index:100000;font:500 9px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:rgba(255,255,255,.4);pointer-events:none;user-select:none;">v75</div>
 <script>(function(){var t=document.getElementById("verTag");if(!t)return;var c=getComputedStyle(document.documentElement).getPropertyValue("--ver").replace(/[^0-9]/g,"");if(c!==t.getAttribute("data-v")){t.textContent+=" · style.css antiguo ("+(c?"v"+c:"sin versión")+")";t.style.color="#ff6b5a";}})();</script>
 
 <header>
@@ -529,12 +529,7 @@
       const lastIdx = titleLetters.length - 1;
       const px = document.createElement('span');
       px.className = 'px'; px.setAttribute('aria-hidden', 'true');
-      px.innerHTML = '<svg viewBox="-10 -10 120 120" focusable="false"><defs><filter id="pxRough" x="-20%" y="-20%" width="140%" height="140%">' +
-        '<feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="7" result="n"/>' +
-        '<feDisplacementMap in="SourceGraphic" in2="n" scale="10" xChannelSelector="R" yChannelSelector="G"/></filter></defs>' +
-        '<g filter="url(#pxRough)" fill="none" stroke="#fff" stroke-linecap="round">' +
-        '<path pathLength="100" stroke-width="19" d="M10 8 C 32 28, 62 58, 92 94"/>' +
-        '<path pathLength="100" stroke-width="15" d="M92 4 C 68 34, 36 68, 6 98"/></g></svg>';
+      px.innerHTML = '<span class="bar b1"><i></i></span><span class="bar b2"><i></i></span>';
       titleLetters[lastIdx].appendChild(px);
       let mx = null, my = null, running = false, last = performance.now();
       function tick(now) {
@@ -552,7 +547,8 @@
           if (Math.abs(target - cur[i]) > 0.002) moving = true; else cur[i] = target;
           cs[i].style.transform = cur[i] === 1 ? '' : 'scale(' + cur[i].toFixed(3) + ')';
         });
-        px.classList.toggle('is-on', cur[lastIdx] > 1 + (HM - 1) * 0.45);
+        const hot = cur[lastIdx] - 1;                               // histéresis: entra al 50% del crecimiento y sale por debajo del 20%
+        if (hot > (HM - 1) * 0.5) px.classList.add('is-on'); else if (hot < (HM - 1) * 0.2) px.classList.remove('is-on');
         if (moving || mx !== null) requestAnimationFrame(tick); else running = false;
       }
       const go = () => { if (!running) { running = true; last = performance.now(); requestAnimationFrame(tick); } };
