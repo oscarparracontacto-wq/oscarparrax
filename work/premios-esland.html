@@ -191,6 +191,7 @@
       const ph = document.createElement('div');          // guarda el hueco mientras la pantalla está "volando"
       ph.className = 'video-frame-ph';
       frame.parentNode.insertBefore(ph, frame);
+      document.body.appendChild(frame);                  // fuera del fondo del proyecto: así queda por encima de todo y se puede usar
       const backdrop = document.createElement('div');
       backdrop.className = 'lightbox-backdrop video-backdrop';
       document.body.appendChild(backdrop);
@@ -225,7 +226,8 @@
           iframe.remove();                                // el vídeo se detiene
           frame.classList.remove('is-zoom', 'is-loaded');
           frame.removeAttribute('style');
-          ph.remove(); backdrop.remove();
+          ph.replaceWith(frame);                          // vuelve a su sitio en la página
+          backdrop.remove();
           current = null;
         }, DUR + 40);
       }
