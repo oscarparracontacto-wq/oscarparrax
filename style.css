@@ -1508,4 +1508,12 @@ header nav .nav-sub-in a:hover{background:rgba(255,255,255,0.14);opacity:1;}
 }
 
 
-/* VERSION */:root{--ver:'70';}
+/* ===== CAMBIOS 71: cursor más pequeño (en reposo y sobre algo clicable) ===== */
+.cursor-ring{width:17px;height:17px;}
+.cursor-ring.is-active{width:24px;height:24px;}
+.cursor-ring::before{border-width:1.5px;}
+.cursor-ring.is-active::before{border-width:1.4px;}
+.cursor-ring::after{width:3px;height:3px;}
+
+
+/* VERSION */:root{--ver:'71';}
