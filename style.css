@@ -1462,4 +1462,10 @@ body.about-open{overflow:hidden;}
 body.about-prep .hero-banner > :not(.hero-bg):not(.hero-defs){opacity:0 !important;pointer-events:none;}
 body.about-prep .hero-banner .logo-ring{pointer-events:none;}
 
-/* VERSION */:root{--ver:'66';}
+/* ===== CAMBIOS 67: en ordenador, los proyectos de la home en formato 16:9 ===== */
+@media (min-width:761px){
+  .work-card{aspect-ratio:16/9;}
+}
+
+
+/* VERSION */:root{--ver:'67';}
