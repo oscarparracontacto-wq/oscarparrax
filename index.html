@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Óscar Parra | Portfolio</title>
 <meta name="description" content="Descubre el portafolio de Óscar Parra, Film Director &amp; Generative AI, especializado en publicidad, contenido de marca y proyectos con IA.">
-<link rel="stylesheet" href="style.css?v=65">
+<link rel="stylesheet" href="style.css?v=66">
 </head>
 <body>
-<div id="verTag" data-v="65" style="position:fixed;top:4px;right:10px;z-index:100000;font:500 9px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:rgba(255,255,255,.4);pointer-events:none;user-select:none;">v65</div>
+<div id="verTag" data-v="66" style="position:fixed;top:4px;right:10px;z-index:100000;font:500 9px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:rgba(255,255,255,.4);pointer-events:none;user-select:none;">v66</div>
 <script>(function(){var t=document.getElementById("verTag");if(!t)return;var c=getComputedStyle(document.documentElement).getPropertyValue("--ver").replace(/[^0-9]/g,"");if(c!==t.getAttribute("data-v")){t.textContent+=" · style.css antiguo ("+(c?"v"+c:"sin versión")+")";t.style.color="#ff6b5a";}})();</script>
 
 <header>
@@ -750,24 +750,31 @@
   })();
 </script>
 <script>
-  // "Sobre mí": la cámara se mete en el banner (zoom en picado hasta la imagen a tamaño completo) y aparece el nombre.
-  // Se cierra con la X, Esc o pulsando en la imagen: la cámara vuelve a salir. Desde un proyecto se llega con index.html#sobre-mi.
+  // "Sobre mí": 1) todo lo del banner (texto, logos, HUD…) se desvanece y solo queda la imagen; 2) la cámara se mete en la imagen
+  // hasta verla a tamaño completo; 3) aparece el nombre. Se cierra con la X, Esc o pulsando en la imagen (la cámara sale y el banner vuelve).
+  // Desde un proyecto se llega con index.html#sobre-mi.
   (() => {
     const hero = document.querySelector('.hero-banner'), heroImg = document.getElementById('heroImg');
     if (!hero || !heroImg) return;
-    const DUR = 1150, OUT = 850;
-    const EASE_IN = 'cubic-bezier(.72,0,.14,1)', EASE_OUT = 'cubic-bezier(.5,0,.2,1)';
+    const FADE = 1000;                 // ms: desaparece todo lo del banner menos la imagen
+    const PAUSE = 250;                 // ms: la imagen se queda sola un momento
+    const DUR = 2200;                  // ms: la cámara se mete en la imagen
+    const OUT = 1500;                  // ms: la cámara sale otra vez
+    const EASE_IN = 'cubic-bezier(.6,0,.2,1)', EASE_OUT = 'cubic-bezier(.45,0,.2,1)';
     let fx = null, busy = false;
+    const T = ['top', 'left', 'width', 'height'];
     const rectOf = (r) => ({ top: r.top, left: r.left, width: r.width, height: r.height });
     const setRect = (el, r) => { el.style.top = r.top + 'px'; el.style.left = r.left + 'px'; el.style.width = r.width + 'px'; el.style.height = r.height + 'px'; };
+    const full = () => ({ top: 0, left: 0, width: window.innerWidth, height: window.innerHeight });
+    const trans = (ms, ease) => T.map((p) => p + ' ' + ms + 'ms ' + ease).join(',') + ',opacity .2s ease';
 
     function openAbout() {
       if (fx || busy) return;
       busy = true;
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, behavior: 'instant' });
       const menuPanel = document.getElementById('menuPanel'), menuBtn = document.getElementById('menuBtn');
       if (menuPanel && !menuPanel.hidden) { menuPanel.hidden = true; menuBtn.classList.remove('is-open'); menuBtn.setAttribute('aria-expanded', 'false'); }
-      const start = rectOf(hero.getBoundingClientRect());
+      document.body.classList.add('about-prep');                       // 1) el banner se queda solo con la imagen
       const root = document.createElement('div');
       root.className = 'about-fx';
       root.innerHTML =
@@ -782,35 +789,44 @@
         word.split('').forEach((c, ci) => { const s = document.createElement('span'); s.className = 'afx-ch'; s.textContent = c; s.style.setProperty('--i', wi * 6 + ci); w.appendChild(s); });
         title.appendChild(w);
       });
-      document.body.appendChild(root);
-      document.body.classList.add('about-open', 'video-open');
-      frame.style.transition = 'none'; setRect(frame, start);
-      void frame.offsetWidth;
-      frame.style.transition = ['top','left','width','height'].map((p) => p + ' ' + DUR + 'ms ' + EASE_IN).join(',') + ',opacity .25s ease';
-      requestAnimationFrame(() => {
-        root.classList.add('is-in');
-        setRect(frame, { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight });
-      });
-      setTimeout(() => { root.classList.add('is-title'); busy = false; }, DUR - 80);
+      let closing = false;
+      const onKey = (e) => { if (e.key === 'Escape') close(); };
+      const onResize = () => { if (!busy) { frame.style.transition = 'none'; setRect(frame, full()); } };
+
+      setTimeout(() => {                                               // 2) la cámara se mete en la imagen
+        const start = rectOf(hero.getBoundingClientRect());
+        document.body.appendChild(root);
+        document.body.classList.add('about-open', 'video-open');
+        frame.style.transition = 'none'; setRect(frame, start);
+        root.classList.add('is-start');
+        void frame.offsetWidth;
+        frame.style.transition = trans(DUR, EASE_IN);
+        requestAnimationFrame(() => requestAnimationFrame(() => { root.classList.add('is-in'); setRect(frame, full()); }));
+        setTimeout(() => { root.classList.add('is-title'); }, DUR - 200);   // 3) el nombre
+        setTimeout(() => { busy = false; }, DUR + 1100);
+        root.addEventListener('click', close);
+        document.addEventListener('keydown', onKey);
+        window.addEventListener('resize', onResize);
+        fx = { close };
+      }, FADE + PAUSE);
 
       function close() {
-        if (busy) return;
-        busy = true;
+        if (busy || closing) return;
+        closing = true; busy = true;
         document.removeEventListener('keydown', onKey);
         window.removeEventListener('resize', onResize);
         root.classList.remove('is-title'); root.classList.add('is-out');
-        const back = rectOf(hero.getBoundingClientRect());
-        frame.style.transition = ['top','left','width','height'].map((p) => p + ' ' + OUT + 'ms ' + EASE_OUT).join(',') + ',opacity .25s ease';
-        setRect(frame, back);
-        setTimeout(() => { root.classList.remove('is-in'); }, OUT - 260);
-        setTimeout(() => { root.remove(); document.body.classList.remove('about-open', 'video-open'); fx = null; busy = false; }, OUT + 60);
+        setTimeout(() => {
+          frame.style.transition = trans(OUT, EASE_OUT);
+          setRect(frame, rectOf(hero.getBoundingClientRect()));
+          root.classList.remove('is-in');
+        }, 350);
+        setTimeout(() => {                                             // la imagen del banner vuelve a estar sola; después reaparece todo lo demás
+          root.remove(); document.body.classList.remove('about-open', 'video-open');
+          document.body.classList.remove('about-prep');
+          fx = null; setTimeout(() => { busy = false; }, FADE);
+        }, 350 + OUT + 60);
       }
-      const onKey = (e) => { if (e.key === 'Escape') close(); };
-      const onResize = () => { if (!busy) { frame.style.transition = 'none'; setRect(frame, { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight }); } };
-      root.addEventListener('click', close);
-      document.addEventListener('keydown', onKey);
-      window.addEventListener('resize', onResize);
-      fx = { close };
     }
     window.openAbout = openAbout;
     document.querySelectorAll('[data-about]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); openAbout(); }));
