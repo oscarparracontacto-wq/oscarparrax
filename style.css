@@ -323,12 +323,12 @@ nav a:active{
    Para quitarla: borrar el <div class="fx-grain"> de index.html (y el script "fx-grain").
    Ajustes rápidos: --fx-grain (intensidad del ruido 0-1) y --fx-grid (intensidad de la rejilla de píxeles). */
 .fx-grain{
-  --fx-grain:0.30;
-  --fx-grid:0.04;
+  --fx-grain:0.22;
+  --fx-grid:0.03;
   position:fixed;z-index:9000;pointer-events:none;
   top:-200px;left:-200px;width:calc(100% + 400px);height:calc(100% + 400px);
   background-image:var(--fx-noise, none);
-  background-size:192px 192px;           /* cada píxel del ruido ocupa 1px en pantalla */
+  background-size:96px 96px;             /* cada píxel del ruido ocupa 0,5px (1 píxel real en pantallas retina) */
   background-position:0 var(--fx-y, 0px); /* se desplaza con el scroll, como si fuera parte de la página */
   image-rendering:pixelated;
   opacity:var(--fx-grain);
@@ -358,16 +358,20 @@ nav a:active{
 @media (prefers-reduced-motion:reduce){ .fx-grain{animation:none;} }
 
 /* Carrusel 3D de marcas dentro del banner (anillo de logos que gira).
-   --ring-w = ancho de cada logo; el radio del anillo se calcula en JS a partir de él. */
+   --ring-w = ancho de cada logo; el radio del anillo se calcula en JS (ocupa casi todo el ancho).
+   --ring-drop = distancia del logo frontal por debajo del centro del banner. */
 .logo-ring{
-  --ring-w:clamp(78px,10.5vw,152px);
-  position:absolute;left:0;right:0;bottom:calc(104px - var(--ring-w) * 0.454);
+  --ring-w:clamp(52px,6.2vw,90px);
+  --ring-drop:104px;
+  --ring-sag:0px;
+  position:absolute;left:0;right:0;
+  top:calc(50% + var(--ring-drop) - var(--ring-sag) - var(--ring-w) * 0.75);
   height:calc(var(--ring-w) * 1.5);
   z-index:3;
   perspective:900px;perspective-origin:50% 38%;
   touch-action:pan-y;user-select:none;-webkit-user-select:none;
-  -webkit-mask-image:linear-gradient(90deg, transparent 0%, #000 15%, #000 85%, transparent 100%);
-          mask-image:linear-gradient(90deg, transparent 0%, #000 15%, #000 85%, transparent 100%);
+  -webkit-mask-image:linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+          mask-image:linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
 }
 .ring-stage{
   position:absolute;left:50%;top:50%;width:0;height:0;
@@ -595,9 +599,9 @@ body.iso-hi .hero-divider path{fill:#f4f2ec;}
   .camera-hud .hud-frame{inset:10px;}
 }
 .hero-overlay-content{
-  position:absolute;left:0;right:0;bottom:34%;z-index:2;
+  position:absolute;left:0;right:0;top:50%;z-index:2;
   padding:0 32px;text-align:center;
-  transform:translateY(var(--py,0));will-change:transform;
+  transform:translateY(calc(var(--py,0px) - 50% - 52px));will-change:transform;
 }
 .hero-tagline{
   font-family:'Inter',sans-serif;font-weight:400;font-size:clamp(17px,2vw,24px);
@@ -612,8 +616,8 @@ body.iso-hi .hero-divider path{fill:#f4f2ec;}
 
 @media (max-width:760px){
   .hero-banner{height:44vh;min-height:390px;}
-  .hero-overlay-content{bottom:41%;}
-  .logo-ring{--ring-w:70px;}
+  .hero-overlay-content{transform:translateY(calc(var(--py,0px) - 50% - 40px));}
+  .logo-ring{--ring-w:46px;--ring-drop:92px;}
 }
 
 .intro{padding:90px 0 60px;}

@@ -63,6 +63,12 @@
       <img class="ring-logo" src="img/logo-takis.webp" alt="Takis" draggable="false">
       <img class="ring-logo" src="img/logo-revolut.webp" alt="Revolut" draggable="false">
       <img class="ring-logo" src="img/logo-caixabank.webp" alt="CaixaBank" draggable="false">
+      <img class="ring-logo" src="img/logo-mahou.webp" alt="Mahou" draggable="false">
+      <img class="ring-logo" src="img/logo-ford.webp" alt="Ford" draggable="false">
+      <img class="ring-logo" src="img/logo-laliga.webp" alt="LaLiga" draggable="false">
+      <img class="ring-logo" src="img/logo-takis.webp" alt="Takis" draggable="false">
+      <img class="ring-logo" src="img/logo-revolut.webp" alt="Revolut" draggable="false">
+      <img class="ring-logo" src="img/logo-caixabank.webp" alt="CaixaBank" draggable="false">
     </div>
   </div>
   <div class="hero-figure" id="heroFigure" data-parallax="0.6"></div>
@@ -466,15 +472,17 @@
     if (!stage) return;
     const items = Array.from(stage.querySelectorAll('.ring-logo'));
     const N = items.length, STEP = 360 / N;
-    const BASE = 6;              // grados por segundo (una vuelta completa cada 60 s)
+    const BASE = 3.6;            // grados por segundo (una vuelta completa cada 100 s)
     const TAU = 0.6;             // segundos que tarda el impulso en apagarse
-    const TILT = -5;             // inclinación del anillo (se ve un poco desde arriba)
+    const TILT = -6;             // inclinación del anillo (se ve un poco desde arriba)
     let R = 300, theta = 0, vel = 0, dragging = false, running = false;
     let last = performance.now(), pid = null, lastX = 0, lastT = 0, vSmooth = 0;
 
     function layout() {
-      R = items[0].offsetWidth * 3.4;                    // radio proporcional al tamaño del logo
-      ring.style.perspective = Math.round(R * 2.7) + 'px';
+      const w = items[0].offsetWidth;
+      R = Math.max(w * 3.5, ring.offsetWidth * 0.40);   // anillo ancho: ocupa casi todo el banner
+      ring.style.perspective = Math.round(R * 2.4) + 'px';
+      ring.style.setProperty('--ring-sag', (R * Math.sin(-TILT * Math.PI / 180)).toFixed(1) + 'px');
       items.forEach((el, i) => {
         el.style.transform = `rotateY(${i * STEP}deg) translateZ(${R}px)`;
       });
