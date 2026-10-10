@@ -1286,3 +1286,17 @@ body.video-open .cursor-ring{opacity:0;}
   .pnav-arrow{font-size:1.15em;flex:0 0 auto;}
   .mbr{display:inline;}
 }
+
+/* ===== CAMBIOS 54: la navegación anterior/siguiente va dentro del escenario (sobre el mismo fondo), sin barra negra aparte ===== */
+.project-stage .project-nav{
+  background:none;border-top:0;
+  padding:clamp(6px,1vw,14px) clamp(20px,5vw,70px) clamp(24px,2.8vw,40px);
+}
+.project-stage .pnav{text-shadow:0 1px 14px rgba(0,0,0,0.7);}
+.stage-content > .project-gallery:nth-last-child(2){padding-bottom:clamp(18px,2.2vw,30px);}
+@media (max-width:760px){
+  /* en móvil se queda como estaba: barra oscura abajo */
+  .project-stage .project-nav{background:var(--bg);border-top:1px solid rgba(255,255,255,0.12);padding:22px 20px;}
+  .project-stage .pnav{text-shadow:none;}
+  .stage-content > .project-gallery:nth-last-child(2){padding-bottom:30px;}
+}
