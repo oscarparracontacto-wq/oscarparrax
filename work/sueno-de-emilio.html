@@ -99,9 +99,6 @@
 
 <section class="project-gallery">
   <div class="gallery-viewport">
-    <button class="gal-btn prev" id="galPrev" aria-label="Anterior">
-      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
     <div class="gallery-track" id="galTrack">
       <figure class="gal-item"><img src="../img/emilio-rodaje-1.webp" alt="Rodaje El Sueño de Emilio" loading="lazy"></figure>
       <figure class="gal-item"><img src="../img/emilio-rodaje-2.webp" alt="Rodaje El Sueño de Emilio" loading="lazy"></figure>
@@ -109,9 +106,6 @@
       <figure class="gal-item"><img src="../img/emilio-rodaje-4.webp" alt="Rodaje El Sueño de Emilio" loading="lazy"></figure>
       <figure class="gal-item"><img src="../img/emilio-rodaje-5.webp" alt="Rodaje El Sueño de Emilio" loading="lazy"></figure>
     </div>
-    <button class="gal-btn next" id="galNext" aria-label="Siguiente">
-      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
   </div>
 </section>
 
@@ -164,52 +158,86 @@
     });
   })();
 
-  // Carrusel de rodaje en bucle infinito
+  // Carrusel de rodaje automático (como el de marcas de la home): avanza solo, despacio y en bucle.
+  // Se puede arrastrar con el cursor (o el dedo) para empujarlo; al soltar, el impulso se va frenando
+  // hasta volver a la velocidad normal. Pulsar una foto (sin arrastrar) la amplía.
   (() => {
-    const track = document.getElementById('galTrack');
-    const prev = document.getElementById('galPrev');
-    const next = document.getElementById('galNext');
-    if (!track) return;
-
-    // Duplicamos el set de imágenes para poder dar la vuelta sin cortes
-    const originals = Array.from(track.children);
-    const setCount = originals.length;
-    originals.forEach(node => track.appendChild(node.cloneNode(true)));
-    originals.forEach(node => track.insertBefore(node.cloneNode(true), track.firstChild));
-
-    function itemStep() {
-      const item = track.querySelector('.gal-item');
-      if (!item) return 400;
-      const styles = getComputedStyle(track);
-      const gap = parseFloat(styles.columnGap || styles.gap) || 24;
-      // offsetWidth (no getBoundingClientRect): la rotación de las fotos no debe alterar el cálculo del paso
-      return item.offsetWidth + gap;
-    }
-
-    // Arrancamos en el set del medio
-    function setWidth() { return itemStep() * setCount; }
-    function recenter() {
-      const w = setWidth();
-      if (track.scrollLeft < w * 0.5) {
-        track.scrollLeft += w;
-      } else if (track.scrollLeft > w * 1.5) {
-        track.scrollLeft -= w;
+    const BASE = 32;                 // píxeles por segundo
+    const TAU = 0.6;                 // segundos que tarda el impulso en apagarse
+    document.querySelectorAll('.gallery-viewport').forEach((viewport) => {
+      const track = viewport.querySelector('.gallery-track');
+      if (!track) return;
+      const originals = Array.from(track.children);
+      const n = originals.length;
+      if (!n) return;
+      // Copias de sobra para que nunca se vea el final, ni en pantallas anchas (foto mínima 100 px + hueco 12 px)
+      const minSet = n * 112;
+      const copies = Math.min(8, Math.ceil((1200 + minSet) / minSet) + 1);
+      for (let c = 1; c < copies; c++) {
+        originals.forEach((node) => track.appendChild(node.cloneNode(true)));
       }
-    }
+      let setW = 0, x = 0, vel = 0, dragging = false, running = false, last = performance.now();
+      let pid = null, startX = 0, lastX = 0, lastT = 0, vSmooth = 0;
 
-    // Posición inicial sin animación
-    requestAnimationFrame(() => { track.scrollLeft = setWidth(); });
+      function measure() {
+        const gap = parseFloat(getComputedStyle(track).columnGap) || 16;
+        setW = n * (originals[0].offsetWidth + gap);      // offsetWidth: no depende de la rotación/zoom de las fotos
+      }
+      function render() { track.style.transform = `translate3d(${-x}px,0,0)`; }
+      function frame(now) {
+        const dt = Math.min(0.25, (now - last) / 1000);
+        last = now;
+        if (!dragging) {
+          x += (BASE + vel) * dt;
+          vel *= Math.exp(-dt / TAU);
+          if (Math.abs(vel) < 1) vel = 0;
+        }
+        if (setW > 0) x = ((x % setW) + setW) % setW;
+        render();
+        if (running) requestAnimationFrame(frame);
+      }
+      function start() { if (running) return; running = true; last = performance.now(); requestAnimationFrame(frame); }
+      function stop() { running = false; }
 
-    let wrapTimer = null;
-    track.addEventListener('scroll', () => {
-      clearTimeout(wrapTimer);
-      // Esperamos a que el scroll suave termine antes de saltar
-      wrapTimer = setTimeout(recenter, 120);
-    }, { passive: true });
+      measure(); render();
+      window.addEventListener('resize', measure);
+      window.addEventListener('load', measure);
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver((es) => es[0].isIntersecting ? start() : stop()).observe(viewport);
+      } else { start(); }
 
-    prev.addEventListener('click', () => track.scrollBy({ left: -itemStep(), behavior: 'smooth' }));
-    next.addEventListener('click', () => track.scrollBy({ left:  itemStep(), behavior: 'smooth' }));
-    window.addEventListener('resize', () => { track.scrollLeft = setWidth(); });
+      viewport.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        pid = e.pointerId; startX = lastX = e.clientX; lastT = e.timeStamp; vSmooth = 0;
+      });
+      viewport.addEventListener('pointermove', (e) => {
+        if (pid === null || e.pointerId !== pid) return;
+        if (!dragging) {
+          if (Math.abs(e.clientX - startX) < 6) return;     // todavía es un toque, no un arrastre
+          dragging = true; vel = 0; lastX = e.clientX; lastT = e.timeStamp;
+          try { viewport.setPointerCapture(pid); } catch (_) {}
+          return;
+        }
+        const dx = e.clientX - lastX;
+        const dtm = Math.max(1, e.timeStamp - lastT);
+        x -= dx;                                             // la foto sigue al puntero
+        vSmooth = vSmooth * 0.6 + (-dx / dtm * 1000) * 0.4;  // px/s del carrusel
+        lastX = e.clientX; lastT = e.timeStamp;
+        if (!running) { if (setW > 0) x = ((x % setW) + setW) % setW; render(); }
+      });
+      function release(e) {
+        if (pid === null || e.pointerId !== pid) return;
+        if (dragging) {
+          const fresh = (e.timeStamp - lastT) < 120;          // si se soltó parado, sin impulso
+          vel = fresh ? Math.max(-1500, Math.min(1500, vSmooth)) : 0;
+          try { viewport.releasePointerCapture(pid); } catch (_) {}
+        }
+        dragging = false; pid = null;
+      }
+      viewport.addEventListener('pointerup', release);
+      viewport.addEventListener('pointercancel', release);
+      viewport.addEventListener('dragstart', (e) => e.preventDefault());
+    });
   })();
 
   // Capa de grano sobre las fotos del carrusel

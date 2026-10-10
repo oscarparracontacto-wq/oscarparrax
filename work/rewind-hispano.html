@@ -131,9 +131,6 @@
 
 <section class="project-gallery">
   <div class="gallery-viewport">
-    <button class="gal-btn prev" aria-label="Anterior">
-      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
     <div class="gallery-track">
       <figure class="gal-item"><img src="../img/rewind-2023-rodaje-1.webp" alt="Rodaje Rewind Hispano 2023" loading="lazy"></figure>
       <figure class="gal-item"><img src="../img/rewind-2023-rodaje-2.webp" alt="Rodaje Rewind Hispano 2023" loading="lazy"></figure>
@@ -141,9 +138,6 @@
       <figure class="gal-item"><img src="../img/rewind-2023-rodaje-4.webp" alt="Rodaje Rewind Hispano 2023" loading="lazy"></figure>
       <figure class="gal-item"><img src="../img/rewind-2023-rodaje-5.webp" alt="Rodaje Rewind Hispano 2023" loading="lazy"></figure>
     </div>
-    <button class="gal-btn next" aria-label="Siguiente">
-      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
   </div>
 </section>
   </div>
@@ -170,9 +164,6 @@
 
 <section class="project-gallery">
   <div class="gallery-viewport">
-    <button class="gal-btn prev" aria-label="Anterior">
-      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
     <div class="gallery-track">
       <figure class="gal-item"><img src="../img/rewind-2022-rodaje-1.webp" alt="Rodaje Rewind Hispano 2022" loading="lazy"></figure>
       <figure class="gal-item"><img src="../img/rewind-2022-rodaje-2.webp" alt="Rodaje Rewind Hispano 2022" loading="lazy"></figure>
@@ -182,9 +173,6 @@
       <figure class="gal-item"><img src="../img/rewind-2022-rodaje-6.webp" alt="Rodaje Rewind Hispano 2022" loading="lazy"></figure>
       <figure class="gal-item"><img src="../img/rewind-2022-rodaje-7.webp" alt="Rodaje Rewind Hispano 2022" loading="lazy"></figure>
     </div>
-    <button class="gal-btn next" aria-label="Siguiente">
-      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
   </div>
 </section>
   </div>
@@ -211,9 +199,6 @@
 
 <section class="project-gallery">
   <div class="gallery-viewport">
-    <button class="gal-btn prev" aria-label="Anterior">
-      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
     <div class="gallery-track">
       <figure class="gal-item"><img src="../img/rewind-2021-rodaje-1.webp" alt="Rodaje Rewind Hispano 2021" loading="lazy"></figure>
       <figure class="gal-item"><img src="../img/rewind-2021-rodaje-2.webp" alt="Rodaje Rewind Hispano 2021" loading="lazy"></figure>
@@ -221,9 +206,6 @@
       <figure class="gal-item"><img src="../img/rewind-2021-rodaje-4.webp" alt="Rodaje Rewind Hispano 2021" loading="lazy"></figure>
       <figure class="gal-item"><img src="../img/rewind-2021-rodaje-5.webp" alt="Rodaje Rewind Hispano 2021" loading="lazy"></figure>
     </div>
-    <button class="gal-btn next" aria-label="Siguiente">
-      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
   </div>
 </section>
   </div>
@@ -306,12 +288,14 @@
   })();
 
   // Vídeo: al pulsar "Ver vídeo", la pantalla se agranda hasta ocupar casi toda la ventana y empieza a reproducirse.
-  // Al pulsar fuera (o con Esc) vuelve a su sitio y el vídeo se detiene. Hay un bloque por cada .video-frame con data-video.
+  // Al pulsar fuera (o con Esc) vuelve a su tamaño y el vídeo SIGUE reproduciéndose (no se reinicia).
+  // Con el vídeo ya en marcha, el botón de la esquina lo vuelve a ampliar. Hay un bloque por cada .video-frame con data-video.
   (() => {
     const frames = Array.from(document.querySelectorAll('.video-frame[data-video]'));
     if (!frames.length) return;
     const DUR = 560;                                     // ms de la animación de zoom
     const EASE = 'cubic-bezier(.22,.68,0,1.01)';
+    const TR = `top ${DUR}ms ${EASE}, left ${DUR}ms ${EASE}, width ${DUR}ms ${EASE}, height ${DUR}ms ${EASE}`;
     let current = null;
 
     function target() {
@@ -326,31 +310,42 @@
     }
 
     function open(frame) {
-      if (current || frame.classList.contains('is-loaded')) return;
+      if (current || frame.classList.contains('is-zoom')) return;
       const id = frame.dataset.video;
       if (!id) return;                                   // vídeo aún pendiente de subir
+      const stage = frame.closest('.project-stage');
+      const holder = frame.closest('.stage-content') || document.body;
       const r = frame.getBoundingClientRect();
       const ph = document.createElement('div');          // guarda el hueco mientras la pantalla está "volando"
       ph.className = 'video-frame-ph';
+      ph.style.cssText = `width:${r.width}px;height:${r.height}px;max-width:100%;margin:0 auto;`;
       frame.parentNode.insertBefore(ph, frame);
-      document.body.appendChild(frame);                  // fuera del fondo del proyecto: así queda por encima de todo y se puede usar
       const backdrop = document.createElement('div');
       backdrop.className = 'lightbox-backdrop video-backdrop';
-      document.body.appendChild(backdrop);
+      holder.appendChild(backdrop);
+      if (stage) stage.classList.add('is-video-open');   // el escenario pasa por encima de la cabecera mientras dura el zoom
+      document.body.classList.add('video-open');
 
       frame.style.transition = 'none';
       frame.classList.add('is-zoom', 'is-loaded');
       setRect(frame, r);
       void frame.offsetWidth;
-      frame.style.transition = `top ${DUR}ms ${EASE}, left ${DUR}ms ${EASE}, width ${DUR}ms ${EASE}, height ${DUR}ms ${EASE}`;
+      frame.style.transition = TR;
 
-      const iframe = document.createElement('iframe');
-      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
-      iframe.setAttribute('frameborder', '0');
-      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
-      iframe.setAttribute('allowfullscreen', '');
-      iframe.setAttribute('title', document.title);
-      frame.appendChild(iframe);
+      if (!frame.querySelector('iframe')) {              // el reproductor se crea una sola vez; después solo se agranda o se encoge
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+        iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+        iframe.setAttribute('allowfullscreen', '');
+        iframe.setAttribute('title', document.title);
+        frame.appendChild(iframe);
+        const exp = document.createElement('button');    // botón para volver a ampliar con el vídeo en marcha
+        exp.type = 'button'; exp.className = 'video-expand'; exp.setAttribute('aria-label', 'Ampliar vídeo');
+        exp.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="square"/></svg>';
+        exp.addEventListener('click', (e) => { e.stopPropagation(); open(frame); });
+        frame.appendChild(exp);
+      }
 
       requestAnimationFrame(() => { backdrop.classList.add('is-open'); setRect(frame, target()); });
 
@@ -361,15 +356,15 @@
         closing = true;
         window.removeEventListener('resize', onResize);
         document.removeEventListener('keydown', onKey);
-        frame.style.transition = `top ${DUR}ms ${EASE}, left ${DUR}ms ${EASE}, width ${DUR}ms ${EASE}, height ${DUR}ms ${EASE}`;
+        frame.style.transition = TR;
         setRect(frame, ph.getBoundingClientRect());
         backdrop.classList.remove('is-open');
-        setTimeout(() => {
-          iframe.remove();                                // el vídeo se detiene
-          frame.classList.remove('is-zoom', 'is-loaded');
+        document.body.classList.remove('video-open');
+        setTimeout(() => {                                // el vídeo no se toca: sigue reproduciéndose en su sitio
+          frame.classList.remove('is-zoom');
           frame.removeAttribute('style');
-          ph.replaceWith(frame);                          // vuelve a su sitio en la página
-          backdrop.remove();
+          ph.remove(); backdrop.remove();
+          if (stage) stage.classList.remove('is-video-open');
           current = null;
         }, DUR + 40);
       }
@@ -379,56 +374,87 @@
       window.addEventListener('resize', onResize);
       current = { close };
     }
-    frames.forEach((frame) => frame.addEventListener('click', () => open(frame)));
+    frames.forEach((frame) => frame.addEventListener('click', () => { if (!frame.querySelector('iframe')) open(frame); }));
   })();
-  // Carruseles de rodaje en bucle infinito
-  // Esta página tiene VARIOS carruseles (2023, 2022, 2021), cada uno se inicializa por separado.
+  // Carrusel de rodaje automático (como el de marcas de la home): avanza solo, despacio y en bucle.
+  // Se puede arrastrar con el cursor (o el dedo) para empujarlo; al soltar, el impulso se va frenando
+  // hasta volver a la velocidad normal. Pulsar una foto (sin arrastrar) la amplía.
   (() => {
-    document.querySelectorAll('.project-gallery .gallery-viewport').forEach((viewport) => {
+    const BASE = 32;                 // píxeles por segundo
+    const TAU = 0.6;                 // segundos que tarda el impulso en apagarse
+    document.querySelectorAll('.gallery-viewport').forEach((viewport) => {
       const track = viewport.querySelector('.gallery-track');
-      const prev = viewport.querySelector('.gal-btn.prev');
-      const next = viewport.querySelector('.gal-btn.next');
       if (!track) return;
-
-      // Duplicamos el set de imágenes para poder dar la vuelta sin cortes
       const originals = Array.from(track.children);
-      const setCount = originals.length;
-      originals.forEach(node => track.appendChild(node.cloneNode(true)));
-      originals.forEach(node => track.insertBefore(node.cloneNode(true), track.firstChild));
-
-      function itemStep() {
-        const item = track.querySelector('.gal-item');
-        if (!item) return 400;
-        const styles = getComputedStyle(track);
-        const gap = parseFloat(styles.columnGap || styles.gap) || 24;
-        // offsetWidth (no getBoundingClientRect): la rotación de las fotos no debe alterar el cálculo del paso
-        return item.offsetWidth + gap;
+      const n = originals.length;
+      if (!n) return;
+      // Copias de sobra para que nunca se vea el final, ni en pantallas anchas (foto mínima 100 px + hueco 12 px)
+      const minSet = n * 112;
+      const copies = Math.min(8, Math.ceil((1200 + minSet) / minSet) + 1);
+      for (let c = 1; c < copies; c++) {
+        originals.forEach((node) => track.appendChild(node.cloneNode(true)));
       }
+      let setW = 0, x = 0, vel = 0, dragging = false, running = false, last = performance.now();
+      let pid = null, startX = 0, lastX = 0, lastT = 0, vSmooth = 0;
 
-      // Arrancamos en el set del medio
-      function setWidth() { return itemStep() * setCount; }
-      function recenter() {
-        const w = setWidth();
-        if (track.scrollLeft < w * 0.5) {
-          track.scrollLeft += w;
-        } else if (track.scrollLeft > w * 1.5) {
-          track.scrollLeft -= w;
+      function measure() {
+        const gap = parseFloat(getComputedStyle(track).columnGap) || 16;
+        setW = n * (originals[0].offsetWidth + gap);      // offsetWidth: no depende de la rotación/zoom de las fotos
+      }
+      function render() { track.style.transform = `translate3d(${-x}px,0,0)`; }
+      function frame(now) {
+        const dt = Math.min(0.25, (now - last) / 1000);
+        last = now;
+        if (!dragging) {
+          x += (BASE + vel) * dt;
+          vel *= Math.exp(-dt / TAU);
+          if (Math.abs(vel) < 1) vel = 0;
         }
+        if (setW > 0) x = ((x % setW) + setW) % setW;
+        render();
+        if (running) requestAnimationFrame(frame);
       }
+      function start() { if (running) return; running = true; last = performance.now(); requestAnimationFrame(frame); }
+      function stop() { running = false; }
 
-      // Posición inicial sin animación
-      requestAnimationFrame(() => { track.scrollLeft = setWidth(); });
+      measure(); render();
+      window.addEventListener('resize', measure);
+      window.addEventListener('load', measure);
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver((es) => es[0].isIntersecting ? start() : stop()).observe(viewport);
+      } else { start(); }
 
-      let wrapTimer = null;
-      track.addEventListener('scroll', () => {
-        clearTimeout(wrapTimer);
-        // Esperamos a que el scroll suave termine antes de saltar
-        wrapTimer = setTimeout(recenter, 120);
-      }, { passive: true });
-
-      prev.addEventListener('click', () => track.scrollBy({ left: -itemStep(), behavior: 'smooth' }));
-      next.addEventListener('click', () => track.scrollBy({ left:  itemStep(), behavior: 'smooth' }));
-      window.addEventListener('resize', () => { track.scrollLeft = setWidth(); });
+      viewport.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        pid = e.pointerId; startX = lastX = e.clientX; lastT = e.timeStamp; vSmooth = 0;
+      });
+      viewport.addEventListener('pointermove', (e) => {
+        if (pid === null || e.pointerId !== pid) return;
+        if (!dragging) {
+          if (Math.abs(e.clientX - startX) < 6) return;     // todavía es un toque, no un arrastre
+          dragging = true; vel = 0; lastX = e.clientX; lastT = e.timeStamp;
+          try { viewport.setPointerCapture(pid); } catch (_) {}
+          return;
+        }
+        const dx = e.clientX - lastX;
+        const dtm = Math.max(1, e.timeStamp - lastT);
+        x -= dx;                                             // la foto sigue al puntero
+        vSmooth = vSmooth * 0.6 + (-dx / dtm * 1000) * 0.4;  // px/s del carrusel
+        lastX = e.clientX; lastT = e.timeStamp;
+        if (!running) { if (setW > 0) x = ((x % setW) + setW) % setW; render(); }
+      });
+      function release(e) {
+        if (pid === null || e.pointerId !== pid) return;
+        if (dragging) {
+          const fresh = (e.timeStamp - lastT) < 120;          // si se soltó parado, sin impulso
+          vel = fresh ? Math.max(-1500, Math.min(1500, vSmooth)) : 0;
+          try { viewport.releasePointerCapture(pid); } catch (_) {}
+        }
+        dragging = false; pid = null;
+      }
+      viewport.addEventListener('pointerup', release);
+      viewport.addEventListener('pointercancel', release);
+      viewport.addEventListener('dragstart', (e) => e.preventDefault());
     });
   })();
 
