@@ -1468,4 +1468,17 @@ body.about-prep .hero-banner .logo-ring{pointer-events:none;}
 }
 
 
-/* VERSION */:root{--ver:'67';}
+/* ===== CAMBIOS 68: tarjetas solo con nombre y año (en blanco); cabecera de la home transparente arriba del todo ===== */
+.work-overlay .tag{color:#fff;}
+/* Cabecera: transparente solo arriba del todo y quieta; al deslizar se vuelve negra (y se queda negra) */
+header{transition:background-color .35s ease, border-color .35s ease;}
+body.is-home:not(.is-scrolled) header{background-color:transparent;border-bottom-color:transparent;}
+body.is-home:not(.is-scrolled) header nav a,
+body.is-home:not(.is-scrolled) header .social-icons a,
+body.is-home:not(.is-scrolled) header .menu-btn{filter:drop-shadow(0 1px 6px rgba(0,0,0,.55));}
+/* El banner se prolonga por arriba, por debajo de la cabecera, sin mover nada de su contenido */
+body.is-home .hero-banner{overflow:visible;clip-path:inset(calc(-1 * var(--hext,0px)) 0 0 0);}
+body.is-home .hero-bg{top:calc(-1 * var(--hext,0px));}
+
+
+/* VERSION */:root{--ver:'68';}

@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Óscar Parra | Portfolio</title>
 <meta name="description" content="Descubre el portafolio de Óscar Parra, Film Director &amp; Generative AI, especializado en publicidad, contenido de marca y proyectos con IA.">
-<link rel="stylesheet" href="style.css?v=67">
+<link rel="stylesheet" href="style.css?v=68">
 </head>
-<body>
-<div id="verTag" data-v="67" style="position:fixed;top:4px;right:10px;z-index:100000;font:500 9px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:rgba(255,255,255,.4);pointer-events:none;user-select:none;">v67</div>
+<body class="is-home">
+<div id="verTag" data-v="68" style="position:fixed;top:4px;right:10px;z-index:100000;font:500 9px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:rgba(255,255,255,.4);pointer-events:none;user-select:none;">v68</div>
 <script>(function(){var t=document.getElementById("verTag");if(!t)return;var c=getComputedStyle(document.documentElement).getPropertyValue("--ver").replace(/[^0-9]/g,"");if(c!==t.getAttribute("data-v")){t.textContent+=" · style.css antiguo ("+(c?"v"+c:"sin versión")+")";t.style.color="#ff6b5a";}})();</script>
 
 <header>
@@ -141,7 +141,7 @@
       <div class="work-overlay">
         <div>
           <h3>Rewind Hispano</h3>
-          <p class="tag">Proyecto personal · Director y Guionista · 2020–2023</p>
+          <p class="tag">2020–2023</p>
         </div>
       </div>
     </a>
@@ -153,7 +153,7 @@
       <div class="work-overlay">
         <div>
           <h3>CaixaBank Convención</h3>
-          <p class="tag">Convención — CaixaBank · Director y AI Visuals · 2026</p>
+          <p class="tag">2026</p>
         </div>
       </div>
     </a>
@@ -165,7 +165,7 @@
       <div class="work-overlay">
         <div>
           <h3>Eneryeti</h3>
-          <p class="tag">Ad — Eneryeti · AI Visuals · 2026</p>
+          <p class="tag">2026</p>
         </div>
       </div>
     </a>
@@ -177,7 +177,7 @@
       <div class="work-overlay">
         <div>
           <h3>Premios ESLAND</h3>
-          <p class="tag">Ad — Premios ESLAND · Director y Guionista · 2022</p>
+          <p class="tag">2022</p>
         </div>
       </div>
     </a>
@@ -189,7 +189,7 @@
       <div class="work-overlay">
         <div>
           <h3>Partido de las Estrellas</h3>
-          <p class="tag">Ad — Mahou · Director Asociado · 2022</p>
+          <p class="tag">2022</p>
         </div>
       </div>
     </a>
@@ -201,7 +201,7 @@
       <div class="work-overlay">
         <div>
           <h3>KOI Jugadores</h3>
-          <p class="tag">Ad — KOI · Director y Guionista · 2021</p>
+          <p class="tag">2021</p>
         </div>
       </div>
     </a>
@@ -213,7 +213,7 @@
       <div class="work-overlay">
         <div>
           <h3>KOI Creadores</h3>
-          <p class="tag">Ad — KOI · Director y Guionista · 2021</p>
+          <p class="tag">2021</p>
         </div>
       </div>
     </a>
@@ -225,7 +225,7 @@
       <div class="work-overlay">
         <div>
           <h3>El Sueño de Emilio</h3>
-          <p class="tag">Ad — Mahou x Kings League · Idea y Guion · 2023</p>
+          <p class="tag">2023</p>
         </div>
       </div>
     </a>
@@ -237,7 +237,7 @@
       <div class="work-overlay">
         <div>
           <h3>Ford Kuga</h3>
-          <p class="tag">Ad — Ford / Jakiens · Director · 2024</p>
+          <p class="tag">2024</p>
         </div>
       </div>
     </a>
@@ -249,7 +249,7 @@
       <div class="work-overlay">
         <div>
           <h3>Soy un NPC</h3>
-          <p class="tag">Cortometraje — DHC Films · Director y Guionista · 2023</p>
+          <p class="tag">2023</p>
         </div>
       </div>
     </a>
@@ -725,6 +725,22 @@
       if (hdr) document.documentElement.style.setProperty('--hdr-h', hdr.offsetHeight + 'px');
     };
     setHdr(); window.addEventListener('resize', setHdr); window.addEventListener('load', setHdr);
+    // Cabecera transparente solo arriba del todo; en cuanto se desliza se vuelve negra. El banner se prolonga por arriba (bajo la cabecera) sin moverse.
+    const solid = () => document.body.classList.toggle('is-scrolled', window.scrollY > 2);
+    solid(); window.addEventListener('scroll', solid, { passive: true });
+    const heroEl = document.querySelector('.hero-banner'), heroPic = document.getElementById('heroImg');
+    const layoutHero = () => {
+      const hdr = document.querySelector('header');
+      if (!hdr || !heroEl || !heroPic || !heroPic.naturalWidth) return;
+      const H = hdr.offsetHeight, h0 = heroEl.offsetHeight, W = heroEl.offsetWidth, nw = heroPic.naturalWidth, nh = heroPic.naturalHeight;
+      const S0 = nh * Math.max(W / nw, h0 / nh);                // altura de la foto con el banner de siempre
+      const y0 = (h0 - S0) * 0.15;                               // desplazamiento original (object-position: center 15%)
+      document.documentElement.style.setProperty('--hext', H + 'px');
+      heroPic.style.objectPosition = '50% ' + (y0 + H) + 'px';   // la foto no se mueve: solo se ve más por arriba
+      heroPic.style.transformOrigin = '50% ' + (H + h0 / 2) + 'px';
+    };
+    layoutHero(); window.addEventListener('resize', layoutHero); window.addEventListener('load', layoutHero);
+    if (heroPic) heroPic.addEventListener('load', layoutHero);
   })();
 </script>
 <script>
