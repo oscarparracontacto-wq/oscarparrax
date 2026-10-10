@@ -44,7 +44,7 @@
             <a href="work/soy-un-npc.html">Soy un NPC</a>
           </div>
         </div>
-        <button type="button" class="menu-item">Sobre mí</button>
+        <a class="menu-item" href="index.html#sobre-mi" data-about>Sobre mí</a>
         <button type="button" class="menu-item">Contacto</button>
       </div>
     </div>
@@ -744,6 +744,78 @@
       group.addEventListener('mouseleave', () => { if (!canHover.matches) return; clearTimeout(timer); timer = setTimeout(() => setSub(false), 220); });
       head.addEventListener('click', (e) => { e.stopPropagation(); setSub(canHover.matches ? true : !group.classList.contains('is-sub-open')); });
       group.addEventListener('focusin', (e) => { if (e.target.matches(':focus-visible')) setSub(true); });
+    }
+  })();
+</script>
+<script>
+  // "Sobre mí": la cámara se mete en el banner (zoom en picado hasta la imagen a tamaño completo) y aparece el nombre.
+  // Se cierra con la X, Esc o pulsando en la imagen: la cámara vuelve a salir. Desde un proyecto se llega con index.html#sobre-mi.
+  (() => {
+    const hero = document.querySelector('.hero-banner'), heroImg = document.getElementById('heroImg');
+    if (!hero || !heroImg) return;
+    const DUR = 1150, OUT = 850;
+    const EASE_IN = 'cubic-bezier(.72,0,.14,1)', EASE_OUT = 'cubic-bezier(.5,0,.2,1)';
+    let fx = null, busy = false;
+    const rectOf = (r) => ({ top: r.top, left: r.left, width: r.width, height: r.height });
+    const setRect = (el, r) => { el.style.top = r.top + 'px'; el.style.left = r.left + 'px'; el.style.width = r.width + 'px'; el.style.height = r.height + 'px'; };
+
+    function openAbout() {
+      if (fx || busy) return;
+      busy = true;
+      window.scrollTo(0, 0);
+      const menuPanel = document.getElementById('menuPanel'), menuBtn = document.getElementById('menuBtn');
+      if (menuPanel && !menuPanel.hidden) { menuPanel.hidden = true; menuBtn.classList.remove('is-open'); menuBtn.setAttribute('aria-expanded', 'false'); }
+      const start = rectOf(hero.getBoundingClientRect());
+      const root = document.createElement('div');
+      root.className = 'about-fx';
+      root.innerHTML =
+        '<div class="about-fx-frame"><img class="about-fx-img" alt="" src="' + heroImg.src + '">' +
+        '<div class="about-fx-shade"></div><div class="film-grain tv-static"></div><div class="tv-scanlines"></div></div>' +
+        '<div class="about-fx-flash"></div>' +
+        '<h2 class="about-fx-title" aria-label="Óscar Parra"></h2>' +
+        '<button type="button" class="about-fx-close" aria-label="Cerrar">&times;</button>';
+      const frame = root.querySelector('.about-fx-frame'), title = root.querySelector('.about-fx-title');
+      'Óscar Parra'.split(' ').forEach((word, wi) => {
+        const w = document.createElement('span'); w.className = 'afx-w'; w.setAttribute('aria-hidden', 'true');
+        word.split('').forEach((c, ci) => { const s = document.createElement('span'); s.className = 'afx-ch'; s.textContent = c; s.style.setProperty('--i', wi * 6 + ci); w.appendChild(s); });
+        title.appendChild(w);
+      });
+      document.body.appendChild(root);
+      document.body.classList.add('about-open', 'video-open');
+      frame.style.transition = 'none'; setRect(frame, start);
+      void frame.offsetWidth;
+      frame.style.transition = ['top','left','width','height'].map((p) => p + ' ' + DUR + 'ms ' + EASE_IN).join(',') + ',opacity .25s ease';
+      requestAnimationFrame(() => {
+        root.classList.add('is-in');
+        setRect(frame, { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight });
+      });
+      setTimeout(() => { root.classList.add('is-title'); busy = false; }, DUR - 80);
+
+      function close() {
+        if (busy) return;
+        busy = true;
+        document.removeEventListener('keydown', onKey);
+        window.removeEventListener('resize', onResize);
+        root.classList.remove('is-title'); root.classList.add('is-out');
+        const back = rectOf(hero.getBoundingClientRect());
+        frame.style.transition = ['top','left','width','height'].map((p) => p + ' ' + OUT + 'ms ' + EASE_OUT).join(',') + ',opacity .25s ease';
+        setRect(frame, back);
+        setTimeout(() => { root.classList.remove('is-in'); }, OUT - 260);
+        setTimeout(() => { root.remove(); document.body.classList.remove('about-open', 'video-open'); fx = null; busy = false; }, OUT + 60);
+      }
+      const onKey = (e) => { if (e.key === 'Escape') close(); };
+      const onResize = () => { if (!busy) { frame.style.transition = 'none'; setRect(frame, { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight }); } };
+      root.addEventListener('click', close);
+      document.addEventListener('keydown', onKey);
+      window.addEventListener('resize', onResize);
+      fx = { close };
+    }
+    window.openAbout = openAbout;
+    document.querySelectorAll('[data-about]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); openAbout(); }));
+    if (location.hash === '#sobre-mi') {
+      history.replaceState(null, '', location.pathname + location.search);
+      const go = () => setTimeout(openAbout, 450);
+      if (document.readyState === 'complete') go(); else window.addEventListener('load', go);
     }
   })();
 </script>
