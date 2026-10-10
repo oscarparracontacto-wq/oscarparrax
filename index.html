@@ -484,6 +484,77 @@
   })();
 </script>
 <script>
+  // Banda de logos: avanza sola a velocidad constante, pero se puede arrastrar con el cursor
+  // (o el dedo) para adelantarla o retrasarla. Al soltar, el impulso se va frenando
+  // poco a poco hasta volver a la velocidad normal.
+  (() => {
+    const track = document.querySelector('.logos-track');
+    const row = track && track.querySelector('.logos-row');
+    if (!row) return;
+    const imgs = row.querySelectorAll('.logo-real');
+    const SETS = 6;                       // el HTML repite el mismo grupo de logos 6 veces
+    const per = Math.round(imgs.length / SETS);
+    if (!per || imgs.length % SETS) return;
+    row.classList.add('is-js');
+
+    const BASE_SECONDS = 40;              // mismo ritmo que la animación CSS original
+    const TAU = 0.6;                      // segundos que tarda el impulso en apagarse
+    let x = 0, vel = 0, dragging = false, last = performance.now();
+    let pid = null, lastX = 0, lastT = 0, vSmooth = 0, running = false;
+
+    const period = () => imgs[per].offsetLeft - imgs[0].offsetLeft;
+
+    function frame(now) {
+      const dt = Math.min(0.25, (now - last) / 1000);
+      last = now;
+      const P = period();
+      if (!dragging && P > 0) {
+        x -= (P / BASE_SECONDS + vel) * dt;
+        vel *= Math.exp(-dt / TAU);
+        if (Math.abs(vel) < 0.5) vel = 0;
+      }
+      if (P > 0) {
+        x = ((x % P) - P) % P;            // mantenerlo siempre entre -P y 0 (bucle sin saltos)
+        row.style.transform = `translate3d(${x}px,0,0)`;
+      }
+      if (running) requestAnimationFrame(frame);
+    }
+    function start() { if (running) return; running = true; last = performance.now(); requestAnimationFrame(frame); }
+    function stop() { running = false; }
+
+    // Solo animar mientras la banda es visible
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((es) => es[0].isIntersecting ? start() : stop()).observe(track);
+    } else { start(); }
+
+    track.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      dragging = true; pid = e.pointerId; lastX = e.clientX; lastT = e.timeStamp;
+      vSmooth = 0; vel = 0;
+      track.setPointerCapture(pid);
+    });
+    track.addEventListener('pointermove', (e) => {
+      if (!dragging || e.pointerId !== pid) return;
+      const dx = e.clientX - lastX;
+      const dtm = Math.max(1, e.timeStamp - lastT);
+      x += dx;
+      vSmooth = vSmooth * 0.6 + (dx / dtm * 1000) * 0.4;   // px/s del puntero
+      lastX = e.clientX; lastT = e.timeStamp;
+    });
+    function release(e) {
+      if (!dragging || e.pointerId !== pid) return;
+      dragging = false;
+      const fresh = (e.timeStamp - lastT) < 120;            // si se soltó parado, sin impulso
+      vel = fresh ? Math.max(-4000, Math.min(4000, -vSmooth)) : 0;
+      try { track.releasePointerCapture(pid); } catch (_) {}
+      pid = null;
+    }
+    track.addEventListener('pointerup', release);
+    track.addEventListener('pointercancel', release);
+    track.addEventListener('dragstart', (e) => e.preventDefault());
+  })();
+</script>
+<script>
   // Interruptor de ISO (100 <-> 1600): invierte header, footer, descripciones y logos a modo "flash"
   document.querySelectorAll('.cam-iso').forEach((btn) => {
     btn.addEventListener('click', () => {
