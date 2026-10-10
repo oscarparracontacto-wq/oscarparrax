@@ -320,6 +320,51 @@
   });
 </script>
 <script>
+  // Curvatura 3D sutil del título y los roles del banner (igual que en la home): cada letra se coloca sobre un cilindro grande
+  (() => {
+    const box = document.querySelector('.project-hero-content');
+    const els = box ? Array.from(box.querySelectorAll('.project-title, .meta-label, .meta-value')) : [];
+    if (!els.length) return;
+    const letters = [];
+    els.forEach((el) => {
+      const text = el.textContent;
+      el.setAttribute('aria-label', text.trim());
+      el.textContent = '';
+      text.split(' ').forEach((word, wi) => {
+        if (wi) el.appendChild(document.createTextNode(' '));
+        const w = document.createElement('span');
+        w.className = 'w'; w.setAttribute('aria-hidden', 'true');
+        for (const ch of word) {
+          const sp = document.createElement('span');
+          sp.className = 'ch'; sp.textContent = ch;
+          w.appendChild(sp); letters.push(sp);
+        }
+        el.appendChild(w);
+      });
+    });
+    function curve() {
+      const Rc = Math.max(window.innerWidth * 0.62, 520);
+      const TILT = 9 * Math.PI / 180;
+      letters.forEach((sp) => { sp.style.transform = 'none'; });
+      const br = box.getBoundingClientRect(), cx = br.width / 2;
+      const info = letters.map((sp) => {
+        const r = sp.getBoundingClientRect();
+        return { sp, x: r.left + r.width / 2 - br.left - cx };
+      });
+      info.forEach(({ sp, x }) => {
+        const phi = Math.max(-1.2, Math.min(1.2, x / Rc));
+        const dx = Rc * Math.sin(phi) - x;
+        const dz = Rc * Math.cos(phi) - Rc;
+        const dy = (Rc - Rc * Math.cos(phi)) * Math.sin(TILT) * -1;
+        sp.style.transform = `translate3d(${dx.toFixed(2)}px,${dy.toFixed(2)}px,${dz.toFixed(2)}px) rotateY(${(phi * 180 / Math.PI).toFixed(2)}deg)`;
+      });
+    }
+    curve();
+    window.addEventListener('resize', curve);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(curve);
+  })();
+</script>
+<script>
   // Menú de tres rayas (provisional): se abre al pulsar y se cierra al pulsar fuera o con Esc
   (() => {
     const btn = document.getElementById('menuBtn'), panel = document.getElementById('menuPanel');
