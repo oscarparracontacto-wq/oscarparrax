@@ -1519,11 +1519,18 @@ header nav .nav-sub-in a:hover{background:rgba(255,255,255,0.14);opacity:1;}
 .hero-title .ch{position:relative;}
 .hero-title .ch .cs{display:inline-block;transform-origin:50% 62%;will-change:transform;}
 .hero-title .px{
-  position:absolute;left:94%;bottom:.06em;font-size:.34em;line-height:1;letter-spacing:0;
-  opacity:0;transform:translateX(-.35em) scale(.4);transform-origin:0 100%;
-  transition:opacity .3s ease, transform .4s cubic-bezier(.34,1.56,.4,1);pointer-events:none;
+  position:absolute;left:calc(100% + .06em);bottom:-.3em;width:.76em;height:.76em;
+  opacity:0;transform:rotate(-5deg) scaleY(1.25);transform-origin:50% 50%;
+  transition:opacity .45s ease;pointer-events:none;
 }
-.hero-title .px.is-on{opacity:1;transform:none;}
+.hero-title .px svg{display:block;width:100%;height:100%;overflow:visible;}
+/* X gamberra: se dibuja primero un tajo y luego el otro */
+.hero-title .px path{stroke-dasharray:100;stroke-dashoffset:100;transition:stroke-dashoffset 0s linear .5s;}
+.hero-title .px.is-on{opacity:1;transition:opacity .05s ease;}
+.hero-title .px.is-on path{stroke-dashoffset:0;transition:stroke-dashoffset .22s cubic-bezier(.3,.7,.2,1);}
+.hero-title .px.is-on path:nth-of-type(2){transition-delay:.2s;}
 
 
-/* VERSION */:root{--ver:'73';}
+
+
+/* VERSION */:root{--ver:'74';}
