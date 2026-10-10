@@ -1332,7 +1332,6 @@ body.video-open .cursor-ring{opacity:0;}
   .project-hero.hero-slim .meta-value{font-size:clamp(11px,1.15vw,16px);}
 }
 .stage-content > .stage-split:first-child{padding-top:clamp(28px,3.4vw,48px);}
-.stage-split + .project-body{padding-top:clamp(14px,2vw,26px);}
 
 /* ===== CAMBIOS 57: Esland vuelve a la composición original; sus textos de descripción en una sola línea (solo ordenador) =====
    Los bloques de PRUEBA de arriba (.stage-split, .is-vertical, .hero-slim) quedan archivados: ya no los usa ninguna página. */
