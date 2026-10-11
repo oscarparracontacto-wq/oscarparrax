@@ -1813,4 +1813,15 @@ body.about-open header{z-index:9990;}
 
 
 
-/* VERSION */:root{--ver:'97';}
+/* ===== CAMBIOS 98: "Sobre mí" — el titular es el rol (Film Director / & Generative AI), sin el nombre grande; el nombre va en la descripción en tercera persona; "Based in: Madrid · Worldwide" con la tipografía del resto de filas ===== */
+.afx-panel .about-fx-title{font-size:clamp(30px,3.7vw,58px);line-height:1.02;white-space:normal;}
+.afx-line{display:block;white-space:nowrap;}
+.afx-line.afx-acc{color:#a3ff12;}
+.afx-panel .afx-w{margin:0 .2em 0 0;}
+.about-fx.is-title .afx-ch{transition-delay:calc(var(--i) * 42ms);}
+.afx-about strong{font-weight:600;color:#fff;}
+@media (max-width:760px) and (orientation:portrait){.afx-panel .about-fx-title{font-size:clamp(28px,9vw,42px);}}
+@media (max-height:620px) and (orientation:landscape){.afx-panel .about-fx-title{font-size:clamp(22px,3.8vw,38px);}}
+
+
+/* VERSION */:root{--ver:'98';}

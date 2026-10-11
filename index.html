@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Óscar Parra | Portfolio</title>
 <meta name="description" content="Descubre el portafolio de Óscar Parra, Film Director &amp; Generative AI, especializado en publicidad, contenido de marca y proyectos con IA.">
-<link rel="stylesheet" href="style.css?v=97">
+<link rel="stylesheet" href="style.css?v=98">
 </head>
 <body>
-<div id="verTag" data-v="97" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v97</div>
+<div id="verTag" data-v="98" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v98</div>
 <script>(function(){var t=document.getElementById("verTag");if(!t)return;var c=getComputedStyle(document.documentElement).getPropertyValue("--ver").replace(/[^0-9]/g,"");if(c!==t.getAttribute("data-v")){t.textContent+=" · style.css antiguo ("+(c?"v"+c:"sin versión")+")";t.style.color="#ffe600";}})();</script>
 
 <header>
@@ -839,15 +839,14 @@
         '<div class="about-fx-flash"></div>' +
         '<div class="about-fx-fade"></div>' +
         '<div class="about-fx-stack"><div class="afx-panel">' +
-          '<p class="about-fx-kicker">Film Director &amp; Generative AI</p>' +
-          '<h2 class="about-fx-title" aria-label="Óscar Parra"></h2>' +
+          '<h2 class="about-fx-title" aria-label="Film Director &amp; Generative AI"></h2>' +
           '<div class="afx-rule" aria-hidden="true"></div>' +
           '<div class="afx-about afx-seq"><h3>About</h3>' +
-            '<p>Directing and developing audiovisual projects that combine cinematic storytelling, creativity and generative AI, with a special focus on content for advertising and brands.</p>' +
-            '<p>From creative concept to final delivery, I integrate AI image and video generation tools into directing, production and post-production workflows, exploring new ways of telling stories and creating visual experiences.</p>' +
+            '<p><strong>Óscar Parra</strong> is a film director who develops audiovisual projects that combine cinematic storytelling, creativity and generative AI, with a special focus on content for advertising and brands.</p>' +
+            '<p>From creative concept to final delivery, he integrates AI image and video generation tools into directing, production and post-production workflows, exploring new ways of telling stories and creating visual experiences.</p>' +
           '</div>' +
           '<dl class="afx-rows">' +
-            '<div class="afx-seq"><dt>Location</dt><dd><span class="afx-city">Madrid</span><span class="afx-ow">Open World</span><small>40.4168° N · 3.7038° W</small></dd></div>' +
+            '<div class="afx-seq"><dt>Based in</dt><dd>Madrid · Worldwide</dd></div>' +
             '<div class="afx-seq"><dt>Email</dt><dd><a href="mailto:oscarparracontacto@gmail.com">oscarparracontacto@gmail.com</a></dd></div>' +
             '<div class="afx-seq"><dt>Instagram</dt><dd><a href="https://www.instagram.com/oscarparrax/" target="_blank" rel="noopener">@oscarparrax <span aria-hidden="true">↗</span></a></dd></div>' +
             '<div class="afx-seq"><dt>LinkedIn</dt><dd><a href="https://www.linkedin.com/in/%C3%B3scar-parra-serrano-302180251" target="_blank" rel="noopener">Óscar Parra Serrano <span aria-hidden="true">↗</span></a></dd></div>' +
@@ -855,10 +854,16 @@
         '</div></div>';
       const frame = root.querySelector('.about-fx-frame'), title = root.querySelector('.about-fx-title'), img = root.querySelector('.about-fx-img');
       let settled = null;
-      'Óscar Parra'.split(' ').forEach((word, wi) => {
-        const w = document.createElement('span'); w.className = 'afx-w'; w.setAttribute('aria-hidden', 'true');
-        word.split('').forEach((c, ci) => { const s = document.createElement('span'); s.className = 'afx-ch'; s.textContent = c; s.style.setProperty('--i', wi * 6 + ci); w.appendChild(s); });
-        title.appendChild(w);
+      // Titular: "Film Director" / "& Generative AI", letra a letra
+      let ci = 0;
+      [['Film Director', ''], ['& Generative AI', ' afx-acc']].forEach(([line, cls]) => {
+        const ln = document.createElement('span'); ln.className = 'afx-line' + cls; ln.setAttribute('aria-hidden', 'true');
+        line.split(' ').forEach((word) => {
+          const w = document.createElement('span'); w.className = 'afx-w';
+          word.split('').forEach((c) => { const s = document.createElement('span'); s.className = 'afx-ch'; s.textContent = c; s.style.setProperty('--i', ci++); w.appendChild(s); });
+          ln.appendChild(w);
+        });
+        title.appendChild(ln);
       });
       let closing = false;
       const onKey = (e) => { if (e.key === 'Escape') close(); };
