@@ -8,10 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../style.css?v=86">
+<link rel="stylesheet" href="../style.css?v=87">
 </head>
 <body>
-<div id="verTag" data-v="86" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v86</div>
+<div id="verTag" data-v="87" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v87</div>
 <script>(function(){var t=document.getElementById("verTag");if(!t)return;var c=getComputedStyle(document.documentElement).getPropertyValue("--ver").replace(/[^0-9]/g,"");if(c!==t.getAttribute("data-v")){t.textContent+=" · style.css antiguo ("+(c?"v"+c:"sin versión")+")";t.style.color="#ffe600";}})();</script>
 
 <header>
@@ -67,12 +67,12 @@
 <div class="es-layout">
   <section class="project-video es-video">
     <div class="wrap">
-      <a class="video-frame is-external" href="https://www.instagram.com/p/Cve_-K7tiOS/" target="_blank" rel="noopener">
-      <span class="video-play">
-        <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
-        <span>Ver en Instagram</span>
-      </span>
-    </a>
+      <div class="video-frame" id="videoFrame" data-mp4="../videos/sueno-de-emilio-completo.mp4">
+        <button class="video-play" aria-label="Reproducir vídeo">
+          <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
+          <span>Ver vídeo</span>
+        </button>
+      </div>
     </div>
   </section>
 
@@ -180,6 +180,105 @@
       const p = prev; prev = null;
       setTimeout(() => { p.remove(); frame.classList.remove('has-preview'); }, 450);
     });
+  })();
+  // Vídeo propio (MP4): al llegar a él se reproduce solo, sin sonido y en bucle. Al pulsar se amplía (misma animación que con YouTube)
+  // y arranca desde el principio con sonido y con controles. Al cerrar el zoom el vídeo sigue en marcha.
+  (() => {
+    const frame = document.querySelector('.video-frame[data-mp4]');
+    if (!frame) return;
+    const DUR = 560;
+    const EASE = 'cubic-bezier(.22,.68,0,1.01)';
+    const TR = `top ${DUR}ms ${EASE}, left ${DUR}ms ${EASE}, width ${DUR}ms ${EASE}, height ${DUR}ms ${EASE}`;
+    let current = null;
+    const video = document.createElement('video');
+    video.src = frame.dataset.mp4;
+    video.muted = true; video.loop = true; video.playsInline = true; video.preload = 'auto';
+    video.setAttribute('playsinline', ''); video.setAttribute('webkit-playsinline', '');
+    video.setAttribute('aria-label', document.title);
+    video.tabIndex = -1;
+    frame.insertBefore(video, frame.firstChild);
+    frame.classList.add('has-preview');
+    const exp = document.createElement('button');        // botón para volver a ampliar con el vídeo en marcha
+    exp.type = 'button'; exp.className = 'video-expand'; exp.setAttribute('aria-label', 'Ampliar vídeo');
+    exp.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="square"/></svg>';
+    exp.addEventListener('click', (e) => { e.stopPropagation(); open(frame); });
+    frame.appendChild(exp);
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((entries) => {
+        entries.forEach((en) => {
+          if (frame.classList.contains('is-loaded')) return;
+          if (en.isIntersecting) { const p = video.play(); if (p && p.catch) p.catch(() => {}); } else { video.pause(); }
+        });
+      }, { threshold: 0.35 }).observe(frame);
+    } else { const p = video.play(); if (p && p.catch) p.catch(() => {}); }
+    function startFull() {
+      video.loop = false; video.muted = false; video.controls = true;
+      try { video.currentTime = 0; } catch (_) {}
+      const p = video.play(); if (p && p.catch) p.catch(() => {});
+    }
+    // ---- Zoom ----
+    function target() {
+      const vw = window.innerWidth, vh = window.innerHeight;
+      const w = Math.min(vw * (vw < 760 ? 0.96 : 0.92), vh * 0.86 * 16 / 9);   // casi toda la pantalla, sin llegar a ser entera
+      const h = w * 9 / 16;
+      return { top: (vh - h) / 2, left: (vw - w) / 2, width: w, height: h };
+    }
+    function setRect(el, r) {
+      el.style.top = r.top + 'px'; el.style.left = r.left + 'px';
+      el.style.width = r.width + 'px'; el.style.height = r.height + 'px';
+    }
+
+    function open(frame) {
+      if (current || frame.classList.contains('is-zoom')) return;
+      const first = !frame.classList.contains('is-loaded');
+      const stage = frame.closest('.project-stage');
+      const holder = frame.closest('.stage-content') || document.body;
+      const r = frame.getBoundingClientRect();
+      const ph = document.createElement('div');          // guarda el hueco mientras la pantalla está "volando"
+      ph.className = 'video-frame-ph';
+      ph.style.cssText = `width:${r.width}px;height:${r.height}px;max-width:100%;margin:0 auto;`;
+      frame.parentNode.insertBefore(ph, frame);
+      const backdrop = document.createElement('div');
+      backdrop.className = 'lightbox-backdrop video-backdrop';
+      holder.appendChild(backdrop);
+      if (stage) stage.classList.add('is-video-open');   // el escenario pasa por encima de la cabecera mientras dura el zoom
+      document.body.classList.add('video-open');
+
+      frame.style.transition = 'none';
+      frame.classList.add('is-zoom', 'is-loaded');
+      setRect(frame, r);
+      void frame.offsetWidth;
+      frame.style.transition = TR;
+      if (first) startFull();                            // arranca desde el principio, con sonido
+
+      requestAnimationFrame(() => { backdrop.classList.add('is-open'); setRect(frame, target()); });
+
+      let closing = false;
+      const onResize = () => { if (!closing) { frame.style.transition = 'none'; setRect(frame, target()); } };
+      function close() {
+        if (closing) return;
+        closing = true;
+        window.removeEventListener('resize', onResize);
+        document.removeEventListener('keydown', onKey);
+        frame.style.transition = TR;
+        setRect(frame, ph.getBoundingClientRect());
+        backdrop.classList.remove('is-open');
+        document.body.classList.remove('video-open');
+        setTimeout(() => {                                // el vídeo no se toca: sigue reproduciéndose en su sitio
+          frame.classList.remove('is-zoom');
+          frame.removeAttribute('style');
+          ph.remove(); backdrop.remove();
+          if (stage) stage.classList.remove('is-video-open');
+          current = null;
+        }, DUR + 40);
+      }
+      const onKey = (e) => { if (e.key === 'Escape') close(); };
+      backdrop.addEventListener('click', close);
+      document.addEventListener('keydown', onKey);
+      window.addEventListener('resize', onResize);
+      current = { close };
+    }
+    frame.addEventListener('click', () => { if (!frame.classList.contains('is-loaded')) open(frame); });
   })();
   // Carrusel de rodaje automático (como el de marcas de la home): avanza solo, despacio y en bucle.
   // Se puede arrastrar con el cursor (o el dedo) para empujarlo; al soltar, el impulso se va frenando

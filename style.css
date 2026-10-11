@@ -1638,4 +1638,9 @@ body .cursor-ring::after,body .cursor-ring.is-active::after,body.iso-hi .cursor-
 
 
 
-/* VERSION */:root{--ver:'86';}
+/* ===== CAMBIOS 87: vídeo propio (MP4) en El Sueño de Emilio: se reproduce solo (mudo, en bucle) y al pulsar se amplía con sonido y controles ===== */
+.video-frame video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000;z-index:2;pointer-events:none;}
+.video-frame.is-loaded video{pointer-events:auto;object-fit:contain;}
+
+
+/* VERSION */:root{--ver:'87';}
