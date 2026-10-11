@@ -1889,4 +1889,9 @@ footer .ft-legal{font-size:11px;opacity:.75;letter-spacing:.02em;}
 }
 
 
-/* VERSION */:root{--ver:'106';}
+/* ===== CAMBIOS 107: portada — al pasar el cursor por una miniatura, el texto (nombre · año) pasa al verde (#a3ff12) junto con el zoom y el brillo ===== */
+.work-overlay .tag{transition:color .3s ease;}
+.work-card:hover .work-overlay .tag{color:#a3ff12;}
+
+
+/* VERSION */:root{--ver:'107';}
