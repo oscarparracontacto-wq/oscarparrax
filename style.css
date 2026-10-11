@@ -1864,4 +1864,10 @@ body.about-prep .hero-bg img{animation-play-state:paused;}                 /* el
 
 
 
-/* VERSION */:root{--ver:'103';}
+/* ===== CAMBIOS 104: móvil, portada — borde negro lateral de los proyectos un pelín más grueso (10px -> 16px) ===== */
+@media (max-width:760px){
+  .work-grid{padding-left:16px;padding-right:16px;}
+}
+
+
+/* VERSION */:root{--ver:'104';}
