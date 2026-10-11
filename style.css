@@ -1543,4 +1543,13 @@ header nav .nav-sub-in a:hover{background:rgba(255,255,255,0.14);opacity:1;}
 }
 
 
-/* VERSION */:root{--ver:'79';}
+/* ===== CAMBIOS 80 (Premios Esland): el vídeo se reproduce solo, sin sonido y en bucle, al llegar a él; al pulsar se amplía y arranca con sonido ===== */
+.video-frame.has-preview .video-preview{opacity:1!important;pointer-events:none!important;z-index:2;}
+.video-frame.has-preview::after{content:'';position:absolute;inset:0;z-index:3;pointer-events:none;background:rgba(0,0,0,0);transition:background .35s ease;}
+.video-frame.has-preview:hover::after{background:rgba(0,0,0,.35);}
+.video-frame.has-preview .video-play{z-index:4;opacity:0;transition:opacity .3s ease;}
+.video-frame.has-preview:hover .video-play{opacity:1;}
+.video-frame.has-preview.is-loaded::after{display:none;}
+
+
+/* VERSION */:root{--ver:'80';}
