@@ -1643,8 +1643,5 @@ body .cursor-ring::after,body .cursor-ring.is-active::after,body.iso-hi .cursor-
 .video-frame.is-loaded video{pointer-events:auto;object-fit:contain;}
 
 
-/* ===== CAMBIOS 88 (solo Ford Kuga): sin carrusel; el vídeo puede crecer porque no hay que dejar sitio debajo ===== */
-.es-layout.es-nogal{--vw:min(calc(100vw - 2*var(--pad) - var(--gap) - var(--iw)), calc((100vh - var(--hdr) - 130px)*16/9));}
 
-
-/* VERSION */:root{--ver:'88';}
+/* VERSION */:root{--ver:'89';}
