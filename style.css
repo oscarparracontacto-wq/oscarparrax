@@ -1844,4 +1844,16 @@ body.about-prep .hero-bg img{animation-play-state:paused;}                 /* el
 .afx-rows > div:first-child{border-top:1px solid rgba(255,255,255,.26);}
 
 
-/* VERSION */:root{--ver:'99';}
+/* ===== CAMBIOS 100: formato móvil de las páginas de proyecto — 1) vídeo, 2) carrusel de imágenes (un pelín más pequeño), 3) título + roles + descripción, 4) fotogramas en UNA columna ===== */
+@media (max-width:760px){
+  .es-video{order:1;}
+  .es-gallery{order:2;}
+  .es-head{order:3;padding-top:8px;}
+  .es-text{order:4;}
+  .es-gallery .gal-item{flex:0 0 clamp(90px,25vw,117px);}
+  .es-stills{grid-template-columns:1fr;}
+  .es-layout.rw{padding-top:8px;}
+}
+
+
+/* VERSION */:root{--ver:'100';}
