@@ -1824,4 +1824,24 @@ body.about-open header{z-index:9990;}
 @media (max-height:620px) and (orientation:landscape){.afx-panel .about-fx-title{font-size:clamp(22px,3.8vw,38px);}}
 
 
-/* VERSION */:root{--ver:'98';}
+/* ===== CAMBIOS 99: "Sobre mí" más fluido (solo transform y clip-path, primer fotograma igual que el banner, lo pesado de detrás en pausa), todo el texto y las líneas aparecen a la vez, y texto web actualizado ===== */
+html{scrollbar-gutter:stable;}                                            /* al bloquear el scroll no se mueve la página 15 px */
+body.about-prep .hero-bg img{animation-play-state:paused;}                 /* el balanceo del banner se congela (y así coincide con el primer fotograma de la escena) */
+.hero-banner.afx-hide-bg .hero-bg{visibility:hidden;}
+.about-fx-frame{position:absolute;inset:0;overflow:hidden;background:#000;opacity:0;transition:opacity .3s ease;}
+.about-fx.is-start .about-fx-frame{opacity:1;}
+.about-fx-img{position:absolute;left:0;top:0;right:auto;bottom:auto;max-width:none;object-fit:fill;object-position:0 0;transform-origin:0 0;will-change:transform;
+  filter:grayscale(12%) sepia(6%) contrast(1.1) saturate(1.08) brightness(.95);animation:none!important;}
+.afx-fx{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 1.4s ease;}
+.about-fx.is-title .afx-fx{opacity:1;}
+.about-fx.is-out .afx-fx{opacity:0;transition-duration:.4s;}
+.about-fx.is-in .about-fx-flash{animation:afxFlash 1s ease-out 2s both;}
+/* líneas: nada se ve antes que el texto; la línea bajo el titular, las filas y su primera línea salen todos con el bloque de texto */
+.afx-rule{transition:transform 1.1s cubic-bezier(.2,.7,.2,1) 0s;}
+.about-fx.is-title .afx-rule{transform:scaleX(0);}
+.about-fx.is-info .afx-rule{transform:none;}
+.afx-rows{border-top:0;}
+.afx-rows > div:first-child{border-top:1px solid rgba(255,255,255,.26);}
+
+
+/* VERSION */:root{--ver:'99';}
