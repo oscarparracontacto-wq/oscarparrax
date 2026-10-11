@@ -1670,4 +1670,13 @@ body.video-open .vs-ctrl{display:none;}
 }
 
 
-/* VERSION */:root{--ver:'90';}
+/* ===== CAMBIOS 91: barra superior — al pasar el cursor, texto e iconos cambian al verde ácido (#a3ff12), el mismo del cursor ===== */
+header nav a,header .social-icons a{transition:color .2s ease,opacity .2s ease;}
+header nav a:hover,header nav a:focus-visible,
+header .nav-work:hover > .nav-work-link,
+header .social-icons a:hover,header .social-icons a:focus-visible,
+header .menu-btn:hover,header .cam-iso:hover .iso-label,header .cam-iso:hover .iso-value,
+header nav .nav-sub-in a:hover{color:#a3ff12;opacity:1;}
+
+
+/* VERSION */:root{--ver:'91';}
