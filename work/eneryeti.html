@@ -8,10 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../style.css?v=89">
+<link rel="stylesheet" href="../style.css?v=90">
 </head>
 <body>
-<div id="verTag" data-v="89" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v89</div>
+<div id="verTag" data-v="90" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v90</div>
 <script>(function(){var t=document.getElementById("verTag");if(!t)return;var c=getComputedStyle(document.documentElement).getPropertyValue("--ver").replace(/[^0-9]/g,"");if(c!==t.getAttribute("data-v")){t.textContent+=" · style.css antiguo ("+(c?"v"+c:"sin versión")+")";t.style.color="#ffe600";}})();</script>
 
 <header>
@@ -67,12 +67,43 @@
 <div class="es-layout">
   <section class="project-video es-video">
     <div class="wrap">
-      <div class="video-frame" id="videoFrame">
-      <button class="video-play" aria-label="Reproducir vídeo">
-        <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
-        <span>Ver vídeo</span>
-      </button>
-    </div>
+      <!-- Cuatro vídeos: se ve uno cada vez; las flechas y los números pasan de uno a otro -->
+      <div class="video-set" id="videoSet">
+        <div class="video-frame" data-video="xJ75rWlVduk">
+          <button class="video-play" aria-label="Reproducir vídeo 1">
+            <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
+            <span>Ver vídeo</span>
+          </button>
+        </div>
+        <div class="video-frame vs-off" data-video="yWbtonIu9TY">
+          <button class="video-play" aria-label="Reproducir vídeo 2">
+            <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
+            <span>Ver vídeo</span>
+          </button>
+        </div>
+        <div class="video-frame vs-off" data-video="cbHYiTm9Rq8">
+          <button class="video-play" aria-label="Reproducir vídeo 3">
+            <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
+            <span>Ver vídeo</span>
+          </button>
+        </div>
+        <div class="video-frame vs-off" data-video="BssFU5DowGw">
+          <button class="video-play" aria-label="Reproducir vídeo 4">
+            <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
+            <span>Ver vídeo</span>
+          </button>
+        </div>
+        <div class="vs-ctrl" role="group" aria-label="Elegir vídeo">
+          <button type="button" class="vs-arrow vs-prev" aria-label="Vídeo anterior"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M15 4 7 12l8 8" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+          <button type="button" class="vs-arrow vs-next" aria-label="Vídeo siguiente"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="m9 4 8 8-8 8" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="square"/></svg></button>
+          <div class="vs-nums">
+            <button type="button" class="vs-num is-on" aria-label="Vídeo 1" aria-current="true">1</button>
+            <button type="button" class="vs-num" aria-label="Vídeo 2">2</button>
+            <button type="button" class="vs-num" aria-label="Vídeo 3">3</button>
+            <button type="button" class="vs-num" aria-label="Vídeo 4">4</button>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -214,6 +245,7 @@
         if (st.wantPlay) { st.wantPlay = false; send(st, 'playVideo'); }
       }
     });
+    frames.forEach((f) => { f._ensure = () => ensurePlayer(f, false); });   // lo usa el selector de vídeos al volver a uno
     // Precarga: cuando el vídeo está a menos de una pantalla, se prepara el reproductor (sin reproducirlo)
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver((entries) => {
@@ -291,30 +323,63 @@
   // Vista previa: al llegar al vídeo se reproduce solo, sin sonido y en bucle (los navegadores no dejan arrancar con sonido sin pulsar).
   // Al pulsar "Ver vídeo" se amplía el reproductor de verdad (que arranca desde el principio con sonido) y la vista previa se retira.
   (() => {
-    const frame = document.querySelector('.video-frame[data-video]');
-    if (!frame || !('IntersectionObserver' in window)) return;
-    const id = frame.dataset.video;
-    let prev = null;
-    const io = new IntersectionObserver((entries) => {
-      if (!entries.some((en) => en.isIntersecting) || prev) return;
-      io.disconnect();
-      prev = document.createElement('iframe');
-      prev.className = 'video-preview';
-      prev.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&disablekb=1&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1`;
-      prev.setAttribute('frameborder', '0');
-      prev.setAttribute('allow', 'autoplay; encrypted-media');
-      prev.setAttribute('tabindex', '-1');
-      prev.setAttribute('aria-hidden', 'true');
-      prev.setAttribute('title', '');
-      frame.insertBefore(prev, frame.firstChild);
-      frame.classList.add('has-preview');
-    }, { threshold: 0.4 });
-    io.observe(frame);
-    frame.addEventListener('click', () => {
-      if (!prev) return;
-      const p = prev; prev = null;
-      setTimeout(() => { p.remove(); frame.classList.remove('has-preview'); }, 450);
+    if (!('IntersectionObserver' in window)) return;
+    document.querySelectorAll('.video-frame[data-video]').forEach((frame) => {
+      const id = frame.dataset.video;
+      let prev = null;
+      function stopPrev() { if (prev) { prev.remove(); prev = null; } frame.classList.remove('has-preview'); }
+      const io = new IntersectionObserver((entries) => {
+        const en = entries[entries.length - 1];
+        if (!en.isIntersecting) { stopPrev(); return; }   // oculto o fuera de pantalla: se retira la vista previa
+        if (prev || frame.classList.contains('is-loaded')) return;
+        prev = document.createElement('iframe');
+        prev.className = 'video-preview';
+        prev.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&disablekb=1&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1`;
+        prev.setAttribute('frameborder', '0');
+        prev.setAttribute('allow', 'autoplay; encrypted-media');
+        prev.setAttribute('tabindex', '-1');
+        prev.setAttribute('aria-hidden', 'true');
+        prev.setAttribute('title', '');
+        frame.insertBefore(prev, frame.firstChild);
+        frame.classList.add('has-preview');
+      }, { threshold: 0.4 });
+      io.observe(frame);
+      frame.addEventListener('click', () => {
+        if (!prev) return;
+        const p = prev; prev = null;
+        setTimeout(() => { p.remove(); frame.classList.remove('has-preview'); }, 450);
+      });
     });
+  })();
+  // Selector de vídeos: flechas y números. Al cambiar, el vídeo que se deja vuelve a su estado inicial
+  // (sin sonido, vista previa en bucle) y el nuevo arranca solo con su vista previa.
+  (() => {
+    const set = document.getElementById('videoSet');
+    if (!set) return;
+    const frames = Array.from(set.querySelectorAll('.video-frame'));
+    const nums = Array.from(set.querySelectorAll('.vs-num'));
+    const n = frames.length;
+    let cur = 0;
+    function reset(f) {
+      const st = f._yt;
+      if (st) { clearInterval(st.timer); st.iframe.remove(); delete f._yt; }
+      f.querySelectorAll('.video-expand').forEach((e) => e.remove());
+      f.classList.remove('is-loaded');
+    }
+    function go(i) {
+      i = ((i % n) + n) % n;
+      if (i === cur || document.body.classList.contains('video-open')) return;
+      const from = frames[cur], to = frames[i];
+      reset(from);
+      from.classList.add('vs-off');
+      to.classList.remove('vs-off');
+      nums.forEach((b, k) => { b.classList.toggle('is-on', k === i); if (k === i) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current'); });
+      cur = i;
+      if (!to._yt && to._ensure) setTimeout(() => { if (cur === i && !to._yt) to._ensure(); }, 600);   // el reproductor de verdad se prepara en segundo plano
+    }
+    set.querySelector('.vs-prev').addEventListener('click', () => go(cur - 1));
+    set.querySelector('.vs-next').addEventListener('click', () => go(cur + 1));
+    nums.forEach((b, k) => b.addEventListener('click', () => go(k)));
   })();
   // Carrusel de rodaje automático (como el de marcas de la home): avanza solo, despacio y en bucle.
   // Se puede arrastrar con el cursor (o el dedo) para empujarlo; al soltar, el impulso se va frenando
