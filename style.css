@@ -1856,4 +1856,10 @@ body.about-prep .hero-bg img{animation-play-state:paused;}                 /* el
 }
 
 
-/* VERSION */:root{--ver:'100';}
+/* ===== CAMBIOS 101: móvil, portada — un pelín de borde negro a izquierda y derecha en la parte de proyectos (el banner no); la separación entre miniaturas no cambia ===== */
+@media (max-width:760px){
+  .work-grid{padding-left:10px;padding-right:10px;background:#000;}
+}
+
+
+/* VERSION */:root{--ver:'101';}
