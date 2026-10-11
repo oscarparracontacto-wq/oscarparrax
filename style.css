@@ -1894,4 +1894,14 @@ footer .ft-legal{font-size:11px;opacity:.75;letter-spacing:.02em;}
 .work-card:hover .work-overlay .tag{color:#a3ff12;}
 
 
-/* VERSION */:root{--ver:'107';}
+/* ===== CAMBIOS 108: botón Todos/IA en negro y verde (#a3ff12); la X que sale junto a la última A de "Parra" ahora es la X nueva (PNG, trazo blanco) ===== */
+.view-filter-btn.is-active{background:#a3ff12;color:#0D0C0B;}
+.view-filter-btn.is-active:hover{color:#0D0C0B;}
+.view-filter-btn:not(.is-active):hover{color:#a3ff12;}
+.hero-title .px{width:.46em;height:.5em;bottom:-.12em;left:calc(100% + .06em);}
+.hero-title .px img{display:block;width:100%;height:100%;object-fit:contain;
+  clip-path:inset(0 100% 0 0);transition:clip-path 0s linear .25s;user-select:none;-webkit-user-drag:none;}
+.hero-title .px.is-on img{clip-path:inset(0 0 0 0);transition:clip-path .16s cubic-bezier(.4,0,.2,1);}
+
+
+/* VERSION */:root{--ver:'108';}

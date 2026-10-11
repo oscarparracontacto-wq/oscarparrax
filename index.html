@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Óscar Parra | Portfolio</title>
 <meta name="description" content="Descubre el portafolio de Óscar Parra, Film Director &amp; Generative AI, especializado en publicidad, contenido de marca y proyectos con IA.">
-<link rel="stylesheet" href="style.css?v=107">
+<link rel="stylesheet" href="style.css?v=108">
 </head>
 <body>
-<div id="verTag" data-v="107" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v107</div>
+<div id="verTag" data-v="108" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v108</div>
 <script>(function(){var t=document.getElementById("verTag");if(!t)return;var c=getComputedStyle(document.documentElement).getPropertyValue("--ver").replace(/[^0-9]/g,"");if(c!==t.getAttribute("data-v")){t.textContent+=" · style.css antiguo ("+(c?"v"+c:"sin versión")+")";t.style.color="#ffe600";}})();</script>
 
 <header>
@@ -530,7 +530,7 @@
       const lastIdx = titleLetters.length - 1;
       const px = document.createElement('span');
       px.className = 'px'; px.setAttribute('aria-hidden', 'true');
-      px.innerHTML = '<span class="bar b1"><i></i></span><span class="bar b2"><i></i></span>';
+      px.innerHTML = '<img src="img/x-mark.png?v=108" alt="" draggable="false">';
       titleLetters[lastIdx].appendChild(px);
       let mx = null, my = null, running = false, last = performance.now();
       function tick(now) {
