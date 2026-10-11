@@ -1721,4 +1721,18 @@ body.video-open .rw-time{visibility:hidden;}
 }
 
 
-/* VERSION */:root{--ver:'92';}
+/* ===== CAMBIOS 93: Rewind — la línea del tiempo va centrada justo encima del recuadro del vídeo, más pequeña; el vídeo, casi tan grande como en el resto ===== */
+.es-layout.rw{--hdr:57px;padding-top:28px;
+  --vw:min(calc(100vw - 2*var(--pad) - var(--gap) - var(--iw)), calc((100vh - var(--hdr) - 326px)*16/9));}
+.es-layout.rw .rw-time{height:46px;max-width:none;width:100%;margin:0 0 6px;}
+.es-layout.rw .rw-year{font-size:30px;top:42%;}
+.es-layout.rw .rw-line{bottom:6px;}
+.es-layout.rw .rw-line::before{height:5px;}
+@media (max-width:760px){
+  .es-layout.rw{padding-top:12px;}
+  .es-layout.rw .rw-time{height:48px;margin-bottom:4px;}
+  .es-layout.rw .rw-year{font-size:27px;}
+}
+
+
+/* VERSION */:root{--ver:'93';}

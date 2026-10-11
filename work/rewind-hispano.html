@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../style.css?v=92">
+<link rel="stylesheet" href="../style.css?v=93">
 <style>
 /* ===== PRUEBA: efecto de cámara más fuerte + capa extra de ruido ===== */
 /* Solo en esta página, a modo de test */
@@ -36,7 +36,7 @@
 </style>
 </head>
 <body>
-<div id="verTag" data-v="92" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v92</div>
+<div id="verTag" data-v="93" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v93</div>
 <script>(function(){var t=document.getElementById("verTag");if(!t)return;var c=getComputedStyle(document.documentElement).getPropertyValue("--ver").replace(/[^0-9]/g,"");if(c!==t.getAttribute("data-v")){t.textContent+=" · style.css antiguo ("+(c?"v"+c:"sin versión")+")";t.style.color="#ffe600";}})();</script>
 
 <header>
@@ -91,18 +91,18 @@
   <div class="film-grain tv-static video-grain"></div>
   <div class="tv-scanlines"></div>
   <div class="stage-content">
-<div class="rw-time" id="rwTime" role="tablist" aria-label="Año de Rewind Hispano" tabindex="0">
-  <div class="rw-line" aria-hidden="true"></div>
-  <div class="rw-track">
-      <button type="button" class="rw-year" data-year="2020" role="tab" aria-label="Rewind Hispano 2020">2020</button>
-      <button type="button" class="rw-year" data-year="2021" role="tab" aria-label="Rewind Hispano 2021">2021</button>
-      <button type="button" class="rw-year" data-year="2022" role="tab" aria-label="Rewind Hispano 2022">2022</button>
-      <button type="button" class="rw-year" data-year="2023" role="tab" aria-label="Rewind Hispano 2023">2023</button>
-  </div>
-</div>
 <div class="es-layout rw" id="rwLayout">
   <section class="project-video es-video">
     <div class="wrap">
+      <div class="rw-time" id="rwTime" role="tablist" aria-label="Año de Rewind Hispano" tabindex="0">
+        <div class="rw-line" aria-hidden="true"></div>
+        <div class="rw-track">
+            <button type="button" class="rw-year" data-year="2020" role="tab" aria-label="Rewind Hispano 2020">2020</button>
+            <button type="button" class="rw-year" data-year="2021" role="tab" aria-label="Rewind Hispano 2021">2021</button>
+            <button type="button" class="rw-year" data-year="2022" role="tab" aria-label="Rewind Hispano 2022">2022</button>
+            <button type="button" class="rw-year" data-year="2023" role="tab" aria-label="Rewind Hispano 2023">2023</button>
+        </div>
+      </div>
       <div class="video-set" id="videoSet">
         <div class="video-frame vs-off" data-year="2020" data-video="h4NJCc4AQxw">
           <button class="video-play" aria-label="Reproducir Rewind Hispano 2020">
@@ -448,14 +448,14 @@
     if (ids.includes(want)) cur = ids.indexOf(want);
     let drag = 0, dragging = false;
 
-    const SP = () => (mq.matches ? 84 : 128);
+    const SP = () => (mq.matches ? 70 : 96);
     function place() {
       const sp = SP();
       YEARS.forEach((b, i) => {
         const d = i - cur;
         const ad = Math.abs(d);
-        const s = d === 0 ? 1 : Math.max(0.3, 0.46 - 0.07 * (ad - 1));
-        const o = d === 0 ? 1 : Math.max(0.22, 0.62 - 0.2 * (ad - 1));
+        const s = d === 0 ? 1 : Math.max(0.46, 0.66 - 0.07 * (ad - 1));
+        const o = d === 0 ? 1 : Math.max(0.32, 0.7 - 0.16 * (ad - 1));
         const x = d * sp + drag;
         b.style.transform = `translate(-50%,-50%) translateX(${x}px) scale(${s})`;
         b.style.opacity = o;
