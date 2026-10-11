@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../style.css?v=91">
+<link rel="stylesheet" href="../style.css?v=92">
 <style>
 /* ===== PRUEBA: efecto de cámara más fuerte + capa extra de ruido ===== */
 /* Solo en esta página, a modo de test */
@@ -36,7 +36,7 @@
 </style>
 </head>
 <body>
-<div id="verTag" data-v="91" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v91</div>
+<div id="verTag" data-v="92" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v92</div>
 <script>(function(){var t=document.getElementById("verTag");if(!t)return;var c=getComputedStyle(document.documentElement).getPropertyValue("--ver").replace(/[^0-9]/g,"");if(c!==t.getAttribute("data-v")){t.textContent+=" · style.css antiguo ("+(c?"v"+c:"sin versión")+")";t.style.color="#ffe600";}})();</script>
 
 <header>
@@ -82,176 +82,108 @@
   </div>
 </header>
 
-<!-- HERO -->
-<section class="project-hero hero-slim">
-  <div class="project-hero-bg">
-    <img src="../img/rewind-hero.webp" alt="Rewind Hispano">
-  </div>
-  <div class="project-hero-overlay"></div>
-  <div class="film-grain tv-static"></div>
-  <div class="tv-scanlines"></div>
-  <div class="extra-noise"></div>
-
-  <div class="project-hero-content">
-    <h1 class="project-title">Rewind Hispano</h1>
-    <div class="project-meta">
-      <div class="meta-item">
-        <span class="meta-label">Año</span>
-        <span class="meta-value">2020–2023</span>
-      </div>
-      <div class="meta-item">
-        <span class="meta-label">Rol</span>
-        <span class="meta-value">Director y Guionista</span>
-      </div>
-      <div class="meta-item">
-        <span class="meta-label">Productora</span>
-        <span class="meta-value">DHC Films</span>
-      </div>
-      <div class="meta-item">
-        <span class="meta-label">Agencia</span>
-        <span class="meta-value">MEDIAPRO</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TEXTO + VÍDEO + CARRUSEL, todo sobre el fondo de la imagen del vídeo -->
+<!-- Rewind Hispano: misma composición que el resto de proyectos; arriba, una línea del tiempo para viajar entre años (2020 · 2021 · 2022 · 2023) -->
 <section class="project-stage">
-  <img class="project-video-bg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" src="../img/rewind-2023-video-bg.webp" alt="" aria-hidden="true">
+  <img class="project-video-bg rw-bg" data-year="2020" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" src="../img/rewind-2020-video-bg.webp" alt="" aria-hidden="true">
+  <img class="project-video-bg rw-bg" data-year="2021" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" src="../img/rewind-2021-video-bg.webp" alt="" aria-hidden="true">
+  <img class="project-video-bg rw-bg" data-year="2022" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" src="../img/rewind-2022-video-bg.webp" alt="" aria-hidden="true">
+  <img class="project-video-bg rw-bg on" data-year="2023" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" src="../img/rewind-2023-video-bg.webp" alt="" aria-hidden="true">
   <div class="film-grain tv-static video-grain"></div>
   <div class="tv-scanlines"></div>
-  <div class="extra-noise"></div>
   <div class="stage-content">
-<section class="project-body desc-oneline">
-  <div class="wrap center">
-    <p>Un cortometraje anual que repasa lo más destacado del año en la comunidad hispanohablante: memes, música, videojuegos y cultura digital.</p>
+<div class="rw-time" id="rwTime" role="tablist" aria-label="Año de Rewind Hispano" tabindex="0">
+  <div class="rw-line" aria-hidden="true"></div>
+  <div class="rw-track">
+      <button type="button" class="rw-year" data-year="2020" role="tab" aria-label="Rewind Hispano 2020">2020</button>
+      <button type="button" class="rw-year" data-year="2021" role="tab" aria-label="Rewind Hispano 2021">2021</button>
+      <button type="button" class="rw-year" data-year="2022" role="tab" aria-label="Rewind Hispano 2022">2022</button>
+      <button type="button" class="rw-year" data-year="2023" role="tab" aria-label="Rewind Hispano 2023">2023</button>
   </div>
-</section>
-
-<div class="stage-split">
-<section class="project-video">
-  <div class="wrap">
-    <h2 class="project-h2" style="color:#fff;text-align:center;">2023</h2>
-    <div class="video-frame" data-video="TjkRhh3Gh1U">
-      <button class="video-play" aria-label="Reproducir vídeo">
-        <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
-        <span>Ver vídeo</span>
-      </button>
-    </div>
-  </div>
-</section>
-
-<section class="project-gallery">
-  <div class="gallery-viewport is-vertical">
-    <div class="gallery-track">
-      <figure class="gal-item"><img src="../img/rewind-2023-rodaje-1.webp" alt="Rodaje Rewind Hispano 2023" loading="lazy"></figure>
-      <figure class="gal-item"><img src="../img/rewind-2023-rodaje-2.webp" alt="Rodaje Rewind Hispano 2023" loading="lazy"></figure>
-      <figure class="gal-item"><img src="../img/rewind-2023-rodaje-3.webp" alt="Rodaje Rewind Hispano 2023" loading="lazy"></figure>
-      <figure class="gal-item"><img src="../img/rewind-2023-rodaje-4.webp" alt="Rodaje Rewind Hispano 2023" loading="lazy"></figure>
-      <figure class="gal-item"><img src="../img/rewind-2023-rodaje-5.webp" alt="Rodaje Rewind Hispano 2023" loading="lazy"></figure>
-    </div>
-  </div>
-</section>
 </div>
-  </div>
-</section>
-
-<!-- TEXTO + VÍDEO + CARRUSEL, todo sobre el fondo de la imagen del vídeo -->
-<section class="project-stage">
-  <img class="project-video-bg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" src="../img/rewind-2022-video-bg.webp" alt="" aria-hidden="true">
-  <div class="film-grain tv-static video-grain"></div>
-  <div class="tv-scanlines"></div>
-  <div class="extra-noise"></div>
-  <div class="stage-content">
-<div class="stage-split">
-<section class="project-video">
-  <div class="wrap">
-    <h2 class="project-h2" style="color:#fff;text-align:center;">2022</h2>
-    <div class="video-frame" data-video="IbAuuxBFwoo">
-      <button class="video-play" aria-label="Reproducir vídeo">
-        <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
-        <span>Ver vídeo</span>
-      </button>
+<div class="es-layout rw" id="rwLayout">
+  <section class="project-video es-video">
+    <div class="wrap">
+      <div class="video-set" id="videoSet">
+        <div class="video-frame vs-off" data-year="2020" data-video="h4NJCc4AQxw">
+          <button class="video-play" aria-label="Reproducir Rewind Hispano 2020">
+            <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
+            <span>Ver vídeo</span>
+          </button>
+        </div>
+        <div class="video-frame vs-off" data-year="2021" data-video="_FMplFlIiOU">
+          <button class="video-play" aria-label="Reproducir Rewind Hispano 2021">
+            <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
+            <span>Ver vídeo</span>
+          </button>
+        </div>
+        <div class="video-frame vs-off" data-year="2022" data-video="IbAuuxBFwoo">
+          <button class="video-play" aria-label="Reproducir Rewind Hispano 2022">
+            <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
+            <span>Ver vídeo</span>
+          </button>
+        </div>
+        <div class="video-frame" data-year="2023" data-video="TjkRhh3Gh1U">
+          <button class="video-play" aria-label="Reproducir Rewind Hispano 2023">
+            <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
+            <span>Ver vídeo</span>
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="project-gallery">
-  <div class="gallery-viewport is-vertical">
-    <div class="gallery-track">
-      <figure class="gal-item"><img src="../img/rewind-2022-rodaje-1.webp" alt="Rodaje Rewind Hispano 2022" loading="lazy"></figure>
-      <figure class="gal-item"><img src="../img/rewind-2022-rodaje-2.webp" alt="Rodaje Rewind Hispano 2022" loading="lazy"></figure>
-      <figure class="gal-item"><img src="../img/rewind-2022-rodaje-3.webp" alt="Rodaje Rewind Hispano 2022" loading="lazy"></figure>
-      <figure class="gal-item"><img src="../img/rewind-2022-rodaje-4.webp" alt="Rodaje Rewind Hispano 2022" loading="lazy"></figure>
-      <figure class="gal-item"><img src="../img/rewind-2022-rodaje-5.webp" alt="Rodaje Rewind Hispano 2022" loading="lazy"></figure>
-      <figure class="gal-item"><img src="../img/rewind-2022-rodaje-6.webp" alt="Rodaje Rewind Hispano 2022" loading="lazy"></figure>
-      <figure class="gal-item"><img src="../img/rewind-2022-rodaje-7.webp" alt="Rodaje Rewind Hispano 2022" loading="lazy"></figure>
+  <section class="project-gallery es-gallery" id="rwGal">
+      <div class="gallery-viewport rw-hide" data-year="2020">
+        <div class="gallery-track">
+        </div>
+      </div>
+      <div class="gallery-viewport rw-hide" data-year="2021">
+        <div class="gallery-track">
+          <figure class="gal-item"><img src="../img/rewind-2021-rodaje-1.webp" alt="Rodaje Rewind Hispano 2021" loading="lazy"></figure>
+          <figure class="gal-item"><img src="../img/rewind-2021-rodaje-2.webp" alt="Rodaje Rewind Hispano 2021" loading="lazy"></figure>
+          <figure class="gal-item"><img src="../img/rewind-2021-rodaje-3.webp" alt="Rodaje Rewind Hispano 2021" loading="lazy"></figure>
+          <figure class="gal-item"><img src="../img/rewind-2021-rodaje-4.webp" alt="Rodaje Rewind Hispano 2021" loading="lazy"></figure>
+          <figure class="gal-item"><img src="../img/rewind-2021-rodaje-5.webp" alt="Rodaje Rewind Hispano 2021" loading="lazy"></figure>
+        </div>
+      </div>
+      <div class="gallery-viewport rw-hide" data-year="2022">
+        <div class="gallery-track">
+          <figure class="gal-item"><img src="../img/rewind-2022-rodaje-1.webp" alt="Rodaje Rewind Hispano 2022" loading="lazy"></figure>
+          <figure class="gal-item"><img src="../img/rewind-2022-rodaje-2.webp" alt="Rodaje Rewind Hispano 2022" loading="lazy"></figure>
+          <figure class="gal-item"><img src="../img/rewind-2022-rodaje-3.webp" alt="Rodaje Rewind Hispano 2022" loading="lazy"></figure>
+          <figure class="gal-item"><img src="../img/rewind-2022-rodaje-4.webp" alt="Rodaje Rewind Hispano 2022" loading="lazy"></figure>
+          <figure class="gal-item"><img src="../img/rewind-2022-rodaje-5.webp" alt="Rodaje Rewind Hispano 2022" loading="lazy"></figure>
+          <figure class="gal-item"><img src="../img/rewind-2022-rodaje-6.webp" alt="Rodaje Rewind Hispano 2022" loading="lazy"></figure>
+          <figure class="gal-item"><img src="../img/rewind-2022-rodaje-7.webp" alt="Rodaje Rewind Hispano 2022" loading="lazy"></figure>
+        </div>
+      </div>
+      <div class="gallery-viewport" data-year="2023">
+        <div class="gallery-track">
+          <figure class="gal-item"><img src="../img/rewind-2023-rodaje-1.webp" alt="Rodaje Rewind Hispano 2023" loading="lazy"></figure>
+          <figure class="gal-item"><img src="../img/rewind-2023-rodaje-2.webp" alt="Rodaje Rewind Hispano 2023" loading="lazy"></figure>
+          <figure class="gal-item"><img src="../img/rewind-2023-rodaje-3.webp" alt="Rodaje Rewind Hispano 2023" loading="lazy"></figure>
+          <figure class="gal-item"><img src="../img/rewind-2023-rodaje-4.webp" alt="Rodaje Rewind Hispano 2023" loading="lazy"></figure>
+          <figure class="gal-item"><img src="../img/rewind-2023-rodaje-5.webp" alt="Rodaje Rewind Hispano 2023" loading="lazy"></figure>
+        </div>
+      </div>
+  </section>
+
+  <aside class="es-info">
+    <div class="es-head">
+      <h1 class="es-title">Rewind Hispano</h1>
+      <dl class="es-meta">
+        <div><dt>Año</dt><dd id="rwYear">2023</dd></div>
+        <div><dt>Rol</dt><dd>Director y Guionista</dd></div>
+        <div><dt>Productora</dt><dd>DHC Films</dd></div>
+        <div><dt>Agencia</dt><dd>MEDIAPRO</dd></div>
+      </dl>
     </div>
-  </div>
-</section>
+    <div class="es-text">
+      <p>Un cortometraje anual que repasa lo más destacado del año en la comunidad hispanohablante: memes, música, videojuegos y cultura digital.</p>
+      <p class="rw-hide" data-only="2020">Esta edición reunió a más de 300 personas en su producción y se estrenó en los cines Callao de Madrid, con menciones en medios como El País, Marca y Movistar.</p>
+    </div>
+  </aside>
 </div>
-  </div>
-</section>
-
-<!-- TEXTO + VÍDEO + CARRUSEL, todo sobre el fondo de la imagen del vídeo -->
-<section class="project-stage">
-  <img class="project-video-bg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" src="../img/rewind-2021-video-bg.webp" alt="" aria-hidden="true">
-  <div class="film-grain tv-static video-grain"></div>
-  <div class="tv-scanlines"></div>
-  <div class="extra-noise"></div>
-  <div class="stage-content">
-<div class="stage-split">
-<section class="project-video">
-  <div class="wrap">
-    <h2 class="project-h2" style="color:#fff;text-align:center;">2021</h2>
-    <div class="video-frame" data-video="_FMplFlIiOU">
-      <button class="video-play" aria-label="Reproducir vídeo">
-        <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
-        <span>Ver vídeo</span>
-      </button>
-    </div>
-  </div>
-</section>
-
-<section class="project-gallery">
-  <div class="gallery-viewport is-vertical">
-    <div class="gallery-track">
-      <figure class="gal-item"><img src="../img/rewind-2021-rodaje-1.webp" alt="Rodaje Rewind Hispano 2021" loading="lazy"></figure>
-      <figure class="gal-item"><img src="../img/rewind-2021-rodaje-2.webp" alt="Rodaje Rewind Hispano 2021" loading="lazy"></figure>
-      <figure class="gal-item"><img src="../img/rewind-2021-rodaje-3.webp" alt="Rodaje Rewind Hispano 2021" loading="lazy"></figure>
-      <figure class="gal-item"><img src="../img/rewind-2021-rodaje-4.webp" alt="Rodaje Rewind Hispano 2021" loading="lazy"></figure>
-      <figure class="gal-item"><img src="../img/rewind-2021-rodaje-5.webp" alt="Rodaje Rewind Hispano 2021" loading="lazy"></figure>
-    </div>
-  </div>
-</section>
-</div>
-  </div>
-</section>
-
-<!-- TEXTO + VÍDEO + CARRUSEL, todo sobre el fondo de la imagen del vídeo -->
-<section class="project-stage">
-  <img class="project-video-bg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" src="../img/rewind-2020-video-bg.webp" alt="" aria-hidden="true">
-  <div class="film-grain tv-static video-grain"></div>
-  <div class="tv-scanlines"></div>
-  <div class="extra-noise"></div>
-  <div class="stage-content">
-<section class="project-video">
-  <div class="wrap">
-    <h2 class="project-h2" style="color:#fff;text-align:center;">2020</h2>
-    <div class="video-frame" data-video="h4NJCc4AQxw">
-      <button class="video-play" aria-label="Reproducir vídeo">
-        <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
-        <span>Ver vídeo</span>
-      </button>
-    </div>
-  </div>
-</section>
-
-<section class="project-body desc-oneline">
-  <div class="wrap center">
-    <p>Esta edición reunió a más de 300 personas en su producción y se estrenó en los cines Callao de Madrid, con menciones en medios como El País, Marca y Movistar.</p>
-  </div>
-</section>
 
     <!-- NAVEGACIÓN ENTRE PROYECTOS -->
     <nav class="project-nav nav-arrows" aria-label="Navegación entre proyectos">
@@ -263,6 +195,32 @@
       </a>
     </nav>
   </div>
+</section>
+
+<!-- Fotogramas del año elegido: 2 columnas x 2 filas, a pantalla completa, en 16:9, sin texto (img/rewind-AÑO-still-1..4.webp). Si faltan las imágenes de un año, la sección no se muestra -->
+<section class="es-stills rw-hide" data-year="2020" aria-label="Fotogramas 2020">
+  <figure><img data-src="../img/rewind-2020-still-1.webp" alt="Rewind Hispano 2020 — fotograma 1"></figure>
+  <figure><img data-src="../img/rewind-2020-still-2.webp" alt="Rewind Hispano 2020 — fotograma 2"></figure>
+  <figure><img data-src="../img/rewind-2020-still-3.webp" alt="Rewind Hispano 2020 — fotograma 3"></figure>
+  <figure><img data-src="../img/rewind-2020-still-4.webp" alt="Rewind Hispano 2020 — fotograma 4"></figure>
+</section>
+<section class="es-stills rw-hide" data-year="2021" aria-label="Fotogramas 2021">
+  <figure><img data-src="../img/rewind-2021-still-1.webp" alt="Rewind Hispano 2021 — fotograma 1"></figure>
+  <figure><img data-src="../img/rewind-2021-still-2.webp" alt="Rewind Hispano 2021 — fotograma 2"></figure>
+  <figure><img data-src="../img/rewind-2021-still-3.webp" alt="Rewind Hispano 2021 — fotograma 3"></figure>
+  <figure><img data-src="../img/rewind-2021-still-4.webp" alt="Rewind Hispano 2021 — fotograma 4"></figure>
+</section>
+<section class="es-stills rw-hide" data-year="2022" aria-label="Fotogramas 2022">
+  <figure><img data-src="../img/rewind-2022-still-1.webp" alt="Rewind Hispano 2022 — fotograma 1"></figure>
+  <figure><img data-src="../img/rewind-2022-still-2.webp" alt="Rewind Hispano 2022 — fotograma 2"></figure>
+  <figure><img data-src="../img/rewind-2022-still-3.webp" alt="Rewind Hispano 2022 — fotograma 3"></figure>
+  <figure><img data-src="../img/rewind-2022-still-4.webp" alt="Rewind Hispano 2022 — fotograma 4"></figure>
+</section>
+<section class="es-stills rw-hide" data-year="2023" aria-label="Fotogramas 2023">
+  <figure><img data-src="../img/rewind-2023-still-1.webp" alt="Rewind Hispano 2023 — fotograma 1"></figure>
+  <figure><img data-src="../img/rewind-2023-still-2.webp" alt="Rewind Hispano 2023 — fotograma 2"></figure>
+  <figure><img data-src="../img/rewind-2023-still-3.webp" alt="Rewind Hispano 2023 — fotograma 3"></figure>
+  <figure><img data-src="../img/rewind-2023-still-4.webp" alt="Rewind Hispano 2023 — fotograma 4"></figure>
 </section>
 
 <footer class="work-footer">
@@ -363,6 +321,7 @@
         if (st.wantPlay) { st.wantPlay = false; send(st, 'playVideo'); }
       }
     });
+    frames.forEach((f) => { f._ensure = () => ensurePlayer(f, false); });   // lo usa el selector de años al volver a un vídeo
     // Precarga: cuando el vídeo está a menos de una pantalla, se prepara el reproductor (sin reproducirlo)
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver((entries) => {
@@ -436,6 +395,161 @@
       current = { close };
     }
     frames.forEach((frame) => frame.addEventListener('click', () => { if (!frame.classList.contains('is-loaded')) open(frame); }));
+  })();
+  (() => {
+    if (!('IntersectionObserver' in window)) return;
+    document.querySelectorAll('.video-frame[data-video]').forEach((frame) => {
+      const id = frame.dataset.video;
+      let prev = null;
+      function stopPrev() { if (prev) { prev.remove(); prev = null; } frame.classList.remove('has-preview'); }
+      const io = new IntersectionObserver((entries) => {
+        const en = entries[entries.length - 1];
+        if (!en.isIntersecting) { stopPrev(); return; }   // oculto o fuera de pantalla: se retira la vista previa
+        if (prev || frame.classList.contains('is-loaded')) return;
+        prev = document.createElement('iframe');
+        prev.className = 'video-preview';
+        prev.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&disablekb=1&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1`;
+        prev.setAttribute('frameborder', '0');
+        prev.setAttribute('allow', 'autoplay; encrypted-media');
+        prev.setAttribute('tabindex', '-1');
+        prev.setAttribute('aria-hidden', 'true');
+        prev.setAttribute('title', '');
+        frame.insertBefore(prev, frame.firstChild);
+        frame.classList.add('has-preview');
+      }, { threshold: 0.4 });
+      io.observe(frame);
+      frame.addEventListener('click', () => {
+        if (!prev) return;
+        const p = prev; prev = null;
+        setTimeout(() => { p.remove(); frame.classList.remove('has-preview'); }, 450);
+      });
+    });
+  })();
+  // Línea del tiempo de años: el año activo se ve grande y los demás, pequeños a su lado (los anteriores a la izquierda).
+  // Se cambia pulsando un año, deslizando (dedo o cursor) o con las flechas del teclado. Todo el proyecto cambia con el año.
+  (() => {
+    const strip = document.getElementById('rwTime');
+    if (!strip) return;
+    const YEARS = Array.from(strip.querySelectorAll('.rw-year'));
+    const ids = YEARS.map((b) => b.dataset.year);
+    const n = ids.length;
+    const layout = document.getElementById('rwLayout');
+    const mq = window.matchMedia('(max-width:760px)');
+    const byYear = (sel) => Array.from(document.querySelectorAll(sel));
+    const frames = byYear('.video-set .video-frame');
+    const bgs = byYear('.rw-bg');
+    const gals = byYear('#rwGal .gallery-viewport');
+    const stills = byYear('.es-stills[data-year]');
+    const only = byYear('[data-only]');
+    const galBox = document.getElementById('rwGal');
+    const yearDd = document.getElementById('rwYear');
+    let cur = ids.indexOf('2023');
+    const want = (location.hash || '').replace('#', '');
+    if (ids.includes(want)) cur = ids.indexOf(want);
+    let drag = 0, dragging = false;
+
+    const SP = () => (mq.matches ? 84 : 128);
+    function place() {
+      const sp = SP();
+      YEARS.forEach((b, i) => {
+        const d = i - cur;
+        const ad = Math.abs(d);
+        const s = d === 0 ? 1 : Math.max(0.3, 0.46 - 0.07 * (ad - 1));
+        const o = d === 0 ? 1 : Math.max(0.22, 0.62 - 0.2 * (ad - 1));
+        const x = d * sp + drag;
+        b.style.transform = `translate(-50%,-50%) translateX(${x}px) scale(${s})`;
+        b.style.opacity = o;
+        b.classList.toggle('is-on', d === 0);
+        b.setAttribute('aria-selected', d === 0 ? 'true' : 'false');
+        b.style.zIndex = 10 - ad;
+      });
+    }
+    function reset(f) {
+      const st = f._yt;
+      if (st) { clearInterval(st.timer); st.iframe.remove(); delete f._yt; }
+      f.querySelectorAll('.video-expand').forEach((e) => e.remove());
+      f.classList.remove('is-loaded');
+    }
+    const checked = {};
+    function probeStills(sec) {
+      const y = sec.dataset.year;
+      if (checked[y] !== undefined) { sec.classList.toggle('rw-hide', !checked[y]); return; }
+      const imgs = Array.from(sec.querySelectorAll('img[data-src]'));
+      Promise.all(imgs.map((im) => new Promise((ok) => { const t = new Image(); t.onload = () => ok(true); t.onerror = () => ok(false); t.src = im.dataset.src; })))
+        .then((r) => {
+          const all = r.every(Boolean);
+          checked[y] = all;
+          if (all) imgs.forEach((im) => { im.src = im.dataset.src; });
+          if (ids[cur] === y) sec.classList.toggle('rw-hide', !all);
+        });
+    }
+    function apply(from, dir) {
+      const y = ids[cur];
+      bgs.forEach((e) => e.classList.toggle('on', e.dataset.year === y));
+      frames.forEach((f) => {
+        const on = f.dataset.year === y;
+        if (!on && !f.classList.contains('vs-off')) reset(f);
+        f.classList.toggle('vs-off', !on);
+        if (on && !f._yt && f._ensure) setTimeout(() => { if (ids[cur] === y && !f._yt) f._ensure(); }, 600);
+      });
+      let hasGal = false;
+      gals.forEach((g) => { const on = g.dataset.year === y; g.classList.toggle('rw-hide', !on); if (on && g.querySelector('.gal-item')) hasGal = true; });
+      galBox.classList.toggle('rw-hide', !hasGal);
+      only.forEach((e) => e.classList.toggle('rw-hide', e.dataset.only !== y));
+      stills.forEach((s) => { if (s.dataset.year === y) probeStills(s); else s.classList.add('rw-hide'); });
+      yearDd.textContent = y;
+      try { history.replaceState(null, '', location.pathname + location.search + '#' + y); } catch (_) {}
+      window.dispatchEvent(new Event('resize'));          // los carruseles recalculan su tamaño al mostrarse
+      if (from !== undefined && layout) {
+        layout.classList.remove('rw-in-l', 'rw-in-r');
+        void layout.offsetWidth;
+        layout.classList.add(dir < 0 ? 'rw-in-l' : 'rw-in-r');
+      }
+    }
+    function go(i) {
+      i = Math.max(0, Math.min(n - 1, i));
+      if (i === cur || document.body.classList.contains('video-open')) { drag = 0; place(); return; }
+      const dir = i < cur ? -1 : 1;
+      const from = cur; cur = i; drag = 0;
+      place(); apply(from, dir);
+    }
+    // Deslizar: arrastrar hacia la derecha viaja al pasado (a la izquierda están los años anteriores)
+    let pid = null, sx = 0, moved = false;
+    strip.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      pid = e.pointerId; sx = e.clientX; moved = false;
+    });
+    strip.addEventListener('pointermove', (e) => {
+      if (pid === null || e.pointerId !== pid) return;
+      const dx = e.clientX - sx;
+      if (!moved && Math.abs(dx) < 6) return;
+      if (!moved) { moved = true; dragging = true; strip.classList.add('is-drag'); try { strip.setPointerCapture(pid); } catch (_) {} }
+      const sp = SP();
+      drag = Math.max(-sp * 0.9, Math.min(sp * 0.9, dx));
+      if ((cur === 0 && drag > 0) || (cur === n - 1 && drag < 0)) drag *= 0.3;   // tope en los extremos
+      place();
+    });
+    function end(e) {
+      if (pid === null || e.pointerId !== pid) return;
+      pid = null;
+      if (dragging) {
+        dragging = false; strip.classList.remove('is-drag');
+        const dx = drag, sp = SP();
+        try { strip.releasePointerCapture(e.pointerId); } catch (_) {}
+        if (Math.abs(dx) > sp * 0.22) go(cur + (dx > 0 ? -1 : 1)); else { drag = 0; place(); }
+        setTimeout(() => { moved = false; }, 0);
+      }
+    }
+    strip.addEventListener('pointerup', end);
+    strip.addEventListener('pointercancel', end);
+    YEARS.forEach((b, i) => b.addEventListener('click', (e) => { if (moved) { e.preventDefault(); return; } go(i); }));
+    strip.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1); }
+    });
+    window.addEventListener('resize', place);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
+    place(); apply();
   })();
   // Carrusel de rodaje automático (como el de marcas de la home): avanza solo, despacio y en bucle.
   // Se puede arrastrar con el cursor (o el dedo) para empujarlo; al soltar, el impulso se va frenando
