@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Óscar Parra | Portfolio</title>
 <meta name="description" content="Descubre el portafolio de Óscar Parra, Film Director &amp; Generative AI, especializado en publicidad, contenido de marca y proyectos con IA.">
-<link rel="stylesheet" href="style.css?v=94">
+<link rel="stylesheet" href="style.css?v=95">
 </head>
 <body>
-<div id="verTag" data-v="94" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v94</div>
+<div id="verTag" data-v="95" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v95</div>
 <script>(function(){var t=document.getElementById("verTag");if(!t)return;var c=getComputedStyle(document.documentElement).getPropertyValue("--ver").replace(/[^0-9]/g,"");if(c!==t.getAttribute("data-v")){t.textContent+=" · style.css antiguo ("+(c?"v"+c:"sin versión")+")";t.style.color="#ffe600";}})();</script>
 
 <header>
@@ -814,7 +814,19 @@
         '<div class="about-fx-frame"><img class="about-fx-img" alt="" src="' + heroImg.src + '">' +
         '<div class="about-fx-shade"></div><div class="film-grain tv-static"></div><div class="tv-scanlines"></div></div>' +
         '<div class="about-fx-flash"></div>' +
-        '<h2 class="about-fx-title" aria-label="Óscar Parra"></h2>' +
+        '<div class="about-fx-fade"></div>' +
+        '<div class="about-fx-stack">' +
+          '<p class="about-fx-kicker">Film Director &amp; Generative AI</p>' +
+          '<h2 class="about-fx-title" aria-label="Óscar Parra"></h2>' +
+          '<div class="about-fx-info">' +
+            '<div class="afx-col afx-bio"><h3>Sobre mí</h3><p>Dirijo y escribo películas, y trabajo con IA generativa para crear imágenes y mundos nuevos. He hecho desde el cortometraje anual Rewind Hispano hasta campañas para marcas, con entornos generados por IA y rodaje virtual.</p></div>' +
+            '<div class="afx-col afx-contact"><h3>Contacto</h3>' +
+              '<a href="mailto:oscarparracontacto@gmail.com">oscarparracontacto@gmail.com</a>' +
+              '<a href="https://www.instagram.com/oscarparrax/" target="_blank" rel="noopener">Instagram <span aria-hidden="true">↗</span></a>' +
+              '<a href="https://www.linkedin.com/in/%C3%B3scar-parra-serrano-302180251" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a></div>' +
+            '<div class="afx-col afx-place"><h3>Ubicación</h3><p class="afx-city">Madrid</p><p class="afx-world">Open World</p><p class="afx-coord"><span>40.4168° N</span> · <span>3.7038° W</span></p></div>' +
+          '</div>' +
+        '</div>' +
         '<button type="button" class="about-fx-close" aria-label="Cerrar">&times;</button>';
       const frame = root.querySelector('.about-fx-frame'), title = root.querySelector('.about-fx-title');
       'Óscar Parra'.split(' ').forEach((word, wi) => {
@@ -836,8 +848,9 @@
         frame.style.transition = trans(DUR, EASE_IN);
         requestAnimationFrame(() => requestAnimationFrame(() => { root.classList.add('is-in'); setRect(frame, full()); }));
         setTimeout(() => { root.classList.add('is-title'); }, DUR - 200);   // 3) el nombre
+        setTimeout(() => { root.classList.add('is-info'); }, DUR + 1500);    // 4) rol, descripción, contacto y ubicación
         setTimeout(() => { busy = false; }, DUR + 1100);
-        root.addEventListener('click', close);
+        root.addEventListener('click', (e) => { if (e.target.closest('a')) return; close(); });   // pulsar un enlace no cierra
         document.addEventListener('keydown', onKey);
         window.addEventListener('resize', onResize);
         fx = { close };
@@ -848,7 +861,7 @@
         closing = true; busy = true;
         document.removeEventListener('keydown', onKey);
         window.removeEventListener('resize', onResize);
-        root.classList.remove('is-title'); root.classList.add('is-out');
+        root.classList.remove('is-title', 'is-info'); root.classList.add('is-out');
         setTimeout(() => {
           frame.style.transition = trans(OUT, EASE_OUT);
           setRect(frame, rectOf(hero.getBoundingClientRect()));
