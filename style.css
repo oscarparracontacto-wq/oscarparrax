@@ -1866,8 +1866,14 @@ body.about-prep .hero-bg img{animation-play-state:paused;}                 /* el
 
 /* ===== CAMBIOS 104: móvil, portada — borde negro lateral de los proyectos un pelín más grueso (10px -> 16px) ===== */
 @media (max-width:760px){
-  .work-grid{padding-left:16px;padding-right:16px;}
+  .work-grid{padding-left:10px;padding-right:10px;}
 }
 
 
-/* VERSION */:root{--ver:'104';}
+/* ===== CAMBIOS 105: móvil, portada — se vuelve al borde lateral de 10px y se añade un pelín sutil de borde negro entre el banner y la primera miniatura ===== */
+@media (max-width:760px){
+  .work-grid{padding-top:6px;}
+}
+
+
+/* VERSION */:root{--ver:'105';}
