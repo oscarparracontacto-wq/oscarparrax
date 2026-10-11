@@ -8,10 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../style.css?v=85">
+<link rel="stylesheet" href="../style.css?v=86">
 </head>
 <body>
-<div id="verTag" data-v="85" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v85</div>
+<div id="verTag" data-v="86" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v86</div>
 <script>(function(){var t=document.getElementById("verTag");if(!t)return;var c=getComputedStyle(document.documentElement).getPropertyValue("--ver").replace(/[^0-9]/g,"");if(c!==t.getAttribute("data-v")){t.textContent+=" · style.css antiguo ("+(c?"v"+c:"sin versión")+")";t.style.color="#ffe600";}})();</script>
 
 <header>
@@ -57,76 +57,52 @@
   </div>
 </header>
 
-<!-- HERO -->
-<section class="project-hero hero-slim">
-  <div class="project-hero-bg">
-    <img src="../img/caixabank-hero.webp" alt="CaixaBank Convención">
-  </div>
-  <div class="project-hero-overlay"></div>
-  <div class="film-grain tv-static"></div>
-  <div class="tv-scanlines"></div>
-
-  <div class="project-hero-content">
-    <h1 class="project-title">CaixaBank Convención</h1>
-    <div class="project-meta">
-      <div class="meta-item">
-        <span class="meta-label">Año</span>
-        <span class="meta-value">2026</span>
-      </div>
-      <div class="meta-item">
-        <span class="meta-label">Rol</span>
-        <span class="meta-value">Director y AI Visuals</span>
-      </div>
-      <div class="meta-item">
-        <span class="meta-label">Agencia</span>
-        <span class="meta-value">WPP Production</span>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- TEXTO + VÍDEO + CARRUSEL, todo sobre el fondo de la imagen del vídeo -->
 <section class="project-stage">
   <img class="project-video-bg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" src="../img/caixabank-video-bg.webp" alt="" aria-hidden="true">
   <div class="film-grain tv-static video-grain"></div>
   <div class="tv-scanlines"></div>
   <div class="stage-content">
-<section class="project-body desc-oneline desc-wrap">
-  <div class="wrap center">
-    <p>Una serie de piezas para la convención de CaixaBank Wealth Management. Rodadas con un sistema de virtual production, combinando planos reales en plató con entornos y secuencias generadas con inteligencia artificial.</p>
-  </div>
-</section>
-
-<div class="stage-split">
-<section class="project-video">
-  <div class="wrap">
-    <div class="video-frame" id="videoFrame">
+<!-- Composición: vídeo grande a la izquierda, carrusel horizontal justo debajo (mismo ancho) y los textos a la derecha; todo centrado como un conjunto -->
+<div class="es-layout">
+  <section class="project-video es-video">
+    <div class="wrap">
+      <div class="video-frame" id="videoFrame">
       <button class="video-play" aria-label="Reproducir vídeo">
         <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
         <span>Ver vídeo</span>
       </button>
     </div>
-  </div>
-</section>
+    </div>
+  </section>
 
-<section class="project-gallery">
-  <div class="gallery-viewport is-vertical">
-    <div class="gallery-track" id="galTrack">
+  <section class="project-gallery es-gallery">
+    <div class="gallery-viewport">
+      <div class="gallery-track" id="galTrack">
       <figure class="gal-item"><img src="../img/caixabank-rodaje-1.webp" alt="Rodaje CaixaBank Convención — plató virtual" loading="lazy"></figure>
       <figure class="gal-item"><img src="../img/caixabank-rodaje-2.webp" alt="Rodaje CaixaBank Convención — equipo en plató" loading="lazy"></figure>
       <figure class="gal-item"><img src="../img/caixabank-rodaje-3.webp" alt="Rodaje CaixaBank Convención — set histórico" loading="lazy"></figure>
       <figure class="gal-item"><img src="../img/caixabank-rodaje-4.webp" alt="Rodaje CaixaBank Convención — plano de actores" loading="lazy"></figure>
       <figure class="gal-item"><img src="../img/caixabank-rodaje-5.webp" alt="Rodaje CaixaBank Convención — dirección en set" loading="lazy"></figure>
     </div>
-  </div>
-</section>
-</div>
+    </div>
+  </section>
 
-<section class="project-body desc-oneline">
-  <div class="wrap center">
-    <p>El evento reunió a <strong>más de 1.000 empleados</strong> de CaixaBank y las piezas tuvieron una gran acogida entre el público asistente.</p>
-  </div>
-</section>
+  <aside class="es-info">
+    <div class="es-head">
+      <h1 class="es-title">CaixaBank Convención</h1>
+      <dl class="es-meta">
+        <div><dt>Año</dt><dd>2026</dd></div>
+        <div><dt>Rol</dt><dd>Director y AI Visuals</dd></div>
+        <div><dt>Agencia</dt><dd>WPP Production</dd></div>
+      </dl>
+    </div>
+    <div class="es-text">
+      <p>Una serie de piezas para la convención de CaixaBank Wealth Management. Rodadas con un sistema de virtual production, combinando planos reales en plató con entornos y secuencias generadas con inteligencia artificial.</p>
+      <p>El evento reunió a <strong>más de 1.000 empleados</strong> de CaixaBank y las piezas tuvieron una gran acogida entre el público asistente.</p>
+    </div>
+  </aside>
+</div>
 
     <!-- NAVEGACIÓN ENTRE PROYECTOS -->
     <nav class="project-nav nav-arrows" aria-label="Navegación entre proyectos">
@@ -138,6 +114,14 @@
       </a>
     </nav>
   </div>
+</section>
+
+<!-- Fotogramas: 2 columnas x 2 filas, a pantalla completa, en 16:9, sin texto -->
+<section class="es-stills" aria-label="Fotogramas">
+  <figure><img src="../img/caixabank-still-1.webp" alt="CaixaBank Convención — fotograma 1" loading="lazy"></figure>
+  <figure><img src="../img/caixabank-still-2.webp" alt="CaixaBank Convención — fotograma 2" loading="lazy"></figure>
+  <figure><img src="../img/caixabank-still-3.webp" alt="CaixaBank Convención — fotograma 3" loading="lazy"></figure>
+  <figure><img src="../img/caixabank-still-4.webp" alt="CaixaBank Convención — fotograma 4" loading="lazy"></figure>
 </section>
 
 <footer class="work-footer">
@@ -303,6 +287,34 @@
       current = { close };
     }
     frames.forEach((frame) => frame.addEventListener('click', () => { if (!frame.classList.contains('is-loaded')) open(frame); }));
+  })();
+  // Vista previa: al llegar al vídeo se reproduce solo, sin sonido y en bucle (los navegadores no dejan arrancar con sonido sin pulsar).
+  // Al pulsar "Ver vídeo" se amplía el reproductor de verdad (que arranca desde el principio con sonido) y la vista previa se retira.
+  (() => {
+    const frame = document.querySelector('.video-frame[data-video]');
+    if (!frame || !('IntersectionObserver' in window)) return;
+    const id = frame.dataset.video;
+    let prev = null;
+    const io = new IntersectionObserver((entries) => {
+      if (!entries.some((en) => en.isIntersecting) || prev) return;
+      io.disconnect();
+      prev = document.createElement('iframe');
+      prev.className = 'video-preview';
+      prev.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&disablekb=1&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1`;
+      prev.setAttribute('frameborder', '0');
+      prev.setAttribute('allow', 'autoplay; encrypted-media');
+      prev.setAttribute('tabindex', '-1');
+      prev.setAttribute('aria-hidden', 'true');
+      prev.setAttribute('title', '');
+      frame.insertBefore(prev, frame.firstChild);
+      frame.classList.add('has-preview');
+    }, { threshold: 0.4 });
+    io.observe(frame);
+    frame.addEventListener('click', () => {
+      if (!prev) return;
+      const p = prev; prev = null;
+      setTimeout(() => { p.remove(); frame.classList.remove('has-preview'); }, 450);
+    });
   })();
   // Carrusel de rodaje automático (como el de marcas de la home): avanza solo, despacio y en bucle.
   // Se puede arrastrar con el cursor (o el dedo) para empujarlo; al soltar, el impulso se va frenando

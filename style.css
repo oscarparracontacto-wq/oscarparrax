@@ -1633,4 +1633,9 @@ body .cursor-ring::after,body .cursor-ring.is-active::after,body.iso-hi .cursor-
 
 
 
-/* VERSION */:root{--ver:'85';}
+/* ===== CAMBIOS 86: estructura Esland en todos los proyectos (menos Rewind); si falta alguna imagen de fotograma, la celda queda negra sin texto ===== */
+.es-stills img{color:transparent;font-size:0;}
+
+
+
+/* VERSION */:root{--ver:'86';}
