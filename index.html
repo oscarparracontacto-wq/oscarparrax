@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Óscar Parra | Portfolio</title>
 <meta name="description" content="Descubre el portafolio de Óscar Parra, Film Director &amp; Generative AI, especializado en publicidad, contenido de marca y proyectos con IA.">
-<link rel="stylesheet" href="style.css?v=95">
+<link rel="stylesheet" href="style.css?v=96">
 </head>
 <body>
-<div id="verTag" data-v="95" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v95</div>
+<div id="verTag" data-v="96" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v96</div>
 <script>(function(){var t=document.getElementById("verTag");if(!t)return;var c=getComputedStyle(document.documentElement).getPropertyValue("--ver").replace(/[^0-9]/g,"");if(c!==t.getAttribute("data-v")){t.textContent+=" · style.css antiguo ("+(c?"v"+c:"sin versión")+")";t.style.color="#ffe600";}})();</script>
 
 <header>
@@ -801,6 +801,27 @@
     const full = () => ({ top: 0, left: 0, width: window.innerWidth, height: window.innerHeight });
     const trans = (ms, ease) => T.map((p) => p + ' ' + ms + 'ms ' + ease).join(',') + ',opacity .2s ease';
 
+    // Plano medio: el encuadre final deja a Óscar (el que señala con el dedo) a la izquierda y libre la parte derecha para el texto.
+    // En móvil (vertical) queda arriba y el texto debajo. Se calcula según el tamaño de la ventana (la foto se ve "cover" con 46% 28%).
+    const F0 = 'grayscale(12%) sepia(6%) contrast(1.1) saturate(1.08) brightness(.95)';
+    function medium() {
+      const W = window.innerWidth, H = window.innerHeight, mobile = W < 761 && H >= W;   // solo el móvil en vertical apila el texto debajo
+      const iw = heroImg.naturalWidth || 2500, ih = heroImg.naturalHeight || 1667;
+      const c = Math.max(W / iw, H / ih), rw = iw * c, rh = ih * c;
+      const ox = (W - rw) * 0.46, oy = (H - rh) * 0.28;
+      const ax = 0.47, ay = 0.38;                                    // punto de Óscar en la foto (pecho), en fracción de la foto
+      const px = ox + ax * rw, py = oy + ay * rh;
+      let s = (mobile ? 0.5 * H : 0.9 * H) / (0.6 * rh);            // de la cabeza a la cintura ≈ 90% del alto (mitad en móvil)
+      s = Math.max(1.15, Math.min(s, 2.4));
+      const tx = mobile ? W * 0.5 : W * 0.28, ty = mobile ? H * 0.36 : H * 0.52;
+      let dx = tx - px, dy = ty - py;
+      const L = px - s * px + dx, R = px + s * (W - px) + dx;                   // que el marco nunca deje huecos en los bordes de la pantalla
+      const T = py - s * py + dy, B = py + s * (H - py) + dy;
+      if (L > 0) dx -= L; else if (R < W) dx += W - R;
+      if (T > 0) dy -= T; else if (B < H) dy += H - B;
+      return { t: 'translate(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px) scale(' + s.toFixed(3) + ')', o: (px / W * 100).toFixed(2) + '% ' + (py / H * 100).toFixed(2) + '%' };
+    }
+
     function openAbout() {
       if (fx || busy) return;
       busy = true;
@@ -828,7 +849,8 @@
           '</div>' +
         '</div>' +
         '<button type="button" class="about-fx-close" aria-label="Cerrar">&times;</button>';
-      const frame = root.querySelector('.about-fx-frame'), title = root.querySelector('.about-fx-title');
+      const frame = root.querySelector('.about-fx-frame'), title = root.querySelector('.about-fx-title'), img = root.querySelector('.about-fx-img');
+      let settled = null;
       'Óscar Parra'.split(' ').forEach((word, wi) => {
         const w = document.createElement('span'); w.className = 'afx-w'; w.setAttribute('aria-hidden', 'true');
         word.split('').forEach((c, ci) => { const s = document.createElement('span'); s.className = 'afx-ch'; s.textContent = c; s.style.setProperty('--i', wi * 6 + ci); w.appendChild(s); });
@@ -836,7 +858,11 @@
       });
       let closing = false;
       const onKey = (e) => { if (e.key === 'Escape') close(); };
-      const onResize = () => { if (!busy) { frame.style.transition = 'none'; setRect(frame, full()); } };
+      const onResize = () => {
+        if (busy) return;
+        frame.style.transition = 'none'; setRect(frame, full());
+        if (settled) { settled.cancel(); settled = null; const m = medium(); img.style.transformOrigin = m.o; img.style.transform = m.t; }
+      };
 
       setTimeout(() => {                                               // 2) la cámara se mete en la imagen
         const start = rectOf(hero.getBoundingClientRect());
@@ -846,9 +872,18 @@
         root.classList.add('is-start');
         void frame.offsetWidth;
         frame.style.transition = trans(DUR, EASE_IN);
-        requestAnimationFrame(() => requestAnimationFrame(() => { root.classList.add('is-in'); setRect(frame, full()); }));
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          root.classList.add('is-in'); setRect(frame, full());
+          const m = medium();                                           // la cámara se mete hasta el plano medio de Óscar
+          img.style.animation = 'none';
+          settled = img.animate([
+            { transform: 'scale(1.06)', transformOrigin: '50% 50%', filter: F0 },
+            { offset: 0.65, filter: 'grayscale(12%) sepia(6%) contrast(1.12) saturate(1.1) brightness(1.02) blur(3px)' },
+            { transform: m.t, transformOrigin: m.o, filter: F0 }
+          ], { duration: DUR, easing: EASE_IN, fill: 'forwards' });
+        }));
         setTimeout(() => { root.classList.add('is-title'); }, DUR - 200);   // 3) el nombre
-        setTimeout(() => { root.classList.add('is-info'); }, DUR + 1500);    // 4) rol, descripción, contacto y ubicación
+        setTimeout(() => { root.classList.add('is-info'); }, DUR + 1200);    // 4) rol, descripción, contacto y ubicación
         setTimeout(() => { busy = false; }, DUR + 1100);
         root.addEventListener('click', (e) => { if (e.target.closest('a')) return; close(); });   // pulsar un enlace no cierra
         document.addEventListener('keydown', onKey);
@@ -866,6 +901,12 @@
           frame.style.transition = trans(OUT, EASE_OUT);
           setRect(frame, rectOf(hero.getBoundingClientRect()));
           root.classList.remove('is-in');
+          if (settled) {                                               // la cámara sale: la foto vuelve a su encuadre del banner
+            const cs = getComputedStyle(img), a = settled;
+            const from = { transform: cs.transform, transformOrigin: cs.transformOrigin, filter: F0 };
+            a.cancel(); settled = null;
+            img.animate([from, { transform: 'scale(1.06)', transformOrigin: '50% 50%', filter: F0 }], { duration: OUT, easing: EASE_OUT, fill: 'forwards' });
+          }
         }, 350);
         setTimeout(() => {                                             // la imagen del banner vuelve a estar sola; después reaparece todo lo demás
           root.remove(); document.body.classList.remove('about-open', 'video-open');

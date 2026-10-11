@@ -1775,4 +1775,42 @@ body.video-open .rw-time{visibility:hidden;}
 }
 
 
-/* VERSION */:root{--ver:'95';}
+/* ===== CAMBIOS 96: "Sobre mí" — plano medio de Óscar a la izquierda y todo el texto a la derecha (en móvil: Óscar arriba y texto debajo) ===== */
+.about-fx.is-in .about-fx-img{animation:none!important;}
+.about-fx-fade{inset:0;height:auto;background:linear-gradient(270deg,rgba(0,0,0,.94) 0%,rgba(0,0,0,.9) 46%,rgba(0,0,0,.52) 57%,rgba(0,0,0,0) 74%);}
+.about-fx-stack{top:0;bottom:0;left:50%;right:clamp(28px,6vw,100px);padding:0;justify-content:center;align-items:flex-start;}
+.about-fx-stack .about-fx-title{text-align:left;font-size:clamp(40px,5.4vw,96px);}
+.about-fx-stack .afx-w{margin:0 .16em 0 0;}
+.about-fx-kicker{text-align:left;}
+.about-fx-info{width:100%;grid-template-columns:1fr 1fr;gap:clamp(18px,2.4vh,30px) clamp(22px,3vw,48px);}
+.afx-bio{grid-column:1 / -1;}
+.afx-bio p{max-width:46ch;}
+@media (max-width:760px) and (orientation:portrait){
+  .about-fx-fade{inset:auto 0 0 0;height:66vh;background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.62) 40%,rgba(0,0,0,.9) 100%);}
+  .about-fx-stack{top:auto;left:0;right:0;bottom:18px;padding:0 20px;align-items:center;justify-content:flex-end;}
+  .about-fx-stack .about-fx-title{text-align:center;font-size:clamp(34px,11vw,60px);}
+  .about-fx-kicker{text-align:center;}
+}
+@media (max-height:620px) and (min-width:761px){
+  .about-fx-stack .about-fx-title{font-size:clamp(34px,5vw,64px);}
+  .about-fx-info{gap:12px 28px;margin-top:10px;}
+}
+
+
+
+/* móvil en horizontal: mismo reparto que en ordenador (Óscar a la izquierda, texto a la derecha), con letra pequeña */
+@media (max-width:760px) and (orientation:landscape){
+  .about-fx-stack .about-fx-title{font-size:clamp(26px,6vw,44px);}
+  .about-fx-kicker{font-size:9px;letter-spacing:.24em;margin-bottom:4px;}
+  .about-fx-info{grid-template-columns:1fr 1fr;gap:8px 20px;margin-top:8px;padding-top:8px;}
+  .afx-col h3{margin-bottom:4px;font-size:9px;}
+  .afx-bio p{font-size:11px;line-height:1.45;max-width:none;}
+  .afx-contact a{font-size:11px;padding:2px 0;}
+  .afx-contact a:first-of-type{font-size:11px;}
+  .afx-city{font-size:17px!important;}
+  .afx-world{font-size:9px!important;margin-top:3px!important;}
+  .afx-coord{font-size:9px!important;margin-top:5px!important;}
+  .about-fx-close{top:8px;right:8px;width:32px;height:32px;font-size:22px;}
+}
+
+/* VERSION */:root{--ver:'96';}
