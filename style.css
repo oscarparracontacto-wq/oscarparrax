@@ -1876,4 +1876,17 @@ body.about-prep .hero-bg img{animation-play-state:paused;}                 /* el
 }
 
 
-/* VERSION */:root{--ver:'105';}
+/* ===== CAMBIOS 106: pie de página (© + aviso de derechos de clientes); Rewind: la fila Agencia solo en 2023; móvil: tira de años más pequeña y sutil (sin negrita) ===== */
+footer.work-footer .wrap{flex-direction:column;gap:8px;}
+footer .ft-legal{font-size:11px;opacity:.75;letter-spacing:.02em;}
+@media (max-width:760px){
+  .es-layout.rw .rw-time{height:36px;margin-bottom:2px;}
+  .es-layout.rw .rw-year{font-family:'Inter',sans-serif;font-weight:400;font-size:17px;letter-spacing:.06em;top:40%;}
+  .es-layout.rw .rw-line{bottom:5px;}
+  .es-layout.rw .rw-line::before{height:4px;}
+  .es-layout.rw{padding-top:8px;}
+  footer .ft-legal{padding:0 22px;line-height:1.5;}
+}
+
+
+/* VERSION */:root{--ver:'106';}
