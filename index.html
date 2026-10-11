@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Óscar Parra | Portfolio</title>
 <meta name="description" content="Descubre el portafolio de Óscar Parra, Film Director &amp; Generative AI, especializado en publicidad, contenido de marca y proyectos con IA.">
-<link rel="stylesheet" href="style.css?v=96">
+<link rel="stylesheet" href="style.css?v=97">
 </head>
 <body>
-<div id="verTag" data-v="96" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v96</div>
+<div id="verTag" data-v="97" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v97</div>
 <script>(function(){var t=document.getElementById("verTag");if(!t)return;var c=getComputedStyle(document.documentElement).getPropertyValue("--ver").replace(/[^0-9]/g,"");if(c!==t.getAttribute("data-v")){t.textContent+=" · style.css antiguo ("+(c?"v"+c:"sin versión")+")";t.style.color="#ffe600";}})();</script>
 
 <header>
@@ -798,22 +798,23 @@
     const T = ['top', 'left', 'width', 'height'];
     const rectOf = (r) => ({ top: r.top, left: r.left, width: r.width, height: r.height });
     const setRect = (el, r) => { el.style.top = r.top + 'px'; el.style.left = r.left + 'px'; el.style.width = r.width + 'px'; el.style.height = r.height + 'px'; };
-    const full = () => ({ top: 0, left: 0, width: window.innerWidth, height: window.innerHeight });
+    const hdrH = () => { const hd = document.querySelector('header'); return hd ? Math.round(hd.getBoundingClientRect().bottom) : 0; };   // la barra de arriba se queda: la escena vive debajo
+    const full = () => { const t = hdrH(); return { top: t, left: 0, width: window.innerWidth, height: window.innerHeight - t }; };
     const trans = (ms, ease) => T.map((p) => p + ' ' + ms + 'ms ' + ease).join(',') + ',opacity .2s ease';
 
     // Plano medio: el encuadre final deja a Óscar (el que señala con el dedo) a la izquierda y libre la parte derecha para el texto.
     // En móvil (vertical) queda arriba y el texto debajo. Se calcula según el tamaño de la ventana (la foto se ve "cover" con 46% 28%).
     const F0 = 'grayscale(12%) sepia(6%) contrast(1.1) saturate(1.08) brightness(.95)';
     function medium() {
-      const W = window.innerWidth, H = window.innerHeight, mobile = W < 761 && H >= W;   // solo el móvil en vertical apila el texto debajo
+      const W = window.innerWidth, H = window.innerHeight - hdrH(), mobile = W < 761 && window.innerHeight >= W;   // H = alto bajo la barra; solo el móvil en vertical apila el texto debajo
       const iw = heroImg.naturalWidth || 2500, ih = heroImg.naturalHeight || 1667;
       const c = Math.max(W / iw, H / ih), rw = iw * c, rh = ih * c;
       const ox = (W - rw) * 0.46, oy = (H - rh) * 0.28;
       const ax = 0.47, ay = 0.38;                                    // punto de Óscar en la foto (pecho), en fracción de la foto
       const px = ox + ax * rw, py = oy + ay * rh;
-      let s = (mobile ? 0.5 * H : 0.9 * H) / (0.6 * rh);            // de la cabeza a la cintura ≈ 90% del alto (mitad en móvil)
-      s = Math.max(1.15, Math.min(s, 2.4));
-      const tx = mobile ? W * 0.5 : W * 0.28, ty = mobile ? H * 0.36 : H * 0.52;
+      let s = mobile ? 1.1 : Math.max(1.5, 0.95 * H / (0.6 * rh));    // plano medio: de la cabeza a la cintura
+      s = Math.min(s, 2.4);
+      const tx = mobile ? W * 0.5 : W * 0.25, ty = mobile ? H * 0.33 : H * 0.52;   // Óscar a la izquierda (cuerpo centrado en el 25% del ancho)
       let dx = tx - px, dy = ty - py;
       const L = px - s * px + dx, R = px + s * (W - px) + dx;                   // que el marco nunca deje huecos en los bordes de la pantalla
       const T = py - s * py + dy, B = py + s * (H - py) + dy;
@@ -831,24 +832,27 @@
       document.body.classList.add('about-prep');                       // 1) el banner se queda solo con la imagen
       const root = document.createElement('div');
       root.className = 'about-fx';
+      root.style.setProperty('--afx-top', hdrH() + 'px');
       root.innerHTML =
         '<div class="about-fx-frame"><img class="about-fx-img" alt="" src="' + heroImg.src + '">' +
         '<div class="about-fx-shade"></div><div class="film-grain tv-static"></div><div class="tv-scanlines"></div></div>' +
         '<div class="about-fx-flash"></div>' +
         '<div class="about-fx-fade"></div>' +
-        '<div class="about-fx-stack">' +
+        '<div class="about-fx-stack"><div class="afx-panel">' +
           '<p class="about-fx-kicker">Film Director &amp; Generative AI</p>' +
           '<h2 class="about-fx-title" aria-label="Óscar Parra"></h2>' +
-          '<div class="about-fx-info">' +
-            '<div class="afx-col afx-bio"><h3>Sobre mí</h3><p>Dirijo y escribo películas, y trabajo con IA generativa para crear imágenes y mundos nuevos. He hecho desde el cortometraje anual Rewind Hispano hasta campañas para marcas, con entornos generados por IA y rodaje virtual.</p></div>' +
-            '<div class="afx-col afx-contact"><h3>Contacto</h3>' +
-              '<a href="mailto:oscarparracontacto@gmail.com">oscarparracontacto@gmail.com</a>' +
-              '<a href="https://www.instagram.com/oscarparrax/" target="_blank" rel="noopener">Instagram <span aria-hidden="true">↗</span></a>' +
-              '<a href="https://www.linkedin.com/in/%C3%B3scar-parra-serrano-302180251" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a></div>' +
-            '<div class="afx-col afx-place"><h3>Ubicación</h3><p class="afx-city">Madrid</p><p class="afx-world">Open World</p><p class="afx-coord"><span>40.4168° N</span> · <span>3.7038° W</span></p></div>' +
+          '<div class="afx-rule" aria-hidden="true"></div>' +
+          '<div class="afx-about afx-seq"><h3>About</h3>' +
+            '<p>Directing and developing audiovisual projects that combine cinematic storytelling, creativity and generative AI, with a special focus on content for advertising and brands.</p>' +
+            '<p>From creative concept to final delivery, I integrate AI image and video generation tools into directing, production and post-production workflows, exploring new ways of telling stories and creating visual experiences.</p>' +
           '</div>' +
-        '</div>' +
-        '<button type="button" class="about-fx-close" aria-label="Cerrar">&times;</button>';
+          '<dl class="afx-rows">' +
+            '<div class="afx-seq"><dt>Location</dt><dd><span class="afx-city">Madrid</span><span class="afx-ow">Open World</span><small>40.4168° N · 3.7038° W</small></dd></div>' +
+            '<div class="afx-seq"><dt>Email</dt><dd><a href="mailto:oscarparracontacto@gmail.com">oscarparracontacto@gmail.com</a></dd></div>' +
+            '<div class="afx-seq"><dt>Instagram</dt><dd><a href="https://www.instagram.com/oscarparrax/" target="_blank" rel="noopener">@oscarparrax <span aria-hidden="true">↗</span></a></dd></div>' +
+            '<div class="afx-seq"><dt>LinkedIn</dt><dd><a href="https://www.linkedin.com/in/%C3%B3scar-parra-serrano-302180251" target="_blank" rel="noopener">Óscar Parra Serrano <span aria-hidden="true">↗</span></a></dd></div>' +
+          '</dl>' +
+        '</div></div>';
       const frame = root.querySelector('.about-fx-frame'), title = root.querySelector('.about-fx-title'), img = root.querySelector('.about-fx-img');
       let settled = null;
       'Óscar Parra'.split(' ').forEach((word, wi) => {
@@ -860,6 +864,7 @@
       const onKey = (e) => { if (e.key === 'Escape') close(); };
       const onResize = () => {
         if (busy) return;
+        root.style.setProperty('--afx-top', hdrH() + 'px');
         frame.style.transition = 'none'; setRect(frame, full());
         if (settled) { settled.cancel(); settled = null; const m = medium(); img.style.transformOrigin = m.o; img.style.transform = m.t; }
       };
@@ -867,7 +872,7 @@
       setTimeout(() => {                                               // 2) la cámara se mete en la imagen
         const start = rectOf(hero.getBoundingClientRect());
         document.body.appendChild(root);
-        document.body.classList.add('about-open', 'video-open');
+        document.body.classList.add('about-open');
         frame.style.transition = 'none'; setRect(frame, start);
         root.classList.add('is-start');
         void frame.offsetWidth;
@@ -885,7 +890,7 @@
         setTimeout(() => { root.classList.add('is-title'); }, DUR - 200);   // 3) el nombre
         setTimeout(() => { root.classList.add('is-info'); }, DUR + 1200);    // 4) rol, descripción, contacto y ubicación
         setTimeout(() => { busy = false; }, DUR + 1100);
-        root.addEventListener('click', (e) => { if (e.target.closest('a')) return; close(); });   // pulsar un enlace no cierra
+        root.addEventListener('click', (e) => { if (e.target.closest('a, .afx-panel')) return; close(); });   // se cierra al pulsar la imagen, con Esc o con About; los enlaces y el texto no la cierran
         document.addEventListener('keydown', onKey);
         window.addEventListener('resize', onResize);
         fx = { close };
@@ -909,14 +914,21 @@
           }
         }, 350);
         setTimeout(() => {                                             // la imagen del banner vuelve a estar sola; después reaparece todo lo demás
-          root.remove(); document.body.classList.remove('about-open', 'video-open');
+          root.remove(); document.body.classList.remove('about-open');
           document.body.classList.remove('about-prep');
           fx = null; setTimeout(() => { busy = false; }, FADE);
         }, 350 + OUT + 60);
       }
     }
     window.openAbout = openAbout;
-    document.querySelectorAll('[data-about]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); openAbout(); }));
+    document.querySelectorAll('[data-about]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); if (fx) fx.close(); else openAbout(); }));
+    // Con "Sobre mí" abierto, Work cierra primero la escena y luego hace lo suyo (bajar a los proyectos)
+    document.querySelectorAll('.nav-work-link').forEach((a) => a.addEventListener('click', (e) => {
+      if (!fx) return;
+      e.preventDefault(); e.stopImmediatePropagation();
+      fx.close();
+      setTimeout(() => a.click(), OUT + FADE + 900);
+    }, true));
     if (location.hash === '#sobre-mi') {
       history.replaceState(null, '', location.pathname + location.search);
       const go = () => setTimeout(openAbout, 450);

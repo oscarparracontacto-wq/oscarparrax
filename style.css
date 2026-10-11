@@ -1736,81 +1736,81 @@ body.video-open .rw-time{visibility:hidden;}
 
 
 
-/* ===== CAMBIOS 95: "Sobre mí" — tras el nombre aparecen el rol, una descripción corta, el contacto y la ubicación ===== */
-.about-fx-fade{position:fixed;left:0;right:0;bottom:0;height:68vh;pointer-events:none;opacity:0;transition:opacity 1.2s ease;
-  background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.55) 45%,rgba(0,0,0,.86) 100%);}
-.about-fx.is-info .about-fx-fade{opacity:1;}
-.about-fx-stack{position:fixed;left:0;right:0;bottom:clamp(22px,5.5vh,56px);display:flex;flex-direction:column;align-items:center;padding:0 clamp(20px,5vw,80px);pointer-events:none;}
-.about-fx-stack .about-fx-title{position:static;padding:0;font-size:clamp(46px,8vw,128px);margin:0;}
-.about-fx-kicker{margin:0 0 clamp(6px,1vh,12px);font:600 clamp(11px,1vw,14px)/1 'Inter',sans-serif;letter-spacing:.32em;text-transform:uppercase;color:#a3ff12;text-shadow:0 2px 18px rgba(0,0,0,.8);opacity:0;transform:translateY(8px);transition:opacity .9s ease .5s,transform .9s ease .5s;}
+/* ===== CAMBIOS 97: "Sobre mí" — la barra de arriba se queda; plano medio de Óscar a la izquierda; a la derecha, en inglés, rol, nombre, descripción y datos separados por líneas ===== */
+body.about-open header{z-index:9990;}
+.about-fx{inset:var(--afx-top,57px) 0 0 0;cursor:default;}
+.about-fx-flash{top:var(--afx-top,57px);}
+.about-fx.is-in .about-fx-img{animation:none!important;}
+.about-fx-fade{position:fixed;inset:var(--afx-top,57px) 0 0 0;height:auto;pointer-events:none;opacity:0;transition:opacity 1.2s ease;
+  background:linear-gradient(270deg,rgba(0,0,0,.94) 0%,rgba(0,0,0,.88) 54%,rgba(0,0,0,.3) 62%,rgba(0,0,0,0) 70%);}
+.about-fx.is-title .about-fx-fade{opacity:1;}
+.about-fx-stack{position:fixed;top:var(--afx-top,57px);bottom:0;left:46vw;right:0;display:flex;align-items:center;justify-content:center;
+  padding:clamp(16px,3vh,40px) clamp(24px,4vw,64px);pointer-events:none;}
+.afx-panel{width:min(520px,100%);max-height:100%;pointer-events:auto;color:#f2eee6;text-shadow:0 1px 14px rgba(0,0,0,.75);}
+.about-fx-kicker{margin:0 0 clamp(8px,1.2vh,14px);font:600 clamp(10px,.85vw,12px)/1 'Inter',sans-serif;letter-spacing:.3em;text-transform:uppercase;color:#a3ff12;
+  opacity:0;transform:translateY(8px);transition:opacity .9s ease .5s,transform .9s ease .5s;}
 .about-fx.is-title .about-fx-kicker{opacity:1;transform:none;}
 .about-fx.is-out .about-fx-kicker{opacity:0;transition-delay:0s;}
-.about-fx-info{width:min(1100px,100%);margin-top:clamp(18px,3.4vh,40px);padding-top:clamp(14px,2.2vh,24px);border-top:1px solid rgba(255,255,255,.28);
-  display:grid;grid-template-columns:1.5fr 1fr .8fr;gap:clamp(22px,3.6vw,56px);text-align:left;color:#f2eee6;text-shadow:0 1px 14px rgba(0,0,0,.8);
-  opacity:0;transform:translateY(14px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.7,.2,1);}
-.about-fx.is-info .about-fx-info{opacity:1;transform:none;}
-.afx-col h3{margin:0 0 10px;font:700 11px/1 'Inter',sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#cfcabd;}
-.afx-col p{margin:0;font:300 clamp(13px,1.1vw,16px)/1.65 'Inter',sans-serif;}
-.afx-contact a{display:block;width:max-content;max-width:100%;pointer-events:auto;cursor:pointer;color:#fff;text-decoration:none;font:400 clamp(13px,1.1vw,16px)/1 'Inter',sans-serif;padding:5px 0;transition:color .2s ease;}
-.afx-contact a:hover,.afx-contact a:focus-visible{color:#a3ff12;}
-.afx-city{font:400 clamp(24px,2.4vw,36px)/1 'Archivo Black',sans-serif!important;text-transform:uppercase;color:#fff;}
-.afx-world{margin-top:6px!important;letter-spacing:.2em;text-transform:uppercase;font-size:12px!important;color:#a3ff12;}
-.afx-coord{margin-top:10px!important;font-size:11px!important;letter-spacing:.14em;color:#cfcabd;}
-@media (max-width:760px){
-  .about-fx-stack{bottom:18px;}
-  .about-fx-stack .about-fx-title{font-size:clamp(34px,11vw,60px);}
-  .about-fx-info{grid-template-columns:1fr 1fr;gap:16px 18px;margin-top:14px;padding-top:12px;}
-  .afx-bio{grid-column:1 / -1;}
-  .afx-bio h3{margin-bottom:6px;}
-  .afx-bio p{font-size:12.5px;line-height:1.55;}
-  .afx-contact a{font-size:13px;padding:4px 0;}
-  .afx-contact a:first-of-type{font-size:12px;}
-  .afx-city{font-size:22px!important;}
-  .afx-coord{font-size:10px!important;letter-spacing:.05em!important;}
-  .afx-coord span{white-space:nowrap;}
-}
-@media (max-height:620px) and (min-width:761px){
-  .about-fx-info{margin-top:10px;padding-top:10px;}
-  .afx-bio p{font-size:12px;line-height:1.5;}
-}
+.afx-panel .about-fx-title{position:static;padding:0;margin:0;text-align:left;font-size:clamp(34px,4.3vw,72px);line-height:.98;white-space:nowrap;}
+.afx-panel .afx-w{margin:0 .16em 0 0;}
+.afx-rule{position:relative;height:1px;margin:clamp(14px,2.2vh,24px) 0 clamp(14px,2.2vh,22px);background:rgba(255,255,255,.26);transform:scaleX(0);transform-origin:left;transition:transform 1.1s cubic-bezier(.2,.7,.2,1) .9s;}
+.afx-rule::before{content:'';position:absolute;left:0;top:0;width:38px;height:1px;background:#fff;}
+.about-fx.is-title .afx-rule{transform:none;}
+.about-fx.is-out .afx-rule{transform:scaleX(0);transition-duration:.4s;transition-delay:0s;}
+.afx-seq{opacity:0;transform:translateY(12px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1);}
+.about-fx.is-info .afx-seq{opacity:1;transform:none;}
+.about-fx.is-info .afx-seq:nth-child(2){transition-delay:.12s;}
+.about-fx.is-info .afx-rows .afx-seq:nth-child(1){transition-delay:.3s;}
+.about-fx.is-info .afx-rows .afx-seq:nth-child(2){transition-delay:.4s;}
+.about-fx.is-info .afx-rows .afx-seq:nth-child(3){transition-delay:.5s;}
+.about-fx.is-info .afx-rows .afx-seq:nth-child(4){transition-delay:.6s;}
+.about-fx.is-out .afx-seq{opacity:0;transition-delay:0s;transition-duration:.3s;}
+.afx-about h3{margin:0 0 10px;font:700 10px/1 'Inter',sans-serif;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.62);}
+.afx-about p{margin:0 0 10px;font:300 clamp(13px,1.02vw,15px)/1.65 'Inter',sans-serif;color:#f2eee6;}
+.afx-about p:last-child{margin-bottom:0;}
+.afx-rows{margin:clamp(14px,2.2vh,22px) 0 0;border-top:1px solid rgba(255,255,255,.26);}
+.afx-rows > div{display:flex;justify-content:space-between;align-items:baseline;gap:18px;padding:clamp(8px,1.2vh,12px) 0;border-bottom:1px solid rgba(255,255,255,.09);}
+.afx-rows > div:last-child{border-bottom:0;}
+.afx-rows dt{font:700 10px/1 'Inter',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.62);white-space:nowrap;}
+.afx-rows dd{margin:0;text-align:right;font:400 clamp(12.5px,1vw,14.5px)/1.3 'Inter',sans-serif;color:#fff;}
+.afx-rows dd a{pointer-events:auto;cursor:pointer;color:#fff;text-decoration:none;transition:color .2s ease;}
+.afx-rows dd a:hover,.afx-rows dd a:focus-visible{color:#a3ff12;}
+.afx-city{font:400 clamp(15px,1.3vw,19px)/1 'Archivo Black',sans-serif;text-transform:uppercase;letter-spacing:.02em;}
+.afx-ow{margin-left:10px;font:600 10px/1 'Inter',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#a3ff12;}
+.afx-rows small{display:block;margin-top:5px;font:400 10.5px/1 'Inter',sans-serif;letter-spacing:.12em;color:rgba(255,255,255,.55);}
 
-
-/* ===== CAMBIOS 96: "Sobre mí" — plano medio de Óscar a la izquierda y todo el texto a la derecha (en móvil: Óscar arriba y texto debajo) ===== */
-.about-fx.is-in .about-fx-img{animation:none!important;}
-.about-fx-fade{inset:0;height:auto;background:linear-gradient(270deg,rgba(0,0,0,.94) 0%,rgba(0,0,0,.9) 46%,rgba(0,0,0,.52) 57%,rgba(0,0,0,0) 74%);}
-.about-fx-stack{top:0;bottom:0;left:50%;right:clamp(28px,6vw,100px);padding:0;justify-content:center;align-items:flex-start;}
-.about-fx-stack .about-fx-title{text-align:left;font-size:clamp(40px,5.4vw,96px);}
-.about-fx-stack .afx-w{margin:0 .16em 0 0;}
-.about-fx-kicker{text-align:left;}
-.about-fx-info{width:100%;grid-template-columns:1fr 1fr;gap:clamp(18px,2.4vh,30px) clamp(22px,3vw,48px);}
-.afx-bio{grid-column:1 / -1;}
-.afx-bio p{max-width:46ch;}
+/* móvil en vertical: Óscar arriba y el texto debajo (con desplazamiento si no cabe) */
 @media (max-width:760px) and (orientation:portrait){
-  .about-fx-fade{inset:auto 0 0 0;height:66vh;background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.62) 40%,rgba(0,0,0,.9) 100%);}
-  .about-fx-stack{top:auto;left:0;right:0;bottom:18px;padding:0 20px;align-items:center;justify-content:flex-end;}
-  .about-fx-stack .about-fx-title{text-align:center;font-size:clamp(34px,11vw,60px);}
-  .about-fx-kicker{text-align:center;}
+  .about-fx-fade{background:linear-gradient(180deg,rgba(0,0,0,0) 22%,rgba(0,0,0,.74) 38%,rgba(0,0,0,.94) 100%);}
+  .about-fx-stack{top:calc(var(--afx-top,47px) + 33vh);left:0;right:0;bottom:0;align-items:flex-start;justify-content:flex-start;overflow-y:auto;padding:0 20px 18px;-webkit-overflow-scrolling:touch;pointer-events:auto;}
+  .afx-panel{width:100%;max-height:none;}
+  .about-fx-kicker{font-size:9.5px;margin-bottom:6px;}
+  .afx-panel .about-fx-title{font-size:clamp(30px,9.4vw,46px);}
+  .afx-rule{margin:10px 0 10px;}
+  .afx-about h3{display:none;}
+  .afx-about p{font-size:12px;line-height:1.5;margin-bottom:7px;}
+  .afx-rows{margin-top:8px;}
+  .afx-rows > div{padding:6px 0;}
+  .afx-rows dd{font-size:12.5px;}
+  .afx-city{font-size:15px;}
+  .afx-rows small{display:none;}
 }
-@media (max-height:620px) and (min-width:761px){
-  .about-fx-stack .about-fx-title{font-size:clamp(34px,5vw,64px);}
-  .about-fx-info{gap:12px 28px;margin-top:10px;}
+/* móvil en horizontal y pantallas bajas: mismo reparto que en ordenador, con letra algo más pequeña */
+@media (max-height:620px) and (orientation:landscape){
+  .about-fx-stack{padding-top:8px;padding-bottom:8px;}
+  .afx-panel .about-fx-title{font-size:clamp(24px,4.4vw,44px);}
+  .about-fx-kicker{font-size:9px;margin-bottom:4px;}
+  .afx-rule{margin:8px 0;}
+  .afx-about h3{display:none;}
+  .afx-about p{font-size:10.5px;line-height:1.42;margin-bottom:5px;}
+  .afx-rows{margin-top:8px;}
+  .afx-rows > div{padding:4px 0;}
+  .afx-rows dd{font-size:11px;}
+  .afx-rows small{display:none;}
 }
+@media (prefers-reduced-motion:reduce){.afx-seq,.afx-rule{transition:none;}}
 
 
 
-/* móvil en horizontal: mismo reparto que en ordenador (Óscar a la izquierda, texto a la derecha), con letra pequeña */
-@media (max-width:760px) and (orientation:landscape){
-  .about-fx-stack .about-fx-title{font-size:clamp(26px,6vw,44px);}
-  .about-fx-kicker{font-size:9px;letter-spacing:.24em;margin-bottom:4px;}
-  .about-fx-info{grid-template-columns:1fr 1fr;gap:8px 20px;margin-top:8px;padding-top:8px;}
-  .afx-col h3{margin-bottom:4px;font-size:9px;}
-  .afx-bio p{font-size:11px;line-height:1.45;max-width:none;}
-  .afx-contact a{font-size:11px;padding:2px 0;}
-  .afx-contact a:first-of-type{font-size:11px;}
-  .afx-city{font-size:17px!important;}
-  .afx-world{font-size:9px!important;margin-top:3px!important;}
-  .afx-coord{font-size:9px!important;margin-top:5px!important;}
-  .about-fx-close{top:8px;right:8px;width:32px;height:32px;font-size:22px;}
-}
 
-/* VERSION */:root{--ver:'96';}
+/* VERSION */:root{--ver:'97';}
