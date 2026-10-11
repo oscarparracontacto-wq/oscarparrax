@@ -1552,4 +1552,58 @@ header nav .nav-sub-in a:hover{background:rgba(255,255,255,0.14);opacity:1;}
 .video-frame.has-preview.is-loaded::after{display:none;}
 
 
-/* VERSION */:root{--ver:'80';}
+/* ===== CAMBIOS 81 (PRUEBA, solo Premios ESLAND): sin banner; vídeo grande + carrusel horizontal debajo (mismo ancho) + textos a la derecha, todo centrado.
+   (también: cursor verde ácido en todo el sitio; etiqueta de versión en rojo). Para volver atrás en Esland: usar el premios-esland.html y el style.css de cambios80. ===== */
+body .cursor-ring::before,body .cursor-ring.is-active::before,body.iso-hi .cursor-ring::before,body.iso-hi .cursor-ring.is-active::before{border-color:#a3ff12;}
+body .cursor-ring::after,body .cursor-ring.is-active::after,body.iso-hi .cursor-ring::after,body.iso-hi .cursor-ring.is-active::after{background:#a3ff12;}
+
+.es-layout{
+  --hdr:57px;
+  --iw:clamp(240px,21vw,320px);
+  --gap:clamp(22px,2.6vw,44px);
+  --pad:clamp(20px,5.6vw,96px);
+  --vw:min(calc(100vw - 2*var(--pad) - var(--gap) - var(--iw)), calc((100vh - var(--hdr) - 280px)*16/9));
+  display:grid;
+  grid-template-columns:var(--vw) var(--iw);
+  grid-template-rows:auto auto;
+  column-gap:var(--gap);row-gap:clamp(12px,1.4vw,20px);
+  justify-content:center;align-content:center;
+  min-height:calc(100vh - var(--hdr));
+  padding:28px var(--pad);
+}
+.es-video{grid-column:1;grid-row:1;padding:0!important;}
+.es-video .wrap{max-width:none;padding:0;}
+.es-layout .es-video .video-frame:not(.is-zoom){max-width:none;margin:0;}
+.es-gallery{grid-column:1;grid-row:2;padding:0!important;min-width:0;}
+.es-gallery .gallery-viewport{max-width:none;margin:0;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 5%,#000 95%,transparent 100%);
+          mask-image:linear-gradient(90deg,transparent 0%,#000 5%,#000 95%,transparent 100%);}
+.es-gallery .gal-item{flex:0 0 calc(var(--vw)/7.5);}
+.es-info{grid-column:2;grid-row:1;align-self:center;color:#f2eee6;text-shadow:0 1px 16px rgba(0,0,0,.65);}
+.es-title{
+  font-family:'Archivo Black',sans-serif;font-weight:400;text-transform:uppercase;
+  color:#fff;font-size:clamp(26px,2.9vw,46px);line-height:.98;letter-spacing:.01em;margin-bottom:clamp(14px,1.6vw,22px);
+}
+.es-meta{display:grid;gap:10px;margin:0 0 clamp(16px,2vw,28px);}
+.es-meta dt{font-family:'Archivo Black',sans-serif;text-transform:uppercase;font-size:clamp(11px,1vw,14px);letter-spacing:.04em;color:#fff;}
+.es-meta dd{margin:2px 0 0;font-family:'Inter',sans-serif;font-weight:300;font-size:clamp(12px,1.1vw,15px);color:#cfcabd;}
+.es-text p{font-size:clamp(13px,1.05vw,15px);line-height:1.65;margin:0 0 10px;color:#f2eee6;}
+.es-text p:last-child{margin-bottom:0;}
+@media (max-width:760px){
+  .es-layout{display:flex;flex-direction:column;min-height:0;padding:22px 0 30px;gap:16px;}
+  .es-info{display:contents;}
+  .es-head{order:1;padding:0 22px;}
+  .es-video{order:2;padding:0 14px!important;}
+  .es-gallery{order:3;}
+  .es-text{order:4;padding:0 22px;}
+  .es-title{font-size:30px;margin-bottom:12px;}
+  .es-meta{grid-template-columns:repeat(3,1fr);gap:8px;margin:0;}
+  .es-meta dt{font-size:10px;}
+  .es-meta dd{font-size:10px;line-height:1.3;}
+  .es-text p{font-size:12.5px;line-height:1.6;}
+  .es-gallery .gal-item{flex:0 0 clamp(100px,28vw,130px);}
+  .es-gallery .gallery-viewport{max-width:100vw;}
+}
+
+
+/* VERSION */:root{--ver:'81';}
