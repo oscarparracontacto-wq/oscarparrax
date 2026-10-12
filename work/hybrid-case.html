@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hybrid Case — Óscar Parra</title>
+<meta name="description" content="Hybrid Case: rodaje en acción real, producción virtual e IA generativa en un mismo flujo creativo. AI Visuals — Óscar Parra.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css?v=124">
+</head>
+<body>
+<div id="verTag" data-v="124" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v124</div>
+<script>(function(){var t=document.getElementById("verTag");if(!t)return;var c=getComputedStyle(document.documentElement).getPropertyValue("--ver").replace(/[^0-9]/g,"");if(c!==t.getAttribute("data-v")){t.textContent+=" · style.css antiguo ("+(c?"v"+c:"sin versión")+")";t.style.color="#ffe600";}})();</script>
+
+<header>
+  <div class="wrap">
+    <div class="hdr-left">
+      <nav>
+        <ul id="navList">
+          <li><a href="../index.html">Main</a></li>
+          <li class="nav-work">
+            <a class="nav-work-link" href="../index.html#work" aria-haspopup="true" aria-expanded="false">Work</a>
+            <div class="nav-sub"><div class="nav-sub-in">
+              <a href="rewind-hispano.html">Rewind Hispano</a>
+              <a href="caixabank-wealth-management.html">CaixaBank Convención</a>
+              <a href="eneryeti.html">Eneryeti</a>
+              <a href="premios-esland.html">Premios ESLAND</a>
+              <a href="partido-de-las-estrellas.html">Partido de las Estrellas</a>
+              <a href="koi-presentacion-jugadores.html">KOI Jugadores</a>
+              <a href="koi-presentacion-creadores.html">KOI Creadores</a>
+              <a href="sueno-de-emilio.html">El Sueño de Emilio</a>
+              <a href="ford-kuga.html">Ford Kuga</a>
+              <a href="soy-un-npc.html">Soy un NPC</a>
+            </div></div>
+          </li>
+          <li><a href="../index.html#sobre-mi" data-about>About</a></li>
+        </ul>
+      </nav>
+      <div class="social-icons">
+        <a href="https://www.instagram.com/oscarparrax/" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg class="social-ico" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/><circle cx="17.4" cy="6.6" r="1.25" fill="currentColor"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/%C3%B3scar-parra-serrano-302180251" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg class="social-ico" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6.94 5.5a1.94 1.94 0 1 1-3.88 0 1.94 1.94 0 0 1 3.88 0ZM3.4 8.4h3.08V21H3.4V8.4Zm5.06 0h2.95v1.72h.04c.41-.78 1.42-1.6 2.92-1.6 3.12 0 3.7 2.05 3.7 4.72V21h-3.08v-5.55c0-1.32-.02-3.02-1.84-3.02-1.84 0-2.12 1.44-2.12 2.92V21H8.46V8.4Z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="hdr-right">
+      <button class="cam-iso" id="isoToggle" type="button" aria-pressed="false">
+        <span class="iso-label">ISO</span>
+        <span class="iso-value">100</span>
+      </button>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">☰</button>
+  </div>
+</header>
+
+<!-- TEXTO + VÍDEO + CARRUSEL, todo sobre el fondo de la imagen del vídeo -->
+<section class="project-stage">
+  <img class="project-video-bg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" src="../img/hybrid-case-video-bg.webp" alt="" aria-hidden="true">
+  <div class="film-grain tv-static video-grain"></div>
+  <div class="tv-scanlines"></div>
+  <div class="stage-content">
+<!-- Composición: vídeo grande a la izquierda, carrusel horizontal justo debajo (mismo ancho) y los textos a la derecha; todo centrado como un conjunto -->
+<div class="es-layout">
+  <section class="project-video es-video">
+    <div class="wrap">
+      <div class="video-frame" id="videoFrame" data-mp4="../videos/hybrid-case-full.mp4">
+        <button class="video-play" aria-label="Reproducir vídeo">
+          <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
+          <span>Ver vídeo</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="project-gallery es-gallery">
+    <div class="gallery-viewport">
+      <div class="gallery-track" id="galTrack">
+      <figure class="gal-item"><img src="../img/hybrid-case-rodaje-1.webp" alt="Rodaje Hybrid Case — chaqueta roja" loading="lazy"></figure>
+      <figure class="gal-item"><img src="../img/hybrid-case-rodaje-2.webp" alt="Rodaje Hybrid Case — oficina" loading="lazy"></figure>
+      <figure class="gal-item"><img src="../img/hybrid-case-rodaje-3.webp" alt="Rodaje Hybrid Case — nieve" loading="lazy"></figure>
+      <figure class="gal-item"><img src="../img/hybrid-case-rodaje-4.webp" alt="Rodaje Hybrid Case — nubes" loading="lazy"></figure>
+      <figure class="gal-item"><img src="../img/hybrid-case-rodaje-5.webp" alt="Rodaje Hybrid Case — Egipto" loading="lazy"></figure>
+      <figure class="gal-item"><img src="../img/hybrid-case-rodaje-6.webp" alt="Rodaje Hybrid Case — astronauta" loading="lazy"></figure>
+      <figure class="gal-item"><img src="../img/hybrid-case-rodaje-7.webp" alt="Rodaje Hybrid Case — moto" loading="lazy"></figure>
+      <figure class="gal-item"><img src="../img/hybrid-case-rodaje-8.webp" alt="Rodaje Hybrid Case — tarot" loading="lazy"></figure>
+      <figure class="gal-item"><img src="../img/hybrid-case-rodaje-9.webp" alt="Rodaje Hybrid Case — arquera" loading="lazy"></figure>
+    </div>
+    </div>
+  </section>
+
+  <aside class="es-info">
+    <div class="es-head">
+      <h1 class="es-title">Hybrid Case</h1>
+      <dl class="es-meta">
+        <div><dt>Año</dt><dd>2026</dd></div>
+        <div><dt>Rol</dt><dd>AI Visuals</dd></div>
+        <div><dt>Agencia</dt><dd>WPP Production</dd></div>
+      </dl>
+    </div>
+    <div class="es-text">
+      <p>Hybrid Case nace como una demostración de lo que pasa cuando el <strong>rodaje en acción real</strong>, la <strong>producción virtual</strong> y la <strong>IA generativa</strong> se integran en un mismo proceso creativo, en lugar de trabajar cada uno por su lado.</p>
+      <p>Con IA se generaron los <strong>fondos del plató</strong>, las <strong>transiciones</strong> y <strong>nuevas escenas</strong> más complejas de resolver en un set real, para completar el montaje.</p>
+    </div>
+  </aside>
+</div>
+
+    <!-- NAVEGACIÓN ENTRE PROYECTOS -->
+    <nav class="project-nav nav-arrows" aria-label="Navegación entre proyectos">
+      <a class="pnav prev" href="eneryeti.html" aria-label="Proyecto anterior: Eneryeti">
+        <span class="pnav-arrow">←</span>
+      </a>
+      <a class="pnav next" href="premios-esland.html" aria-label="Proyecto siguiente: Premios ESLAND">
+        <span class="pnav-arrow">→</span>
+      </a>
+    </nav>
+  </div>
+</section>
+
+<!-- Fotogramas: 2 columnas x 3 filas, a pantalla completa, en 16:9, sin texto -->
+<section class="es-stills" aria-label="Fotogramas">
+  <figure><img src="../img/hybrid-case-still-1.webp" alt="Hybrid Case — fotograma 1" loading="lazy"></figure>
+  <figure><img src="../img/hybrid-case-still-2.webp" alt="Hybrid Case — fotograma 2" loading="lazy"></figure>
+  <figure><img src="../img/hybrid-case-still-3.webp" alt="Hybrid Case — fotograma 3" loading="lazy"></figure>
+  <figure><img src="../img/hybrid-case-still-4.webp" alt="Hybrid Case — fotograma 4" loading="lazy"></figure>
+  <figure><img src="../img/hybrid-case-still-5.webp" alt="Hybrid Case — fotograma 5" loading="lazy"></figure>
+  <figure><img src="../img/hybrid-case-still-6.webp" alt="Hybrid Case — fotograma 6" loading="lazy"></figure>
+</section>
+
+<footer class="work-footer">
+  <div class="wrap">
+    <p>© 2026 ÓSCAR PARRA</p>
+    <p class="ft-legal">Los proyectos mostrados pertenecen a sus respectivos clientes y productoras.</p>
+  </div>
+</footer>
+
+<script>
+  // Cursor animado (igual que en la home)
+  (() => {
+    const ring = document.createElement('div');
+    ring.className = 'cursor-ring';
+    document.body.appendChild(ring);
+
+    let cx = 0, cy = 0, craf = null;
+    function place() {
+      craf = null;
+      ring.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+    }
+    document.addEventListener('mousemove', (e) => {
+      cx = e.clientX; cy = e.clientY;
+      if (!craf) craf = requestAnimationFrame(place);
+    });
+
+    document.querySelectorAll('a, button, .work-card, .btn, .gal-item').forEach((el) => {
+      el.addEventListener('mouseenter', () => ring.classList.add('is-active'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('is-active'));
+    });
+  })();
+
+  // Vista previa: al llegar al vídeo se reproduce solo, sin sonido y en bucle (los navegadores no dejan arrancar con sonido sin pulsar).
+  // Al pulsar "Ver vídeo" se amplía el reproductor de verdad (que arranca desde el principio con sonido) y la vista previa se retira.
+  (() => {
+    const frame = document.querySelector('.video-frame[data-video]');
+    if (!frame || !('IntersectionObserver' in window)) return;
+    const id = frame.dataset.video;
+    let prev = null;
+    const io = new IntersectionObserver((entries) => {
+      if (!entries.some((en) => en.isIntersecting) || prev) return;
+      io.disconnect();
+      prev = document.createElement('iframe');
+      prev.className = 'video-preview';
+      prev.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&disablekb=1&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1`;
+      prev.setAttribute('frameborder', '0');
+      prev.setAttribute('allow', 'autoplay; encrypted-media');
+      prev.setAttribute('tabindex', '-1');
+      prev.setAttribute('aria-hidden', 'true');
+      prev.setAttribute('title', '');
+      frame.insertBefore(prev, frame.firstChild);
+      frame.classList.add('has-preview');
+    }, { threshold: 0.4 });
+    io.observe(frame);
+    frame.addEventListener('click', () => {
+      if (!prev) return;
+      const p = prev; prev = null;
+      setTimeout(() => { p.remove(); frame.classList.remove('has-preview'); }, 450);
+    });
+  })();
+  // Vídeo propio (MP4): al llegar a él se reproduce solo, sin sonido y en bucle. Al pulsar se amplía (misma animación que con YouTube)
+  // y arranca desde el principio con sonido y con controles. Al cerrar el zoom el vídeo sigue en marcha.
+  (() => {
+    const frame = document.querySelector('.video-frame[data-mp4]');
+    if (!frame) return;
+    const DUR = 560;
+    const EASE = 'cubic-bezier(.22,.68,0,1.01)';
+    const TR = `top ${DUR}ms ${EASE}, left ${DUR}ms ${EASE}, width ${DUR}ms ${EASE}, height ${DUR}ms ${EASE}`;
+    let current = null;
+    const video = document.createElement('video');
+    video.src = frame.dataset.mp4;
+    video.muted = true; video.loop = true; video.playsInline = true; video.preload = 'auto';
+    video.setAttribute('playsinline', ''); video.setAttribute('webkit-playsinline', '');
+    video.setAttribute('aria-label', document.title);
+    video.tabIndex = -1;
+    frame.insertBefore(video, frame.firstChild);
+    frame.classList.add('has-preview');
+    const exp = document.createElement('button');        // botón para volver a ampliar con el vídeo en marcha
+    exp.type = 'button'; exp.className = 'video-expand'; exp.setAttribute('aria-label', 'Ampliar vídeo');
+    exp.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="square"/></svg>';
+    exp.addEventListener('click', (e) => { e.stopPropagation(); open(frame); });
+    frame.appendChild(exp);
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((entries) => {
+        entries.forEach((en) => {
+          if (frame.classList.contains('is-loaded')) return;
+          if (en.isIntersecting) { const p = video.play(); if (p && p.catch) p.catch(() => {}); } else { video.pause(); }
+        });
+      }, { threshold: 0.35 }).observe(frame);
+    } else { const p = video.play(); if (p && p.catch) p.catch(() => {}); }
+    function startFull() {
+      video.loop = false; video.muted = false; video.controls = true;
+      try { video.currentTime = 0; } catch (_) {}
+      const p = video.play(); if (p && p.catch) p.catch(() => {});
+    }
+    // ---- Zoom ----
+    function target() {
+      const vw = window.innerWidth, vh = window.innerHeight;
+      const w = Math.min(vw * (vw < 760 ? 0.96 : 0.92), vh * 0.86 * 16 / 9);   // casi toda la pantalla, sin llegar a ser entera
+      const h = w * 9 / 16;
+      return { top: (vh - h) / 2, left: (vw - w) / 2, width: w, height: h };
+    }
+    function setRect(el, r) {
+      el.style.top = r.top + 'px'; el.style.left = r.left + 'px';
+      el.style.width = r.width + 'px'; el.style.height = r.height + 'px';
+    }
+
+    function open(frame) {
+      if (current || frame.classList.contains('is-zoom')) return;
+      const first = !frame.classList.contains('is-loaded');
+      const stage = frame.closest('.project-stage');
+      const holder = frame.closest('.stage-content') || document.body;
+      const r = frame.getBoundingClientRect();
+      const ph = document.createElement('div');          // guarda el hueco mientras la pantalla está "volando"
+      ph.className = 'video-frame-ph';
+      ph.style.cssText = `width:${r.width}px;height:${r.height}px;max-width:100%;margin:0 auto;`;
+      frame.parentNode.insertBefore(ph, frame);
+      const backdrop = document.createElement('div');
+      backdrop.className = 'lightbox-backdrop video-backdrop';
+      holder.appendChild(backdrop);
+      if (stage) stage.classList.add('is-video-open');   // el escenario pasa por encima de la cabecera mientras dura el zoom
+      document.body.classList.add('video-open');
+
+      frame.style.transition = 'none';
+      frame.classList.add('is-zoom', 'is-loaded');
+      setRect(frame, r);
+      void frame.offsetWidth;
+      frame.style.transition = TR;
+      if (first) startFull();                            // arranca desde el principio, con sonido
+
+      requestAnimationFrame(() => { backdrop.classList.add('is-open'); setRect(frame, target()); });
+
+      let closing = false;
+      const onResize = () => { if (!closing) { frame.style.transition = 'none'; setRect(frame, target()); } };
+      function close() {
+        if (closing) return;
+        closing = true;
+        window.removeEventListener('resize', onResize);
+        document.removeEventListener('keydown', onKey);
+        frame.style.transition = TR;
+        setRect(frame, ph.getBoundingClientRect());
+        backdrop.classList.remove('is-open');
+        document.body.classList.remove('video-open');
+        setTimeout(() => {                                // el vídeo no se toca: sigue reproduciéndose en su sitio
+          frame.classList.remove('is-zoom');
+          frame.removeAttribute('style');
+          ph.remove(); backdrop.remove();
+          if (stage) stage.classList.remove('is-video-open');
+          current = null;
+        }, DUR + 40);
+      }
+      const onKey = (e) => { if (e.key === 'Escape') close(); };
+      backdrop.addEventListener('click', close);
+      document.addEventListener('keydown', onKey);
+      window.addEventListener('resize', onResize);
+      current = { close };
+    }
+    frame.addEventListener('click', () => { if (!frame.classList.contains('is-loaded')) open(frame); });
+  })();
+  // Carrusel de rodaje automático (como el de marcas de la home): avanza solo, despacio y en bucle.
+  // Se puede arrastrar con el cursor (o el dedo) para empujarlo; al soltar, el impulso se va frenando
+  // hasta volver a la velocidad normal. Pulsar una foto (sin arrastrar) la amplía.
+  (() => {
+    const BASE = 24;                 // píxeles por segundo
+    const TAU = 0.6;                 // segundos que tarda el impulso en apagarse
+    const mq = window.matchMedia('(max-width:760px)');
+    document.querySelectorAll('.gallery-viewport').forEach((viewport) => {
+      const track = viewport.querySelector('.gallery-track');
+      if (!track) return;
+      const originals = Array.from(track.children);
+      const n = originals.length;
+      if (!n) return;
+      // Copias de sobra para que nunca se vea el final, ni en pantallas anchas (foto mínima 100 px + hueco 12 px)
+      const minSet = n * 112;
+      const copies = Math.min(8, Math.ceil((1200 + minSet) / minSet) + 1);
+      for (let c = 1; c < copies; c++) {
+        originals.forEach((node) => track.appendChild(node.cloneNode(true)));
+      }
+      let setW = 0, x = 0, vel = 0, dragging = false, running = false, last = performance.now();
+      let pid = null, startX = 0, lastX = 0, lastT = 0, vSmooth = 0;
+      // Si el visor es vertical (solo en ordenador), el carrusel corre de arriba abajo; en móvil vuelve a ser horizontal
+      let vert = false;
+      const isVert = () => viewport.classList.contains('is-vertical') && !mq.matches;
+      const pos = (e) => vert ? e.clientY : e.clientX;
+
+      function measure() {
+        vert = isVert();
+        const cs = getComputedStyle(track);
+        const gap = parseFloat(vert ? cs.rowGap : cs.columnGap) || 16;
+        const size = vert ? originals[0].offsetHeight : originals[0].offsetWidth;   // no depende de la rotación/zoom de las fotos
+        setW = n * (size + gap);
+      }
+      function render() { track.style.transform = vert ? `translate3d(0,${-x}px,0)` : `translate3d(${-x}px,0,0)`; }
+      function frame(now) {
+        const dt = Math.min(0.25, (now - last) / 1000);
+        last = now;
+        if (!dragging) {
+          x += (BASE + vel) * dt;
+          vel *= Math.exp(-dt / TAU);
+          if (Math.abs(vel) < 1) vel = 0;
+        }
+        if (setW > 0) x = ((x % setW) + setW) % setW;
+        render();
+        if (running) requestAnimationFrame(frame);
+      }
+      function start() { if (running) return; running = true; last = performance.now(); requestAnimationFrame(frame); }
+      function stop() { running = false; }
+
+      measure(); render();
+      window.addEventListener('resize', () => { measure(); render(); });
+      window.addEventListener('load', measure);
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver((es) => es[0].isIntersecting ? start() : stop()).observe(viewport);
+      } else { start(); }
+
+      viewport.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        pid = e.pointerId; startX = lastX = pos(e); lastT = e.timeStamp; vSmooth = 0;
+      });
+      viewport.addEventListener('pointermove', (e) => {
+        if (pid === null || e.pointerId !== pid) return;
+        if (!dragging) {
+          if (Math.abs(pos(e) - startX) < 6) return;     // todavía es un toque, no un arrastre
+          dragging = true; vel = 0; lastX = pos(e); lastT = e.timeStamp;
+          try { viewport.setPointerCapture(pid); } catch (_) {}
+          return;
+        }
+        const dx = pos(e) - lastX;
+        const dtm = Math.max(1, e.timeStamp - lastT);
+        x -= dx;                                             // la foto sigue al puntero
+        vSmooth = vSmooth * 0.6 + (-dx / dtm * 1000) * 0.4;  // px/s del carrusel
+        lastX = pos(e); lastT = e.timeStamp;
+        if (!running) { if (setW > 0) x = ((x % setW) + setW) % setW; render(); }
+      });
+      function release(e) {
+        if (pid === null || e.pointerId !== pid) return;
+        if (dragging) {
+          const fresh = (e.timeStamp - lastT) < 120;          // si se soltó parado, sin impulso
+          vel = fresh ? Math.max(-1500, Math.min(1500, vSmooth)) : 0;
+          try { viewport.releasePointerCapture(pid); } catch (_) {}
+        }
+        dragging = false; pid = null;
+      }
+      viewport.addEventListener('pointerup', release);
+      viewport.addEventListener('pointercancel', release);
+      viewport.addEventListener('dragstart', (e) => e.preventDefault());
+    });
+  })();
+
+  // Capa de grano sobre las fotos del carrusel
+  (() => {
+    document.querySelectorAll('.gal-item').forEach((item) => {
+      const g = document.createElement('div');
+      g.className = 'film-grain tv-static';
+      item.appendChild(g);
+      const sl = document.createElement('div');
+      sl.className = 'tv-scanlines';
+      item.appendChild(sl);
+    });
+  })();
+
+  // Lightbox: al hacer clic en una foto, se despega del carrusel y se centra en grande
+  (() => {
+    let open = null; // { close }
+
+    function openLightbox(item) {
+      if (open) return;
+      const rect = item.getBoundingClientRect();
+      const img = item.querySelector('img');
+
+      const backdrop = document.createElement('div');
+      backdrop.className = 'lightbox-backdrop';
+      document.body.appendChild(backdrop);
+
+      const clone = document.createElement('figure');
+      clone.className = 'lightbox-photo';
+      const cloneImg = document.createElement('img');
+      cloneImg.src = img.currentSrc || img.src;
+      cloneImg.alt = img.alt;
+      clone.appendChild(cloneImg);
+      document.body.appendChild(clone);
+
+      clone.style.top = rect.top + 'px';
+      clone.style.left = rect.left + 'px';
+      clone.style.width = rect.width + 'px';
+      clone.style.height = rect.height + 'px';
+
+      requestAnimationFrame(() => {
+        backdrop.classList.add('is-open');
+        const maxW = Math.min(window.innerWidth * 0.7, 640);
+        const maxH = window.innerHeight * 0.78;
+        let size = Math.min(maxW, maxH);
+        clone.style.top = ((window.innerHeight - size) / 2) + 'px';
+        clone.style.left = ((window.innerWidth - size) / 2) + 'px';
+        clone.style.width = size + 'px';
+        clone.style.height = size + 'px';
+      });
+
+      function close() {
+        const r2 = item.getBoundingClientRect();
+        clone.style.top = r2.top + 'px';
+        clone.style.left = r2.left + 'px';
+        clone.style.width = r2.width + 'px';
+        clone.style.height = r2.height + 'px';
+        backdrop.classList.remove('is-open');
+        const cleanup = () => {
+          clone.remove();
+          backdrop.remove();
+          clone.removeEventListener('transitionend', cleanup);
+        };
+        clone.addEventListener('transitionend', cleanup);
+        open = null;
+      }
+
+      backdrop.addEventListener('click', close);
+      clone.addEventListener('click', close);
+      open = { close };
+    }
+
+    document.querySelectorAll('.gal-item').forEach((item) => {
+      item.addEventListener('click', () => openLightbox(item));
+    });
+  })();
+</script>
+<script>
+  // Interruptor de ISO (100 <-> 1600): invierte header, footer, descripciones y logos a modo "flash"
+  document.querySelectorAll('.cam-iso').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const val = btn.querySelector('.iso-value');
+      const isHigh = val.textContent.trim() === '1600';
+      val.textContent = isHigh ? '100' : '1600';
+      document.body.classList.toggle('iso-hi', !isHigh);
+      btn.setAttribute('aria-pressed', String(!isHigh));
+    });
+  });
+</script>
+<script>
+  // Curvatura 3D sutil del título y los roles del banner (igual que en la home): cada letra se coloca sobre un cilindro grande
+  (() => {
+    const box = document.querySelector('.project-hero-content');
+    const els = box ? Array.from(box.querySelectorAll('.project-title, .meta-label, .meta-value')) : [];
+    if (!els.length) return;
+    const letters = [];
+    els.forEach((el) => {
+      const text = el.textContent;
+      el.setAttribute('aria-label', text.trim());
+      el.textContent = '';
+      text.split(' ').forEach((word, wi) => {
+        if (wi) el.appendChild(document.createTextNode(' '));
+        const w = document.createElement('span');
+        w.className = 'w'; w.setAttribute('aria-hidden', 'true');
+        for (const ch of word) {
+          const sp = document.createElement('span');
+          sp.className = 'ch'; sp.textContent = ch;
+          w.appendChild(sp); letters.push(sp);
+        }
+        el.appendChild(w);
+      });
+    });
+    function curve() {
+      const Rc = Math.max(window.innerWidth * 0.62, 520);
+      const TILT = 9 * Math.PI / 180;
+      letters.forEach((sp) => { sp.style.transform = 'none'; });
+      const br = box.getBoundingClientRect(), cx = br.width / 2;
+      const info = letters.map((sp) => {
+        const r = sp.getBoundingClientRect();
+        return { sp, x: r.left + r.width / 2 - br.left - cx };
+      });
+      info.forEach(({ sp, x }) => {
+        const phi = Math.max(-1.2, Math.min(1.2, x / Rc));
+        const dx = Rc * Math.sin(phi) - x;
+        const dz = Rc * Math.cos(phi) - Rc;
+        const dy = (Rc - Rc * Math.cos(phi)) * Math.sin(TILT) * -1;
+        sp.style.transform = `translate3d(${dx.toFixed(2)}px,${dy.toFixed(2)}px,${dz.toFixed(2)}px) rotateY(${(phi * 180 / Math.PI).toFixed(2)}deg)`;
+      });
+    }
+    curve();
+    window.addEventListener('resize', curve);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(curve);
+  })();
+</script>
+<script>
+  // Cabecera: Main · Work (al mantener el cursor se abre la lista de proyectos) · About.
+  (() => {
+    const li = document.querySelector('.nav-work');
+    if (!li) return;
+    const link = li.querySelector('.nav-work-link');
+    const canHover = window.matchMedia('(hover:hover) and (pointer:fine)');
+    const grid = document.querySelector('.work-full-bleed');
+    let timer = null;
+    const set = (open) => { li.classList.toggle('is-open', open); link.setAttribute('aria-expanded', String(open)); };
+    const goGrid = () => {
+      const hdr = document.querySelector('header');
+      const top = grid.getBoundingClientRect().top + window.scrollY - (hdr ? hdr.offsetHeight : 0);
+      window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    };
+    li.addEventListener('mouseenter', () => { if (!canHover.matches) return; clearTimeout(timer); set(true); });
+    li.addEventListener('mouseleave', () => { if (!canHover.matches) return; clearTimeout(timer); timer = setTimeout(() => set(false), 220); });
+    li.addEventListener('focusin', (e) => { if (e.target.matches(':focus-visible')) set(true); });
+    li.addEventListener('focusout', (e) => { if (!li.contains(e.relatedTarget)) set(false); });
+    link.addEventListener('click', (e) => {
+      if (!canHover.matches) { e.preventDefault(); set(!li.classList.contains('is-open')); return; }   // táctil: abre/cierra la lista
+      if (grid) { e.preventDefault(); set(false); goGrid(); }                                           // ordenador en la home: baja a los proyectos
+    });
+    document.addEventListener('click', (e) => { if (!li.contains(e.target)) set(false); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+    if (grid && location.hash === '#work') {
+      history.replaceState(null, '', location.pathname + location.search);
+      const go = () => setTimeout(goGrid, 350);
+      if (document.readyState === 'complete') go(); else window.addEventListener('load', go);
+    }
+  })();
+</script>
+<script src="../swipe.js?v=123" defer></script>
+</body>
+</html>
