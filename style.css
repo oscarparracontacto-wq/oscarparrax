@@ -1986,4 +1986,22 @@ footer .ft-legal{font-size:11px;opacity:.75;letter-spacing:.02em;}
 }
 
 
-/* VERSION */:root{--ver:'117';}
+/* ===== CAMBIOS 118 (solo móvil, portada): el borde negro entre banner y primera miniatura mide lo mismo que los laterales (13px); el fondo negro de los proyectos lleva el filtro analógico (grano + líneas), por debajo de las miniaturas ===== */
+@media (max-width:760px){
+  .work-grid{padding-top:13px;position:relative;isolation:isolate;}
+  .work-grid > .work-card{position:relative;z-index:1;}
+  .work-grid::before,.work-grid::after{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;}
+  .work-grid::before{opacity:.11;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation:gridGrain .2s steps(1) infinite;}
+  .work-grid::after{
+    background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.055) 0,rgba(255,255,255,.055) 1px,transparent 1px,transparent 4px);
+    animation:scanRoll 6s linear infinite;}
+}
+@keyframes gridGrain{
+  0%{background-position:0 0;}20%{background-position:-37px 22px;}40%{background-position:51px -41px;}
+  60%{background-position:-23px -58px;}80%{background-position:44px 35px;}100%{background-position:0 0;}
+}
+
+
+/* VERSION */:root{--ver:'118';}
