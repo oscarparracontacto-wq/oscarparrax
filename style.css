@@ -1978,4 +1978,12 @@ footer .ft-legal{font-size:11px;opacity:.75;letter-spacing:.02em;}
 }
 
 
-/* VERSION */:root{--ver:'116';}
+/* ===== CAMBIOS 117 (solo móvil, portada): textos de las miniaturas un pelín más pequeños; botón Todos/IA un poco más abajo ===== */
+@media (max-width:760px){
+  .work-overlay{padding:16px;}
+  .work-overlay .tag{font-size:11.5px;letter-spacing:.01em;}
+  .work-toolbar .wrap{top:15px;}
+}
+
+
+/* VERSION */:root{--ver:'117';}
