@@ -2055,4 +2055,12 @@ footer .ft-legal{font-size:11px;opacity:.75;letter-spacing:.02em;}
 }
 
 
-/* VERSION */:root{--ver:'122';}
+/* ===== CAMBIOS 123 (solo móvil): la imagen de fondo de los proyectos vuelve a ocupar toda la zona del vídeo + carrusel; Rewind: años de la tira un pelín más pequeños ===== */
+@media (max-width:760px){
+  .project-stage > .project-video-bg{inset:auto!important;left:0!important;top:0!important;width:100%!important;height:var(--esm-h,70vw)!important;aspect-ratio:auto;object-fit:cover;transform:none!important;}
+  .es-layout.rw .rw-time{height:32px;}
+  .es-layout.rw .rw-year{font-size:14px;letter-spacing:.05em;}
+}
+
+
+/* VERSION */:root{--ver:'123';}

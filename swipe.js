@@ -31,19 +31,19 @@
   document.addEventListener('touchcancel', function () { ok = false; }, { passive: true });
 })();
 
-/* Móvil, páginas de proyecto: centra la imagen de fondo en la franja visible (hueco entre el vídeo y el bloque de texto negro).
-   Guarda en --esm-c la altura del centro de esa franja respecto al inicio de la sección; el CSS la usa para colocar la imagen. */
+/* Móvil, páginas de proyecto: ajusta la imagen de fondo a la zona visible (vídeo + carrusel, hasta el bloque de texto negro).
+   Guarda en --esm-h el alto de la zona vídeo + carrusel (hasta el texto negro); el CSS estira la imagen de fondo hasta ahí. */
 (function () {
   var stage = document.querySelector('.project-stage');
   var lay = stage && stage.querySelector('.es-layout');
   if (!lay) return;
   var mq = window.matchMedia('(max-width:760px)');
   function upd() {
-    if (!mq.matches) { stage.style.removeProperty('--esm-c'); return; }
+    if (!mq.matches) { stage.style.removeProperty('--esm-h'); return; }
     var v = lay.querySelector('.es-video'), h = lay.querySelector('.es-head');
     if (!v || !h) return;
     var t = stage.getBoundingClientRect().top, vb = v.getBoundingClientRect().bottom, ht = h.getBoundingClientRect().top;
-    stage.style.setProperty('--esm-c', Math.round((vb + ht) / 2 - t) + 'px');
+    stage.style.setProperty('--esm-h', Math.max(0, Math.round(ht - t)) + 'px');   // alto de la zona vídeo + carrusel
   }
   upd();
   window.addEventListener('resize', upd);
