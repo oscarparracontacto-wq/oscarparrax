@@ -2012,4 +2012,24 @@ footer .ft-legal{font-size:11px;opacity:.75;letter-spacing:.02em;}
 
 
 
-/* VERSION */:root{--ver:'120';}
+/* ===== CAMBIOS 121 (PRUEBA, solo móvil y solo Premios ESLAND): vídeo a todo el ancho y pegado a la barra; carrusel un pelín más pequeño; imagen de fondo solo tras vídeo + carrusel; título/año/rol/agencia/descripción sobre negro y más compactos ===== */
+@media (max-width:760px){
+  .es-layout.esm{padding:0 0 0;gap:0;min-height:0;}
+  .es-layout.esm .es-video{padding:0!important;order:1;}
+  .es-layout.esm .es-video .wrap{padding:0;max-width:none;}
+  .es-layout.esm .es-video .video-frame:not(.is-zoom){max-width:none;width:100%;margin:0;}
+  .es-layout.esm .es-gallery{order:2;margin:12px 0 14px;}
+  .es-layout.esm .es-gallery .gal-item{flex:0 0 clamp(80px,22.5vw,106px);}
+  .es-layout.esm .es-head{order:3;background:#000;padding:20px 22px 0;}
+  .es-layout.esm .es-text{order:4;background:#000;padding:0 22px 26px;}
+  .es-layout.esm .es-title{font-size:26px;padding-bottom:10px;margin-bottom:4px;}
+  .es-layout.esm .es-meta{padding-bottom:6px;margin:0 0 8px;}
+  .es-layout.esm .es-meta > div{padding:5px 0;}
+  .es-layout.esm .es-meta dt{font-size:9.5px;}
+  .es-layout.esm .es-meta dd{font-size:12px;}
+  .es-layout.esm .es-text p{font-size:12.5px;line-height:1.55;margin:0 0 8px;}
+  .es-layout.esm .es-text p:last-child{margin-bottom:0;}
+}
+
+
+/* VERSION */:root{--ver:'121';}
