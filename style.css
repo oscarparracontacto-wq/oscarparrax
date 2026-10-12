@@ -1972,4 +1972,10 @@ footer .ft-legal{font-size:11px;opacity:.75;letter-spacing:.02em;}
 @keyframes splashBlink{0%,100%{opacity:.28;}50%{opacity:1;}}
 
 
-/* VERSION */:root{--ver:'115';}
+/* ===== CAMBIOS 116: móvil, portada — borde negro lateral de los proyectos un pelín más ancho (10px -> 13px); las miniaturas siguen en 16:9 ===== */
+@media (max-width:760px){
+  .work-grid{padding-left:13px;padding-right:13px;}
+}
+
+
+/* VERSION */:root{--ver:'116';}
