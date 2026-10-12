@@ -8,10 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../style.css?v=124">
+<link rel="stylesheet" href="../style.css?v=125">
 </head>
 <body>
-<div id="verTag" data-v="124" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v124</div>
+<div id="verTag" data-v="125" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v125</div>
 <script>(function(){var t=document.getElementById("verTag");if(!t)return;var c=getComputedStyle(document.documentElement).getPropertyValue("--ver").replace(/[^0-9]/g,"");if(c!==t.getAttribute("data-v")){t.textContent+=" · style.css antiguo ("+(c?"v"+c:"sin versión")+")";t.style.color="#ffe600";}})();</script>
 
 <header>
@@ -26,6 +26,7 @@
               <a href="rewind-hispano.html">Rewind Hispano</a>
               <a href="caixabank-wealth-management.html">CaixaBank Convención</a>
               <a href="eneryeti.html">Eneryeti</a>
+              <a href="hybrid-case.html">Hybrid Case</a>
               <a href="premios-esland.html">Premios ESLAND</a>
               <a href="partido-de-las-estrellas.html">Partido de las Estrellas</a>
               <a href="koi-presentacion-jugadores.html">KOI Jugadores</a>
@@ -67,12 +68,12 @@
 <div class="es-layout">
   <section class="project-video es-video">
     <div class="wrap">
-      <div class="video-frame" id="videoFrame" data-mp4="../videos/hybrid-case-full.mp4">
-        <button class="video-play" aria-label="Reproducir vídeo">
-          <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
-          <span>Ver vídeo</span>
-        </button>
-      </div>
+      <div class="video-frame" id="videoFrame" data-video="AmgKoa28ZDg">
+      <button class="video-play" aria-label="Reproducir vídeo">
+        <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
+        <span>Ver vídeo</span>
+      </button>
+    </div>
     </div>
   </section>
 
@@ -160,69 +161,75 @@
     });
   })();
 
-  // Vista previa: al llegar al vídeo se reproduce solo, sin sonido y en bucle (los navegadores no dejan arrancar con sonido sin pulsar).
-  // Al pulsar "Ver vídeo" se amplía el reproductor de verdad (que arranca desde el principio con sonido) y la vista previa se retira.
+  // Vídeo: el reproductor se precarga (en pausa y oculto) cuando la sección se acerca a la pantalla, así que al pulsar
+  // "Ver vídeo" ya está listo: la pantalla se agranda hasta ocupar casi toda la ventana y el vídeo arranca al instante.
+  // Al pulsar fuera (o con Esc) vuelve a su tamaño y el vídeo SIGUE reproduciéndose (no se reinicia).
+  // Con el vídeo ya en marcha, el botón de la esquina lo vuelve a ampliar. Hay un bloque por cada .video-frame con data-video.
   (() => {
-    const frame = document.querySelector('.video-frame[data-video]');
-    if (!frame || !('IntersectionObserver' in window)) return;
-    const id = frame.dataset.video;
-    let prev = null;
-    const io = new IntersectionObserver((entries) => {
-      if (!entries.some((en) => en.isIntersecting) || prev) return;
-      io.disconnect();
-      prev = document.createElement('iframe');
-      prev.className = 'video-preview';
-      prev.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&disablekb=1&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1`;
-      prev.setAttribute('frameborder', '0');
-      prev.setAttribute('allow', 'autoplay; encrypted-media');
-      prev.setAttribute('tabindex', '-1');
-      prev.setAttribute('aria-hidden', 'true');
-      prev.setAttribute('title', '');
-      frame.insertBefore(prev, frame.firstChild);
-      frame.classList.add('has-preview');
-    }, { threshold: 0.4 });
-    io.observe(frame);
-    frame.addEventListener('click', () => {
-      if (!prev) return;
-      const p = prev; prev = null;
-      setTimeout(() => { p.remove(); frame.classList.remove('has-preview'); }, 450);
-    });
-  })();
-  // Vídeo propio (MP4): al llegar a él se reproduce solo, sin sonido y en bucle. Al pulsar se amplía (misma animación que con YouTube)
-  // y arranca desde el principio con sonido y con controles. Al cerrar el zoom el vídeo sigue en marcha.
-  (() => {
-    const frame = document.querySelector('.video-frame[data-mp4]');
-    if (!frame) return;
-    const DUR = 560;
+    const frames = Array.from(document.querySelectorAll('.video-frame[data-video]'));
+    if (!frames.length) return;
+    const YT = 'https://www.youtube-nocookie.com';
+    const DUR = 560;                                     // ms de la animación de zoom
     const EASE = 'cubic-bezier(.22,.68,0,1.01)';
     const TR = `top ${DUR}ms ${EASE}, left ${DUR}ms ${EASE}, width ${DUR}ms ${EASE}, height ${DUR}ms ${EASE}`;
     let current = null;
-    const video = document.createElement('video');
-    video.src = frame.dataset.mp4;
-    video.muted = true; video.loop = true; video.playsInline = true; video.preload = 'auto';
-    video.setAttribute('playsinline', ''); video.setAttribute('webkit-playsinline', '');
-    video.setAttribute('aria-label', document.title);
-    video.tabIndex = -1;
-    frame.insertBefore(video, frame.firstChild);
-    frame.classList.add('has-preview');
-    const exp = document.createElement('button');        // botón para volver a ampliar con el vídeo en marcha
-    exp.type = 'button'; exp.className = 'video-expand'; exp.setAttribute('aria-label', 'Ampliar vídeo');
-    exp.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="square"/></svg>';
-    exp.addEventListener('click', (e) => { e.stopPropagation(); open(frame); });
-    frame.appendChild(exp);
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver((entries) => {
-        entries.forEach((en) => {
-          if (frame.classList.contains('is-loaded')) return;
-          if (en.isIntersecting) { const p = video.play(); if (p && p.catch) p.catch(() => {}); } else { video.pause(); }
-        });
-      }, { threshold: 0.35 }).observe(frame);
-    } else { const p = video.play(); if (p && p.catch) p.catch(() => {}); }
-    function startFull() {
-      video.loop = false; video.muted = false; video.controls = true;
-      try { video.currentTime = 0; } catch (_) {}
-      const p = video.play(); if (p && p.catch) p.catch(() => {});
+
+    // ---- Reproductor de YouTube (se crea una sola vez por vídeo) ----
+    function send(st, func) {
+      try { st.iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), YT); } catch (_) {}
     }
+    function play(st) {
+      if (st.ready) { send(st, 'playVideo'); } else { st.wantPlay = true; }
+    }
+    function ensurePlayer(frame, autoplay) {
+      if (frame._yt) return frame._yt;
+      const id = frame.dataset.video;
+      if (!id) return null;
+      const iframe = document.createElement('iframe');
+      iframe.src = `${YT}/embed/${id}?enablejsapi=1&rel=0&modestbranding=1&playsinline=1&origin=${encodeURIComponent(location.origin)}${autoplay ? '&autoplay=1' : ''}`;
+      iframe.setAttribute('frameborder', '0');
+      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.setAttribute('title', document.title);
+      const st = { iframe, ready: false, wantPlay: false, timer: null };
+      frame._yt = st;
+      frame.appendChild(iframe);
+      const exp = document.createElement('button');      // botón para volver a ampliar con el vídeo en marcha
+      exp.type = 'button'; exp.className = 'video-expand'; exp.setAttribute('aria-label', 'Ampliar vídeo');
+      exp.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="square"/></svg>';
+      exp.addEventListener('click', (e) => { e.stopPropagation(); open(frame); });
+      frame.appendChild(exp);
+      // Avisamos al reproductor de que estamos escuchando; cuando responde, ya acepta órdenes
+      iframe.addEventListener('load', () => {
+        let tries = 0;
+        st.timer = setInterval(() => {
+          if (st.ready || ++tries > 40) { clearInterval(st.timer); return; }
+          try { iframe.contentWindow.postMessage(JSON.stringify({ event: 'listening', id: 1, channel: 'widget' }), YT); } catch (_) {}
+        }, 250);
+      });
+      return st;
+    }
+    window.addEventListener('message', (e) => {
+      if (e.origin !== YT) return;
+      const frame = frames.find((f) => f._yt && f._yt.iframe.contentWindow === e.source);
+      if (!frame) return;
+      let data = e.data;
+      if (typeof data === 'string') { try { data = JSON.parse(data); } catch (_) { return; } }
+      if (!data || !data.event) return;
+      const st = frame._yt;
+      if (!st.ready && (data.event === 'onReady' || data.event === 'initialDelivery' || data.event === 'infoDelivery')) {
+        st.ready = true; clearInterval(st.timer);
+        if (st.wantPlay) { st.wantPlay = false; send(st, 'playVideo'); }
+      }
+    });
+    // Precarga: cuando el vídeo está a menos de una pantalla, se prepara el reproductor (sin reproducirlo)
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((en) => { if (en.isIntersecting) { ensurePlayer(en.target, false); io.unobserve(en.target); } });
+      }, { rootMargin: '100% 0px' });
+      frames.forEach((f) => io.observe(f));
+    }
+
     // ---- Zoom ----
     function target() {
       const vw = window.innerWidth, vh = window.innerHeight;
@@ -237,7 +244,9 @@
 
     function open(frame) {
       if (current || frame.classList.contains('is-zoom')) return;
+      if (!frame.dataset.video) return;                  // vídeo aún pendiente de subir
       const first = !frame.classList.contains('is-loaded');
+      const st = ensurePlayer(frame, true);              // si aún no estaba precargado, se crea ahora ya con autoplay
       const stage = frame.closest('.project-stage');
       const holder = frame.closest('.stage-content') || document.body;
       const r = frame.getBoundingClientRect();
@@ -256,7 +265,7 @@
       setRect(frame, r);
       void frame.offsetWidth;
       frame.style.transition = TR;
-      if (first) startFull();                            // arranca desde el principio, con sonido
+      if (first && st) play(st);                         // el reproductor ya está listo: arranca al instante
 
       requestAnimationFrame(() => { backdrop.classList.add('is-open'); setRect(frame, target()); });
 
@@ -285,7 +294,35 @@
       window.addEventListener('resize', onResize);
       current = { close };
     }
-    frame.addEventListener('click', () => { if (!frame.classList.contains('is-loaded')) open(frame); });
+    frames.forEach((frame) => frame.addEventListener('click', () => { if (!frame.classList.contains('is-loaded')) open(frame); }));
+  })();
+  // Vista previa: al llegar al vídeo se reproduce solo, sin sonido y en bucle (los navegadores no dejan arrancar con sonido sin pulsar).
+  // Al pulsar "Ver vídeo" se amplía el reproductor de verdad (que arranca desde el principio con sonido) y la vista previa se retira.
+  (() => {
+    const frame = document.querySelector('.video-frame[data-video]');
+    if (!frame || !('IntersectionObserver' in window)) return;
+    const id = frame.dataset.video;
+    let prev = null;
+    const io = new IntersectionObserver((entries) => {
+      if (!entries.some((en) => en.isIntersecting) || prev) return;
+      io.disconnect();
+      prev = document.createElement('iframe');
+      prev.className = 'video-preview';
+      prev.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&disablekb=1&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1`;
+      prev.setAttribute('frameborder', '0');
+      prev.setAttribute('allow', 'autoplay; encrypted-media');
+      prev.setAttribute('tabindex', '-1');
+      prev.setAttribute('aria-hidden', 'true');
+      prev.setAttribute('title', '');
+      frame.insertBefore(prev, frame.firstChild);
+      frame.classList.add('has-preview');
+    }, { threshold: 0.4 });
+    io.observe(frame);
+    frame.addEventListener('click', () => {
+      if (!prev) return;
+      const p = prev; prev = null;
+      setTimeout(() => { p.remove(); frame.classList.remove('has-preview'); }, 450);
+    });
   })();
   // Carrusel de rodaje automático (como el de marcas de la home): avanza solo, despacio y en bucle.
   // Se puede arrastrar con el cursor (o el dedo) para empujarlo; al soltar, el impulso se va frenando
