@@ -30,3 +30,25 @@
   }, { passive: true });
   document.addEventListener('touchcancel', function () { ok = false; }, { passive: true });
 })();
+
+/* Móvil, páginas de proyecto: centra la imagen de fondo en la franja visible (hueco entre el vídeo y el bloque de texto negro).
+   Guarda en --esm-c la altura del centro de esa franja respecto al inicio de la sección; el CSS la usa para colocar la imagen. */
+(function () {
+  var stage = document.querySelector('.project-stage');
+  var lay = stage && stage.querySelector('.es-layout');
+  if (!lay) return;
+  var mq = window.matchMedia('(max-width:760px)');
+  function upd() {
+    if (!mq.matches) { stage.style.removeProperty('--esm-c'); return; }
+    var v = lay.querySelector('.es-video'), h = lay.querySelector('.es-head');
+    if (!v || !h) return;
+    var t = stage.getBoundingClientRect().top, vb = v.getBoundingClientRect().bottom, ht = h.getBoundingClientRect().top;
+    stage.style.setProperty('--esm-c', Math.round((vb + ht) / 2 - t) + 'px');
+  }
+  upd();
+  window.addEventListener('resize', upd);
+  window.addEventListener('load', upd);
+  window.addEventListener('hashchange', function () { setTimeout(upd, 50); });
+  if (window.ResizeObserver) { var ro = new ResizeObserver(upd); ro.observe(lay); }
+  if (window.MutationObserver) new MutationObserver(function () { setTimeout(upd, 30); }).observe(lay, { attributes: true, subtree: true, attributeFilter: ['class'] });
+})();

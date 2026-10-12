@@ -2032,4 +2032,27 @@ footer .ft-legal{font-size:11px;opacity:.75;letter-spacing:.02em;}
 }
 
 
-/* VERSION */:root{--ver:'121';}
+/* ===== CAMBIOS 122 (solo móvil, TODOS los proyectos): el formato probado en Premios ESLAND — vídeo a todo el ancho pegado a la barra, carrusel un pelín más pequeño, imagen de fondo centrada y proporcional a la franja visible (vídeo + carrusel), y título/año/rol/agencia/descripción sobre negro y compactos ===== */
+@media (max-width:760px){
+  .es-layout{padding:0;gap:0;min-height:0;}
+  .es-layout.rw{padding-top:8px;}
+  .es-layout .es-video{padding:0!important;order:1;}
+  .es-layout .es-video .wrap{padding:0;max-width:none;}
+  .es-layout .es-video .video-frame:not(.is-zoom){max-width:none;width:100%;margin:0;}
+  .es-layout .es-gallery{order:2;margin:12px 0 14px;}
+  .es-layout .es-gallery .gal-item{flex:0 0 clamp(80px,22.5vw,106px);}
+  .es-layout .es-head{order:3;background:#000;padding:20px 22px 0;}
+  .es-layout .es-text{order:4;background:#000;padding:0 22px 26px;}
+  .es-layout .es-title{font-size:26px;padding-bottom:10px;margin-bottom:4px;}
+  .es-layout .es-meta,.es-layout.rw .es-meta{padding-bottom:6px;margin:0 0 8px;}
+  .es-layout .es-meta > div{padding:5px 0;}
+  .es-layout .es-meta dt{font-size:9.5px;}
+  .es-layout .es-meta dd{font-size:12px;}
+  .es-layout .es-text p{font-size:12.5px;line-height:1.55;margin:0 0 8px;}
+  .es-layout .es-text p:last-child{margin-bottom:0;}
+  /* imagen de fondo: ancho completo, proporción 16:9 y centrada en la franja visible (la fija un pequeño script según el hueco entre vídeo y texto) */
+  .project-stage > .project-video-bg{inset:auto!important;left:0!important;top:var(--esm-c,40%)!important;width:100%!important;height:auto!important;aspect-ratio:16/9;object-fit:cover;transform:translateY(-50%)!important;}
+}
+
+
+/* VERSION */:root{--ver:'122';}
