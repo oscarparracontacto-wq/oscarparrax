@@ -1954,4 +1954,22 @@ footer .ft-legal{font-size:11px;opacity:.75;letter-spacing:.02em;}
 
 
 
-/* VERSION */:root{--ver:'114';}
+/* ===== CAMBIOS 115: pantalla de inicio móvil — el filtro analógico (grano + líneas de barrido) cubre toda la pantalla negra y se retira al deslizar (queda solo el del banner); "Desliza hacia arriba" más blanco y con parpadeo suave ===== */
+.splash-fx{display:none;}
+@media (max-width:760px){
+  .splash-fx{display:block;position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;opacity:0;transition:opacity .9s ease;}
+  html.splash .splash-fx{opacity:1;transition:opacity 1.2s ease .2s;}
+  .splash-fx::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;opacity:.11;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation:grainShift .2s steps(1) infinite;will-change:transform;}
+  .splash-fx::after{content:'';position:absolute;inset:0;
+    background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.055) 0,rgba(255,255,255,.055) 1px,transparent 1px,transparent 4px);
+    animation:scanRoll 6s linear infinite;}
+  html.splash .hero-banner,html.splash-leaving .hero-banner{z-index:2;}      /* el banner tapa el filtro de pantalla: conserva solo el suyo */
+  .splash-hint{z-index:60;}
+  .splash-hint span{color:rgba(255,255,255,.95);animation:splashBlink 2.6s ease-in-out infinite;}
+}
+@keyframes splashBlink{0%,100%{opacity:.28;}50%{opacity:1;}}
+
+
+/* VERSION */:root{--ver:'115';}
