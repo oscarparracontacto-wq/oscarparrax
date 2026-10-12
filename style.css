@@ -2004,4 +2004,11 @@ footer .ft-legal{font-size:11px;opacity:.75;letter-spacing:.02em;}
 }
 
 
-/* VERSION */:root{--ver:'118';}
+/* ===== CAMBIOS 119 (solo móvil, portada): se quita el filtro analógico del fondo negro de los proyectos (CAMBIOS 118) y el botón Todos/IA baja un poco más ===== */
+.work-grid::before,.work-grid::after{content:none !important;display:none !important;animation:none !important;}
+@media (max-width:760px){
+  .work-toolbar .wrap{top:28px;}
+}
+
+
+/* VERSION */:root{--ver:'119';}
