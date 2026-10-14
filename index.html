@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Óscar Parra | Portfolio</title>
 <meta name="description" content="Discover the portfolio of Óscar Parra, Film Director &amp; Generative AI, specialized in advertising, branded content and AI projects.">
-<link rel="stylesheet" href="style.css?v=142">
+<link rel="stylesheet" href="style.css?v=143">
 <script>
 /* Móvil — pantalla de inicio: primero solo el banner en el centro; al deslizar hacia arriba (o tocar) el banner sube, aparece la barra y todo lo demás.
    Para quitarlo: borrar este bloque, el <div class="splash-hint"> del final y el bloque "CAMBIOS 111" de style.css. */
@@ -40,7 +40,7 @@
 </script>
 </head>
 <body>
-<div id="verTag" data-v="142" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v142</div>
+<div id="verTag" data-v="143" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v143</div>
 <script>(function(){var t=document.getElementById("verTag");if(!t)return;var c=getComputedStyle(document.documentElement).getPropertyValue("--ver").replace(/[^0-9]/g,"");if(c!==t.getAttribute("data-v")){t.textContent+=" · style.css antiguo ("+(c?"v"+c:"sin versión")+")";t.style.color="#ffe600";}})();</script>
 
 <header>
@@ -392,7 +392,7 @@
             video.loop = true;
             video.playsInline = true;
             video.autoplay = true;
-            video.preload = 'auto';
+            video.preload = 'auto';          // solo se crea cuando la miniatura está cerca de verse
             video.src = card.dataset.autovideo;
             // Reintenta cuando el navegador ya tiene datos
             video.addEventListener('canplay', () => {
@@ -414,6 +414,31 @@
     }, { rootMargin: '100px 0px', threshold: 0.25 });
 
     cards.forEach(c => io.observe(c));
+
+    // Descarga de memoria: cuando una miniatura queda lejos de la pantalla se quita su vídeo (vuelve a crearse al acercarse);
+    // así nunca hay más que unos pocos vídeos cargados a la vez, por muchos proyectos que haya
+    const unload = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) return;
+        const video = entry.target.querySelector('video.thumb-video');
+        if (!video) return;
+        video.pause();
+        video.removeAttribute('src');
+        video.load();
+        video.remove();
+      });
+    }, { rootMargin: '40% 0px', threshold: 0 });
+    cards.forEach(c => unload.observe(c));
+  })();
+
+  // El grano animado de las miniaturas solo se mueve en las que se ven (menos trabajo para la tarjeta gráfica)
+  (() => {
+    const cards = document.querySelectorAll('.work-card');
+    if (!cards.length || !('IntersectionObserver' in window)) { cards.forEach(c => c.classList.add('is-vis')); return; }
+    const vis = new IntersectionObserver((entries) => {
+      entries.forEach(e => e.target.classList.toggle('is-vis', e.isIntersecting));
+    }, { rootMargin: '80px 0px', threshold: 0 });
+    cards.forEach(c => vis.observe(c));
   })();
 
   // Aura de píxel que sigue al cursor sobre la imagen del hero

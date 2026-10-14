@@ -2281,4 +2281,9 @@ footer .ft-legal{font-size:11px;opacity:.75;letter-spacing:.02em;}
 }
 
 
-/* VERSION */:root{--ver:'142';}
+/* ===== CAMBIOS 143: rendimiento — el grano de las miniaturas solo se anima en las visibles (los vídeos lejanos se descargan desde index.html) ===== */
+.work-card .film-grain.cine-grain{animation-play-state:paused;will-change:auto;}
+.work-card.is-vis .film-grain.cine-grain{animation-play-state:running;will-change:transform;}
+
+
+/* VERSION */:root{--ver:'143';}
