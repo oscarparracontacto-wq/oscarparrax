@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Óscar Parra | Portfolio</title>
 <meta name="description" content="Discover the portfolio of Óscar Parra, Film Director &amp; Generative AI, specialized in advertising, branded content and AI projects.">
-<link rel="stylesheet" href="style.css?v=138">
+<link rel="stylesheet" href="style.css?v=139">
 <script>
 /* Móvil — pantalla de inicio: primero solo el banner en el centro; al deslizar hacia arriba (o tocar) el banner sube, aparece la barra y todo lo demás.
    Para quitarlo: borrar este bloque, el <div class="splash-hint"> del final y el bloque "CAMBIOS 111" de style.css. */
@@ -40,7 +40,7 @@
 </script>
 </head>
 <body>
-<div id="verTag" data-v="138" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v138</div>
+<div id="verTag" data-v="139" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v139</div>
 <script>(function(){var t=document.getElementById("verTag");if(!t)return;var c=getComputedStyle(document.documentElement).getPropertyValue("--ver").replace(/[^0-9]/g,"");if(c!==t.getAttribute("data-v")){t.textContent+=" · style.css antiguo ("+(c?"v"+c:"sin versión")+")";t.style.color="#ffe600";}})();</script>
 
 <header>
@@ -865,8 +865,8 @@
   })();
 </script>
 <script>
-  // About: al pulsar "About" el banner hace un glitch (como cambiar de canal) y aparece una pantalla con la descripción a la izquierda,
-  // la foto en el centro y el contacto a la derecha. Se cierra con About, Esc o el botón Close (con otro glitch hacia el banner).
+  // About: al pulsar "About" SOLO el banner de la home hace un glitch (como cambiar de canal) y se convierte en una pantalla con la descripción
+  // a la izquierda, la foto en el centro y el contacto a la derecha (el resto de la página no se toca). Se cierra con About, Esc o el botón Close (con otro glitch hacia el banner).
   // Desde un proyecto se llega con index.html#sobre-mi.
   (() => {
     const hero = document.querySelector('.hero-banner');
@@ -924,7 +924,7 @@
     function burst(T, label, onPeak, onEnd) {
       if (reduce) { onPeak(); onEnd(); return; }
       const g = makeGlitch(label);
-      document.body.appendChild(g.el);
+      hero.appendChild(g.el);
       hero.classList.add('ab-shake');
       const t0 = performance.now(); let peaked = false;
       (function frame(now) {
@@ -989,13 +989,13 @@
         document.removeEventListener('keydown', onKey);
         window.removeEventListener('resize', onResize);
         burst(OUT_T, 'CH 01', () => {
-          root.remove(); document.body.classList.remove('about-open'); resumeThumbs(); fx = null;
+          root.remove(); hero.classList.remove('is-about'); resumeThumbs(); fx = null;
         }, () => { busy = false; });
       }
       closeBtn.addEventListener('click', close);
       burst(IN_T, 'CH 02', () => {
-        document.body.appendChild(root);
-        document.body.classList.add('about-open');
+        hero.appendChild(root);
+        hero.classList.add('is-about');
         void root.offsetWidth;
         root.classList.add('is-on');
         fx = { close };

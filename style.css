@@ -2205,4 +2205,35 @@ footer .ft-legal{font-size:11px;opacity:.75;letter-spacing:.02em;}
 }
 
 
-/* VERSION */:root{--ver:'138';}
+/* ===== CAMBIOS 139: el glitch y la pantalla About viven DENTRO del banner de la home (no en toda la pantalla); el banner se estira lo justo para el contenido ===== */
+.ab-glitch{position:absolute;left:0;right:0;top:0;bottom:0;z-index:40;}
+.ab-osd{top:16px;left:20px;}
+.hero-banner.ab-shake > :not(.ab-glitch){animation:abShake .18s steps(1) infinite;}
+.hero-banner.ab-shake{animation:none;}
+.hero-banner.is-about{height:auto;min-height:0;}
+.hero-banner.is-about > :not(.ab-scr):not(.ab-glitch){visibility:hidden;}
+.ab-scr{position:relative;left:auto;right:auto;top:auto;bottom:auto;z-index:1;overflow:visible;background:#000;min-height:0;--ph:clamp(300px,50vh,440px);}
+.ab-bg{position:absolute;left:0;right:0;top:0;bottom:0;}
+.ab-wrap{min-height:0;padding:clamp(30px,5vh,48px) clamp(24px,5vw,80px);}
+.ab-close{position:absolute;top:16px;right:clamp(16px,2.4vw,36px);}
+@media (max-width:860px){
+  .ab-scr{--ph:min(38vh,320px);}
+  .ab-wrap{padding:60px 20px 36px;}
+  .ab-close{top:12px;right:12px;}
+}
+@media (max-height:620px) and (min-width:600px) and (orientation:landscape){
+  .ab-scr{--ph:min(calc(100vh - 150px),300px);}
+  .ab-wrap{padding:52px 22px 24px;}
+}
+
+@keyframes abShake{
+  0%{translate:0 0;filter:none;}
+  20%{translate:-10px 0;filter:hue-rotate(40deg) saturate(1.7) contrast(1.25);}
+  40%{translate:8px 2px;filter:hue-rotate(-35deg) contrast(1.3);}
+  60%{translate:-4px -2px;filter:saturate(2.2) contrast(1.15);}
+  80%{translate:12px 0;filter:hue-rotate(80deg) contrast(1.3);}
+  100%{translate:0 0;filter:none;}
+}
+
+
+/* VERSION */:root{--ver:'139';}
