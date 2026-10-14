@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Óscar Parra | Portfolio</title>
 <meta name="description" content="Descubre el portafolio de Óscar Parra, Film Director &amp; Generative AI, especializado en publicidad, contenido de marca y proyectos con IA.">
-<link rel="stylesheet" href="style.css?v=131">
+<link rel="stylesheet" href="style.css?v=132">
 <script>
 /* Móvil — pantalla de inicio: primero solo el banner en el centro; al deslizar hacia arriba (o tocar) el banner sube, aparece la barra y todo lo demás.
    Para quitarlo: borrar este bloque, el <div class="splash-hint"> del final y el bloque "CAMBIOS 111" de style.css. */
@@ -40,7 +40,7 @@
 </script>
 </head>
 <body>
-<div id="verTag" data-v="131" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v131</div>
+<div id="verTag" data-v="132" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v132</div>
 <script>(function(){var t=document.getElementById("verTag");if(!t)return;var c=getComputedStyle(document.documentElement).getPropertyValue("--ver").replace(/[^0-9]/g,"");if(c!==t.getAttribute("data-v")){t.textContent+=" · style.css antiguo ("+(c?"v"+c:"sin versión")+")";t.style.color="#ffe600";}})();</script>
 
 <header>
@@ -609,7 +609,7 @@
         });
         // La X va ligada al zoom de la última A: sale deslizándose a la derecha mientras la A crece y se vuelve a esconder
         // exactamente a la misma velocidad con la que la A recupera su tamaño.
-        const p = Math.max(0, Math.min(1, (cur[lastIdx] - 1) / (HM - 1)));
+        const p = Math.max(0, Math.min(1, ((cur[lastIdx] - 1) / (HM - 1)) / 0.35));  // la X sale entera con algo más de un tercio del zoom de la A
         px.style.setProperty('--p', p.toFixed(3));
         if (moving || mx !== null) requestAnimationFrame(tick); else running = false;
       }
