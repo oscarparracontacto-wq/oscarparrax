@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Óscar Parra | Portfolio</title>
 <meta name="description" content="Discover the portfolio of Óscar Parra, Film Director &amp; Generative AI, specialized in advertising, branded content and AI projects.">
-<link rel="stylesheet" href="style.css?v=139">
+<link rel="stylesheet" href="style.css?v=140">
 <script>
 /* Móvil — pantalla de inicio: primero solo el banner en el centro; al deslizar hacia arriba (o tocar) el banner sube, aparece la barra y todo lo demás.
    Para quitarlo: borrar este bloque, el <div class="splash-hint"> del final y el bloque "CAMBIOS 111" de style.css. */
@@ -40,7 +40,7 @@
 </script>
 </head>
 <body>
-<div id="verTag" data-v="139" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v139</div>
+<div id="verTag" data-v="140" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v140</div>
 <script>(function(){var t=document.getElementById("verTag");if(!t)return;var c=getComputedStyle(document.documentElement).getPropertyValue("--ver").replace(/[^0-9]/g,"");if(c!==t.getAttribute("data-v")){t.textContent+=" · style.css antiguo ("+(c?"v"+c:"sin versión")+")";t.style.color="#ffe600";}})();</script>
 
 <header>
@@ -871,8 +871,9 @@
   (() => {
     const hero = document.querySelector('.hero-banner');
     if (!hero) return;
-    const IN_T = 760;                   // ms: duración del glitch al entrar (el cambio se produce a la mitad)
-    const OUT_T = 640;                  // ms: duración del glitch al salir
+    new Image().src = 'img/oscar-about.webp';   // precarga la foto para que aparezca al instante
+    const IN_T = 620;                   // ms: duración del glitch al entrar (el cambio se produce a la mitad)
+    const OUT_T = 520;                  // ms: duración del glitch al salir
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let fx = null, busy = false;
     const hdrH = () => { const hd = document.querySelector('header'); return hd ? Math.round(hd.getBoundingClientRect().bottom) : 0; };
@@ -885,47 +886,44 @@
       if (r.bottom > 0 && r.top < window.innerHeight) v.play().catch(() => {});
     });
 
-    // Capa de glitch: estática oscura de televisor, barras de color que saltan y el número de canal
+    // Glitch (sin estática ni cambio de canal): el propio banner tiembla, con barras de color y franjas que distorsionan lo que hay detrás
     const BAR_COLORS = ['#ff1a1a', '#00e5ff', '#a3ff12'];
-    function makeGlitch(label) {
+    function makeGlitch() {
       const el = document.createElement('div');
       el.className = 'ab-glitch';
-      el.style.setProperty('--ab-top', hdrH() + 'px');
-      const cv = document.createElement('canvas'); cv.width = 200; cv.height = 112; cv.className = 'ab-noise';
-      el.appendChild(cv);
-      const bars = [];
-      for (let i = 0; i < 9; i++) { const b = document.createElement('i'); b.className = 'ab-bar'; el.appendChild(b); bars.push(b); }
-      const osd = document.createElement('span'); osd.className = 'ab-osd'; osd.textContent = label; el.appendChild(osd);
-      const ctx = cv.getContext('2d'), img = ctx.createImageData(cv.width, cv.height), d = img.data;
+      const bars = [], slices = [];
+      for (let i = 0; i < 7; i++) { const b = document.createElement('i'); b.className = 'ab-bar'; el.appendChild(b); bars.push(b); }
+      for (let i = 0; i < 5; i++) { const b = document.createElement('i'); b.className = 'ab-slice'; el.appendChild(b); slices.push(b); }
       function draw(k) {                                               // k: 0..1 (intensidad)
-        for (let p = 0; p < d.length; p += 4) { const v = Math.random() * 125; d[p] = d[p + 1] = d[p + 2] = v; d[p + 3] = 255; }
-        ctx.putImageData(img, 0, 0);
-        // desgarros horizontales: filas desplazadas
-        const tears = Math.round(k * 5);
-        for (let t = 0; t < tears; t++) {
-          const y = Math.random() * cv.height | 0, h = 2 + (Math.random() * 10 | 0), off = (Math.random() * 60 - 30) | 0;
-          ctx.drawImage(cv, 0, y, cv.width, h, off, y, cv.width, h);
-        }
-        cv.style.opacity = Math.min(1, k * 1.35) * (0.8 + Math.random() * 0.2);
         bars.forEach((b) => {
-          if (Math.random() < k * 0.75) {
-            b.style.opacity = (0.2 + Math.random() * 0.35) * Math.min(1, k * 1.5);
+          if (Math.random() < k * 0.7) {
+            b.style.opacity = (0.25 + Math.random() * 0.4) * Math.min(1, k * 1.5);
             b.style.top = (Math.random() * 100).toFixed(1) + '%';
-            b.style.height = (1 + Math.random() * 9).toFixed(1) + '%';
+            b.style.height = (0.6 + Math.random() * 3.5).toFixed(1) + '%';
             b.style.background = BAR_COLORS[Math.random() * BAR_COLORS.length | 0];
-            b.style.transform = 'translateX(' + ((Math.random() - .5) * 18).toFixed(1) + '%)';
+            b.style.transform = 'translateX(' + ((Math.random() - .5) * 20).toFixed(1) + '%)';
           } else b.style.opacity = 0;
         });
-        osd.style.opacity = k > 0.35 && Math.random() > 0.15 ? 1 : 0;
+        slices.forEach((s) => {
+          if (Math.random() < k * 0.8) {
+            s.style.display = 'block';
+            s.style.top = (Math.random() * 92).toFixed(1) + '%';
+            s.style.height = (2 + Math.random() * 12).toFixed(1) + '%';
+            s.style.backdropFilter = s.style.webkitBackdropFilter = 'hue-rotate(' + ((Math.random() * 360) | 0) + 'deg) saturate(' + (1.4 + Math.random() * 1.6).toFixed(2) + ') contrast(' + (1.1 + Math.random() * .5).toFixed(2) + ')';
+          } else s.style.display = 'none';
+        });
+        el.style.setProperty('--k', k.toFixed(2));
       }
       return { el, draw };
     }
-    // Un golpe de glitch de T ms: sube, a la mitad llama a onPeak (cuando todo está tapado) y baja
-    function burst(T, label, onPeak, onEnd) {
-      if (reduce) { onPeak(); onEnd(); return; }
-      const g = makeGlitch(label);
+    // Un golpe de glitch de T ms: sube, a la mitad llama a onPeak (el cambio de contenido, tapado por el temblor) y baja.
+    // onStart se llama al principio (aquí empieza a cambiar la altura del banner, a la vez que el glitch)
+    function burst(T, onStart, onPeak, onEnd) {
+      if (reduce) { onStart(); onPeak(); onEnd(); return; }
+      const g = makeGlitch();
       hero.appendChild(g.el);
       hero.classList.add('ab-shake');
+      onStart();
       const t0 = performance.now(); let peaked = false;
       (function frame(now) {
         const t = Math.min(1, (now - t0) / T);
@@ -935,6 +933,17 @@
         else { g.el.remove(); hero.classList.remove('ab-shake'); onEnd(); }
       })(t0);
     }
+    // Altura del banner: pasa de una a otra de forma gradual y a la vez que el glitch (T ms)
+    function animateHeight(from, to, T, done) {
+      if (reduce) { hero.style.height = ''; if (done) done(); return; }
+      hero.style.transition = 'none';
+      hero.style.height = from + 'px';
+      void hero.offsetHeight;
+      hero.style.transition = 'height ' + T + 'ms cubic-bezier(.45,0,.2,1)';
+      hero.style.height = to + 'px';
+      setTimeout(() => { hero.style.transition = ''; hero.style.height = ''; if (done) done(); }, T + 30);
+    }
+    const bannerH = () => hero.getBoundingClientRect().height;
 
     function build() {
       const root = document.createElement('div');
@@ -981,26 +990,36 @@
       const root = build();
       const closeBtn = root.querySelector('.ab-close');
       const onKey = (e) => { if (e.key === 'Escape') close(); };
-      const onResize = () => root.style.setProperty('--ab-top', hdrH() + 'px');
       let closing = false;
       function close() {
         if (busy || closing) return;
         closing = true; busy = true;
         document.removeEventListener('keydown', onKey);
-        window.removeEventListener('resize', onResize);
-        burst(OUT_T, 'CH 01', () => {
+        let h1 = 0, h0 = 0;
+        burst(OUT_T, () => {
+          h1 = bannerH();                                              // altura actual (pantalla About) y la del banner normal
+          root.style.display = 'none'; hero.style.height = ''; hero.classList.remove('is-about');
+          h0 = bannerH();
+          hero.classList.add('is-about'); root.style.display = '';
+          animateHeight(h1, h0, OUT_T);
+        }, () => {
           root.remove(); hero.classList.remove('is-about'); resumeThumbs(); fx = null;
         }, () => { busy = false; });
       }
       closeBtn.addEventListener('click', close);
-      burst(IN_T, 'CH 02', () => {
+      burst(IN_T, () => {
+        const h0 = bannerH();                                          // mide cuánto ocupará About y estira el banner poco a poco
+        root.classList.add('ab-measure'); hero.appendChild(root);
+        const h1 = root.offsetHeight;
+        root.remove(); root.classList.remove('ab-measure');
+        animateHeight(h0, h1, IN_T);
+      }, () => {
         hero.appendChild(root);
         hero.classList.add('is-about');
         void root.offsetWidth;
         root.classList.add('is-on');
         fx = { close };
         document.addEventListener('keydown', onKey);
-        window.addEventListener('resize', onResize);
       }, () => { busy = false; });
     }
     window.openAbout = openAbout;

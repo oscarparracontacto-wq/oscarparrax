@@ -2236,4 +2236,26 @@ footer .ft-legal{font-size:11px;opacity:.75;letter-spacing:.02em;}
 }
 
 
-/* VERSION */:root{--ver:'139';}
+/* ===== CAMBIOS 140: solo glitch (sin estática ni "canal"): el banner tiembla con barras de color y franjas que distorsionan; la altura cambia poco a poco a la vez ===== */
+.ab-glitch::after{display:none;}
+.ab-noise,.ab-osd{display:none;}
+.ab-glitch{overflow:hidden;pointer-events:none;}
+.ab-bar{mix-blend-mode:screen;}
+.ab-slice{position:absolute;left:0;right:0;display:none;background:rgba(255,255,255,.02);}
+.ab-scr.ab-measure{position:absolute!important;left:0;right:0;top:0;visibility:hidden;pointer-events:none;}
+@keyframes abShake{
+  0%{translate:0 0;filter:none;}
+  16%{translate:-9px 0;filter:hue-rotate(40deg) saturate(1.7) contrast(1.2);}
+  33%{translate:7px 1px;filter:hue-rotate(-35deg) contrast(1.25);}
+  50%{translate:-3px -1px;filter:saturate(2) contrast(1.15);}
+  66%{translate:11px 0;filter:hue-rotate(80deg) contrast(1.25);}
+  83%{translate:-6px 1px;filter:hue-rotate(-60deg) saturate(1.5);}
+  100%{translate:0 0;filter:none;}
+}
+.hero-banner.ab-shake > :not(.ab-glitch){animation-duration:.14s;}
+
+
+@keyframes abTune{0%{opacity:1;transform:translateX(-10px);}20%{opacity:.35;transform:translateX(7px);}40%{opacity:1;transform:translateX(-4px);}60%{opacity:.6;transform:translateX(2px);}80%,100%{opacity:1;transform:none;}}
+.ab-scr.is-on .ab-seq{animation-duration:.4s;}
+
+/* VERSION */:root{--ver:'140';}
