@@ -2100,4 +2100,109 @@ footer .ft-legal{font-size:11px;opacity:.75;letter-spacing:.02em;}
 
 
 
-/* VERSION */:root{--ver:'137';}
+/* ===== CAMBIOS 138: nuevo About — glitch de cambio de canal sobre el banner y pantalla con descripción (izq.), foto (centro) y contacto (dcha.). Sustituye al zoom anterior (.about-fx, sin uso) ===== */
+/* capa de glitch */
+.ab-glitch{position:fixed;left:0;right:0;bottom:0;top:var(--ab-top,57px);z-index:9985;pointer-events:none;overflow:hidden;}
+.ab-noise{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated;opacity:0;}
+.ab-bar{position:absolute;left:-10%;width:120%;height:3%;top:0;opacity:0;mix-blend-mode:screen;}
+.ab-glitch::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.38) 0 1px,transparent 1px 4px);}
+.ab-osd{position:absolute;top:20px;left:24px;z-index:2;font:700 clamp(16px,2.2vw,28px)/1 'Inter',sans-serif;letter-spacing:.2em;color:#a3ff12;text-shadow:2px 0 #ff1a1a,-2px 0 #00e5ff;opacity:0;}
+.hero-banner.ab-shake{animation:abShake .18s steps(1) infinite;}
+@keyframes abShake{
+  0%{transform:translate(0,0);filter:none;}
+  20%{transform:translate(-10px,0) skewX(-1.4deg);filter:hue-rotate(40deg) saturate(1.7) contrast(1.25);}
+  40%{transform:translate(8px,2px) skewX(1deg);filter:hue-rotate(-35deg) contrast(1.3);}
+  60%{transform:translate(-4px,-2px);filter:saturate(2.2) contrast(1.15);}
+  80%{transform:translate(12px,0) skewX(1.8deg);filter:hue-rotate(80deg) contrast(1.3);}
+  100%{transform:translate(0,0);filter:none;}
+}
+/* pantalla About */
+.ab-scr{position:fixed;left:0;right:0;bottom:0;top:var(--ab-top,57px);z-index:9980;background:#000;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;--ph:min(calc(100vh - var(--ab-top,57px) - 120px),640px);}
+.ab-bg{position:fixed;left:0;right:0;bottom:0;top:var(--ab-top,57px);pointer-events:none;
+  background:radial-gradient(ellipse 55% 60% at 50% 48%,rgba(163,255,18,.08),rgba(0,0,0,0) 70%),repeating-linear-gradient(90deg,rgba(255,255,255,.03) 0 1px,transparent 1px 120px);}
+.ab-wrap{position:relative;min-height:100%;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;column-gap:clamp(32px,4.5vw,76px);padding:clamp(28px,5vh,56px) clamp(24px,5vw,80px);}
+.ab-left{justify-self:end;max-width:430px;}
+.ab-right{justify-self:start;width:100%;max-width:390px;}
+.ab-kick{margin:0 0 clamp(10px,1.6vh,16px);font:600 11px/1 'Inter',sans-serif;letter-spacing:.3em;text-transform:uppercase;color:#a3ff12;}
+.ab-title{margin:0;font:400 clamp(24px,2.2vw,40px)/1.04 'Archivo Black',sans-serif;text-transform:uppercase;color:#fff;letter-spacing:.01em;}
+.ab-title span{display:block;}
+.ab-title .acc{color:#a3ff12;}
+.ab-rule{position:relative;height:1px;margin:clamp(16px,2.4vh,26px) 0;background:rgba(255,255,255,.26);}
+.ab-rule::before{content:'';position:absolute;left:0;top:0;width:38px;height:1px;background:#fff;}
+.ab-p{margin:0 0 12px;font:300 clamp(13.5px,1.05vw,15.5px)/1.68 'Inter',sans-serif;color:#f2eee6;}
+.ab-p:last-child{margin-bottom:0;}
+.ab-p strong{font-weight:600;color:#fff;}
+/* foto */
+.ab-photo{margin:0;width:calc(var(--ph) * .7468);}
+.ab-frame{position:relative;width:100%;height:var(--ph);overflow:hidden;background:#111;border:1px solid rgba(255,255,255,.14);}
+.ab-frame img{display:block;width:100%;height:100%;object-fit:cover;filter:contrast(1.04) brightness(.94);}
+.ab-frame .film-grain{z-index:2;}
+.ab-frame .tv-scanlines{z-index:3;opacity:.55;}
+.ab-frame .cn{position:absolute;z-index:4;width:16px;height:16px;border:0 solid #a3ff12;}
+.ab-frame .cn.tl{top:10px;left:10px;border-top-width:2px;border-left-width:2px;}
+.ab-frame .cn.tr{top:10px;right:10px;border-top-width:2px;border-right-width:2px;}
+.ab-frame .cn.bl{bottom:10px;left:10px;border-bottom-width:2px;border-left-width:2px;}
+.ab-frame .cn.br{bottom:10px;right:10px;border-bottom-width:2px;border-right-width:2px;}
+.ab-photo figcaption{display:flex;justify-content:space-between;align-items:center;margin-top:11px;font:600 10px/1 'Inter',sans-serif;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.62);}
+.ab-photo .rec{display:inline-flex;align-items:center;gap:7px;}
+.ab-photo .rec b{width:7px;height:7px;border-radius:50%;background:#ff1a1a;animation:abRec 1.2s steps(1) infinite;}
+@keyframes abRec{0%,60%{opacity:1;}61%,100%{opacity:.15;}}
+/* contacto */
+.ab-rows{margin:0;border-top:1px solid rgba(255,255,255,.26);}
+.ab-rows > div{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:18px;padding:clamp(11px,1.6vh,15px) 0;border-bottom:1px solid rgba(255,255,255,.09);}
+.ab-rows > div:last-child{border-bottom:0;}
+.ab-rows dt{font:700 10px/1 'Inter',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.62);white-space:nowrap;}
+.ab-rows dd{margin:0;text-align:right;font:400 clamp(13px,1.02vw,14.5px)/1.3 'Inter',sans-serif;color:#fff;margin-left:auto;}
+.ab-rows dd a{color:#fff;text-decoration:none;transition:color .2s ease;}
+.ab-rows dd a:hover,.ab-rows dd a:focus-visible{color:#a3ff12;}
+/* cerrar */
+.ab-close{position:fixed;top:calc(var(--ab-top,57px) + 16px);right:clamp(16px,2.4vw,36px);z-index:5;display:inline-flex;align-items:center;gap:8px;padding:9px 12px;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.22);color:#fff;font:600 10px/1 'Inter',sans-serif;letter-spacing:.24em;text-transform:uppercase;transition:color .2s ease,border-color .2s ease;}
+.ab-close i{font-style:normal;font-size:15px;line-height:1;letter-spacing:0;}
+.ab-close:hover,.ab-close:focus-visible{color:#a3ff12;border-color:#a3ff12;}
+/* entrada: todo aparece con un parpadeo de glitch al sintonizar */
+.ab-seq{opacity:0;}
+.ab-scr.is-on .ab-seq{animation:abTune .5s steps(1) both;}
+.ab-scr.is-on .ab-photo{animation-delay:.05s;}
+.ab-scr.is-on .ab-right{animation-delay:.12s;}
+@keyframes abTune{0%{opacity:0;}15%{opacity:1;transform:translateX(-8px);}30%{opacity:.2;transform:translateX(6px);}45%{opacity:1;transform:translateX(-3px);}60%{opacity:.5;transform:none;}75%,100%{opacity:1;transform:none;}}
+.ab-scr.is-on .ab-frame img{animation:abPhoto .6s steps(1) .05s both;}
+@keyframes abPhoto{
+  0%{filter:contrast(1.5) drop-shadow(10px 0 0 rgba(255,26,26,.8)) drop-shadow(-10px 0 0 rgba(0,229,255,.8));transform:translateX(-10px);}
+  25%{filter:contrast(1.3) drop-shadow(-6px 0 0 rgba(255,26,26,.7)) drop-shadow(6px 0 0 rgba(0,229,255,.7));transform:translateX(8px);}
+  50%{filter:contrast(1.2) drop-shadow(4px 0 0 rgba(255,26,26,.5)) drop-shadow(-4px 0 0 rgba(0,229,255,.5));transform:translateX(-4px);}
+  75%{filter:contrast(1.08);transform:translateX(2px);}
+  100%{filter:contrast(1.04) brightness(.94);transform:none;}
+}
+/* móvil vertical y pantallas estrechas: foto arriba, luego descripción y contacto */
+@media (max-width:860px){
+  .ab-scr{--ph:min(46vh,380px);}
+  .ab-wrap{display:flex;flex-direction:column;align-items:stretch;gap:26px;padding:62px 20px 40px;}
+  .ab-photo{order:0;align-self:center;}
+  .ab-left{order:1;justify-self:auto;max-width:none;}
+  .ab-right{order:2;max-width:none;}
+  .ab-title{font-size:clamp(24px,7.4vw,38px);}
+  .ab-close{top:calc(var(--ab-top,47px) + 10px);right:12px;}
+}
+@media (max-height:620px) and (min-width:861px){
+  .ab-scr{--ph:min(calc(100vh - var(--ab-top,57px) - 60px),400px);}
+}
+/* móvil en horizontal: mismo reparto de tres columnas que en ordenador, más compacto (se puede desplazar si no cabe) */
+@media (max-height:620px) and (min-width:600px) and (orientation:landscape){
+  .ab-scr{--ph:min(calc(100vh - var(--ab-top,47px) - 70px),360px);}
+  .ab-wrap{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;column-gap:24px;padding:46px 22px 24px;}
+  .ab-left{order:0;justify-self:end;max-width:300px;}
+  .ab-photo{order:0;align-self:center;}
+  .ab-right{order:0;max-width:280px;}
+  .ab-title{font-size:clamp(18px,3.2vw,26px);}
+  .ab-p{font-size:12px;line-height:1.55;margin-bottom:8px;}
+  .ab-rule{margin:12px 0;}
+  .ab-rows > div{padding:8px 0;}
+  .ab-rows dd{font-size:12px;}
+}
+@media (prefers-reduced-motion:reduce){
+  .ab-scr.is-on .ab-seq,.ab-scr.is-on .ab-frame img,.hero-banner.ab-shake,.ab-photo .rec b{animation:none;}
+  .ab-seq{opacity:1;}
+}
+
+
+/* VERSION */:root{--ver:'138';}

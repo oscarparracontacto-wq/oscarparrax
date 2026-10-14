@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Óscar Parra | Portfolio</title>
 <meta name="description" content="Discover the portfolio of Óscar Parra, Film Director &amp; Generative AI, specialized in advertising, branded content and AI projects.">
-<link rel="stylesheet" href="style.css?v=137">
+<link rel="stylesheet" href="style.css?v=138">
 <script>
 /* Móvil — pantalla de inicio: primero solo el banner en el centro; al deslizar hacia arriba (o tocar) el banner sube, aparece la barra y todo lo demás.
    Para quitarlo: borrar este bloque, el <div class="splash-hint"> del final y el bloque "CAMBIOS 111" de style.css. */
@@ -40,7 +40,7 @@
 </script>
 </head>
 <body>
-<div id="verTag" data-v="137" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v137</div>
+<div id="verTag" data-v="138" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v138</div>
 <script>(function(){var t=document.getElementById("verTag");if(!t)return;var c=getComputedStyle(document.documentElement).getPropertyValue("--ver").replace(/[^0-9]/g,"");if(c!==t.getAttribute("data-v")){t.textContent+=" · style.css antiguo ("+(c?"v"+c:"sin versión")+")";t.style.color="#ffe600";}})();</script>
 
 <header>
@@ -865,57 +865,19 @@
   })();
 </script>
 <script>
-  // "Sobre mí": 1) todo lo del banner (texto, logos, HUD…) se desvanece y solo queda la imagen; 2) la cámara se mete en la imagen
-  // hasta el plano medio de Óscar; 3) aparece el texto, todo a la vez. La barra de arriba se queda. Se cierra pulsando la imagen, con Esc
-  // o con About (la cámara sale y el banner vuelve). Desde un proyecto se llega con index.html#sobre-mi.
-  // Para que vaya fluido: solo se animan transform y clip-path (nada que obligue a recalcular el diseño en cada fotograma),
-  // el primer fotograma coincide con el banner (mismo encuadre y mismo balanceo), y mientras dura todo lo pesado de detrás se pausa.
+  // About: al pulsar "About" el banner hace un glitch (como cambiar de canal) y aparece una pantalla con la descripción a la izquierda,
+  // la foto en el centro y el contacto a la derecha. Se cierra con About, Esc o el botón Close (con otro glitch hacia el banner).
+  // Desde un proyecto se llega con index.html#sobre-mi.
   (() => {
-    const hero = document.querySelector('.hero-banner'), heroImg = document.getElementById('heroImg');
-    if (!hero || !heroImg) return;
-    const FADE = 450;                  // ms: desaparece todo lo del banner menos la imagen
-    const DUR = 1300;                  // ms: la cámara se mete en la imagen
-    const OUT = 900;                  // ms: la cámara sale otra vez
-    const EASE_IN = 'cubic-bezier(.55,0,.2,1)', EASE_OUT = 'cubic-bezier(.45,0,.2,1)';
-    const F0 = 'grayscale(12%) sepia(6%) contrast(1.1) saturate(1.08) brightness(.95)';
+    const hero = document.querySelector('.hero-banner');
+    if (!hero) return;
+    const IN_T = 760;                   // ms: duración del glitch al entrar (el cambio se produce a la mitad)
+    const OUT_T = 640;                  // ms: duración del glitch al salir
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let fx = null, busy = false;
     const hdrH = () => { const hd = document.querySelector('header'); return hd ? Math.round(hd.getBoundingClientRect().bottom) : 0; };
-    const vw = () => document.documentElement.clientWidth;
-    const tf = (x, y, k) => 'translate(' + x.toFixed(2) + 'px,' + y.toFixed(2) + 'px) scale(' + k.toFixed(4) + ')';
 
-    // Todas las medidas, en coordenadas del marco (que ocupa la pantalla entera menos la barra de arriba).
-    // La foto es un solo elemento del tamaño "cover" del marco; solo se mueve con transform. Dos encuadres:
-    //  · start: exactamente lo que se ve ahora mismo en el banner (con su balanceo)
-    //  · end: plano medio de Óscar a la izquierda (en móvil vertical, arriba y el texto debajo)
-    function geom() {
-      const W = vw(), H = window.innerHeight - hdrH();
-      const iw = heroImg.naturalWidth || 2500, ih = heroImg.naturalHeight || 1667;
-      const c = Math.max(W / iw, H / ih), rw = iw * c, rh = ih * c;
-      const ox = (W - rw) * 0.46, oy = (H - rh) * 0.28;                   // object-position 46% 28%
-      const mobile = W < 761 && window.innerHeight >= W;
-      const ax = 0.47, ay = 0.38;                                          // punto de Óscar en la foto (pecho), en fracción de la foto
-      let s = mobile ? 1.1 : Math.max(1.5, 0.95 * H / (0.6 * rh));         // plano medio: de la cabeza a la cintura
-      s = Math.min(s, 2.4);
-      const tx = mobile ? W * 0.5 : W * 0.16, ty = mobile ? H * 0.33 : H * 0.52;
-      let Tx = tx - ox - s * ax * rw, Ty = ty - oy - s * ay * rh;
-      if (ox + Tx > 0) Tx = -ox; else if (ox + Tx + s * rw < W) Tx = W - s * rw - ox;       // la foto nunca deja huecos
-      if (oy + Ty > 0) Ty = -oy; else if (oy + Ty + s * rh < H) Ty = H - s * rh - oy;
-      // encuadre del banner ahora mismo
-      const hr = hero.getBoundingClientRect(), hw = hr.width, hh = hr.height, ht = hr.top - hdrH();
-      const c0 = Math.max(hw / iw, hh / ih), rw0 = iw * c0, rh0 = ih * c0;
-      const ox0 = (hw - rw0) / 2, oy0 = (hh - rh0) * 0.15;                  // object-position center 15%
-      let m; try { m = new DOMMatrix(getComputedStyle(heroImg).transform); } catch (_) { m = new DOMMatrix(); }
-      const S = m.a || 1.06, cx = hw / 2, cy = hh / 2;
-      const k0 = S * c0 / c;
-      const Tx0 = cx + S * (ox0 - cx) + m.e - ox, Ty0 = ht + cy + S * (oy0 - cy) + m.f - oy;
-      return {
-        W, H, ox, oy, rw, rh,
-        end: tf(Tx, Ty, s), start: tf(Tx0, Ty0, k0),
-        clipStart: 'inset(' + Math.max(0, ht).toFixed(1) + 'px 0px ' + Math.max(0, H - ht - hh).toFixed(1) + 'px 0px)', clipEnd: 'inset(0px 0px 0px 0px)'
-      };
-    }
-
-    // Pausa lo pesado de detrás (vídeos de las miniaturas) mientras dura la escena; al terminar se reanudan los que se ven
+    // Pausa lo pesado de detrás (vídeos de las miniaturas) mientras dura la pantalla; al terminar se reanudan los que se ven
     const thumbs = () => Array.from(document.querySelectorAll('video.thumb-video'));
     const pauseThumbs = () => thumbs().forEach((v) => { try { v.pause(); } catch (_) {} });
     const resumeThumbs = () => thumbs().forEach((v) => {
@@ -923,116 +885,132 @@
       if (r.bottom > 0 && r.top < window.innerHeight) v.play().catch(() => {});
     });
 
+    // Capa de glitch: estática oscura de televisor, barras de color que saltan y el número de canal
+    const BAR_COLORS = ['#ff1a1a', '#00e5ff', '#a3ff12'];
+    function makeGlitch(label) {
+      const el = document.createElement('div');
+      el.className = 'ab-glitch';
+      el.style.setProperty('--ab-top', hdrH() + 'px');
+      const cv = document.createElement('canvas'); cv.width = 200; cv.height = 112; cv.className = 'ab-noise';
+      el.appendChild(cv);
+      const bars = [];
+      for (let i = 0; i < 9; i++) { const b = document.createElement('i'); b.className = 'ab-bar'; el.appendChild(b); bars.push(b); }
+      const osd = document.createElement('span'); osd.className = 'ab-osd'; osd.textContent = label; el.appendChild(osd);
+      const ctx = cv.getContext('2d'), img = ctx.createImageData(cv.width, cv.height), d = img.data;
+      function draw(k) {                                               // k: 0..1 (intensidad)
+        for (let p = 0; p < d.length; p += 4) { const v = Math.random() * 125; d[p] = d[p + 1] = d[p + 2] = v; d[p + 3] = 255; }
+        ctx.putImageData(img, 0, 0);
+        // desgarros horizontales: filas desplazadas
+        const tears = Math.round(k * 5);
+        for (let t = 0; t < tears; t++) {
+          const y = Math.random() * cv.height | 0, h = 2 + (Math.random() * 10 | 0), off = (Math.random() * 60 - 30) | 0;
+          ctx.drawImage(cv, 0, y, cv.width, h, off, y, cv.width, h);
+        }
+        cv.style.opacity = Math.min(1, k * 1.35) * (0.8 + Math.random() * 0.2);
+        bars.forEach((b) => {
+          if (Math.random() < k * 0.75) {
+            b.style.opacity = (0.2 + Math.random() * 0.35) * Math.min(1, k * 1.5);
+            b.style.top = (Math.random() * 100).toFixed(1) + '%';
+            b.style.height = (1 + Math.random() * 9).toFixed(1) + '%';
+            b.style.background = BAR_COLORS[Math.random() * BAR_COLORS.length | 0];
+            b.style.transform = 'translateX(' + ((Math.random() - .5) * 18).toFixed(1) + '%)';
+          } else b.style.opacity = 0;
+        });
+        osd.style.opacity = k > 0.35 && Math.random() > 0.15 ? 1 : 0;
+      }
+      return { el, draw };
+    }
+    // Un golpe de glitch de T ms: sube, a la mitad llama a onPeak (cuando todo está tapado) y baja
+    function burst(T, label, onPeak, onEnd) {
+      if (reduce) { onPeak(); onEnd(); return; }
+      const g = makeGlitch(label);
+      document.body.appendChild(g.el);
+      hero.classList.add('ab-shake');
+      const t0 = performance.now(); let peaked = false;
+      (function frame(now) {
+        const t = Math.min(1, (now - t0) / T);
+        g.draw(Math.pow(Math.sin(Math.PI * t), 0.7));
+        if (!peaked && t >= 0.5) { peaked = true; onPeak(); }
+        if (t < 1) requestAnimationFrame(frame);
+        else { g.el.remove(); hero.classList.remove('ab-shake'); onEnd(); }
+      })(t0);
+    }
+
+    function build() {
+      const root = document.createElement('div');
+      root.className = 'ab-scr';
+      root.setAttribute('role', 'dialog'); root.setAttribute('aria-label', 'About Óscar Parra');
+      root.style.setProperty('--ab-top', hdrH() + 'px');
+      root.innerHTML =
+        '<div class="ab-bg" aria-hidden="true"></div>' +
+        '<div class="ab-wrap">' +
+          '<section class="ab-col ab-left ab-seq">' +
+            '<p class="ab-kick">About</p>' +
+            '<h2 class="ab-title" aria-label="Film Director &amp; Generative AI"><span aria-hidden="true">Film Director</span><span class="acc" aria-hidden="true">&amp; Generative AI</span></h2>' +
+            '<div class="ab-rule" aria-hidden="true"></div>' +
+            '<p class="ab-p"><strong>Óscar Parra</strong> is a film director specialized in generative AI and virtual production. He directs and develops projects that combine cinematic storytelling and creativity with the latest production tools, with a special focus on content creation for advertising and brands.</p>' +
+            '<p class="ab-p">He takes each project from creative concept to final execution, integrating these tools into directing, production and post-production. He explores new ways of telling stories and creating visual experiences.</p>' +
+          '</section>' +
+          '<figure class="ab-photo ab-seq">' +
+            '<div class="ab-frame"><img src="img/oscar-about.webp" alt="Óscar Parra" decoding="async">' +
+              '<div class="film-grain tv-static"></div><div class="tv-scanlines"></div>' +
+              '<i class="cn tl"></i><i class="cn tr"></i><i class="cn bl"></i><i class="cn br"></i></div>' +
+            '<figcaption><span>Óscar Parra</span><span class="rec"><b></b>CH 02</span></figcaption>' +
+          '</figure>' +
+          '<section class="ab-col ab-right ab-seq">' +
+            '<p class="ab-kick">Contact</p>' +
+            '<dl class="ab-rows">' +
+              '<div><dt>Based in</dt><dd>Madrid · Worldwide</dd></div>' +
+              '<div><dt>Email</dt><dd><a href="mailto:oscarparracontacto@gmail.com">oscarparracontacto@gmail.com</a></dd></div>' +
+              '<div><dt>Instagram</dt><dd><a href="https://www.instagram.com/oscarparrax/" target="_blank" rel="noopener">@oscarparrax <span aria-hidden="true">↗</span></a></dd></div>' +
+              '<div><dt>LinkedIn</dt><dd><a href="https://www.linkedin.com/in/%C3%B3scar-parra-serrano-302180251" target="_blank" rel="noopener">Óscar Parra Serrano <span aria-hidden="true">↗</span></a></dd></div>' +
+            '</dl>' +
+          '</section>' +
+        '</div>' +
+        '<button type="button" class="ab-close" aria-label="Close About"><span>Close</span><i aria-hidden="true">×</i></button>';
+      return root;
+    }
+
     function openAbout() {
       if (fx || busy) return;
       busy = true;
       window.scrollTo({ top: 0, behavior: 'instant' });
       const menuPanel = document.getElementById('menuPanel'), menuBtn = document.getElementById('menuBtn');
       if (menuPanel && !menuPanel.hidden) { menuPanel.hidden = true; menuBtn.classList.remove('is-open'); menuBtn.setAttribute('aria-expanded', 'false'); }
-      document.body.classList.add('about-prep');                       // 1) el banner se queda solo con la imagen (y su balanceo se congela)
       pauseThumbs();
-      const root = document.createElement('div');
-      root.className = 'about-fx';
-      root.style.setProperty('--afx-top', hdrH() + 'px');
-      root.innerHTML =
-        '<div class="about-fx-frame"><img class="about-fx-img" alt="" src="' + heroImg.src + '">' +
-        '<div class="about-fx-shade"></div><div class="afx-fx"><div class="film-grain tv-static"></div><div class="tv-scanlines"></div></div></div>' +
-        '<div class="about-fx-flash"></div>' +
-        '<div class="about-fx-fade"></div>' +
-        '<div class="about-fx-stack"><div class="afx-panel">' +
-          '<h2 class="about-fx-title" aria-label="Film Director &amp; Generative AI"></h2>' +
-          '<div class="afx-rule" aria-hidden="true"></div>' +
-          '<div class="afx-about afx-seq"><h3>About</h3>' +
-            '<p><strong>Óscar Parra</strong> is a film director specialized in generative AI and virtual production. He directs and develops projects that combine cinematic storytelling and creativity with the latest production tools, with a special focus on content creation for advertising and brands.</p>' +
-            '<p>He takes each project from creative concept to final execution, integrating these tools into directing, production and post-production. He explores new ways of telling stories and creating visual experiences.</p>' +
-          '</div>' +
-          '<dl class="afx-rows">' +
-            '<div class="afx-seq"><dt>Based in</dt><dd>Madrid · Worldwide</dd></div>' +
-            '<div class="afx-seq"><dt>Email</dt><dd><a href="mailto:oscarparracontacto@gmail.com">oscarparracontacto@gmail.com</a></dd></div>' +
-            '<div class="afx-seq"><dt>Instagram</dt><dd><a href="https://www.instagram.com/oscarparrax/" target="_blank" rel="noopener">@oscarparrax <span aria-hidden="true">↗</span></a></dd></div>' +
-            '<div class="afx-seq"><dt>LinkedIn</dt><dd><a href="https://www.linkedin.com/in/%C3%B3scar-parra-serrano-302180251" target="_blank" rel="noopener">Óscar Parra Serrano <span aria-hidden="true">↗</span></a></dd></div>' +
-          '</dl>' +
-        '</div></div>';
-      const frame = root.querySelector('.about-fx-frame'), title = root.querySelector('.about-fx-title'), img = root.querySelector('.about-fx-img');
-      let anims = [];
-      // Titular: "Film Director" / "& Generative AI", letra a letra
-      let ci = 0;
-      [['Film Director', ''], ['& Generative AI', ' afx-acc']].forEach(([line, cls]) => {
-        const ln = document.createElement('span'); ln.className = 'afx-line' + cls; ln.setAttribute('aria-hidden', 'true');
-        line.split(' ').forEach((word) => {
-          const w = document.createElement('span'); w.className = 'afx-w';
-          word.split('').forEach((c) => { const s = document.createElement('span'); s.className = 'afx-ch'; s.textContent = c; s.style.setProperty('--i', ci++); w.appendChild(s); });
-          ln.appendChild(w);
-        });
-        title.appendChild(ln);
-      });
-      const place = (g) => { img.style.left = g.ox.toFixed(2) + 'px'; img.style.top = g.oy.toFixed(2) + 'px'; img.style.width = g.rw.toFixed(2) + 'px'; img.style.height = g.rh.toFixed(2) + 'px'; };
-      const cancelAnims = () => { anims.forEach((a) => { try { a.cancel(); } catch (_) {} }); anims = []; };
-      let closing = false;
+      const root = build();
+      const closeBtn = root.querySelector('.ab-close');
       const onKey = (e) => { if (e.key === 'Escape') close(); };
-      const onResize = () => {
-        if (busy) return;
-        root.style.setProperty('--afx-top', hdrH() + 'px');
-        const g = geom(); cancelAnims(); place(g); img.style.transform = g.end; frame.style.clipPath = 'none';
-      };
-
-      setTimeout(() => {                                               // 2) la cámara se mete en la imagen
-        const g = geom();
-        document.body.appendChild(root);
-        document.body.classList.add('about-open');
-        place(g); img.style.transform = g.start; frame.style.clipPath = g.clipStart;
-        void frame.offsetWidth;
-        root.classList.add('is-start');                                // aparece fundiéndose sobre el banner (mismo encuadre: no hay salto)
-        const o = { duration: DUR, easing: EASE_IN, fill: 'forwards' };
-        anims = [
-          img.animate([{ transform: g.start }, { transform: g.end }], o),
-          frame.animate([{ clipPath: g.clipStart }, { clipPath: g.clipEnd }], o)
-        ];
-        root.classList.add('is-in');
-        setTimeout(() => { hero.classList.add('afx-hide-bg'); }, 450); // ya tapado: el banner de debajo deja de pintarse
-        setTimeout(() => { root.classList.add('is-title'); }, DUR - 300);   // 3) el titular
-        setTimeout(() => { root.classList.add('is-info'); }, DUR + 500);    //    y a la vez la línea, la descripción y los datos
-        setTimeout(() => { busy = false; }, DUR + 1500);
-        root.addEventListener('click', (e) => { if (e.target.closest('a, .afx-panel')) return; close(); });   // se cierra al pulsar la imagen, con Esc o con About; los enlaces y el texto no la cierran
-        document.addEventListener('keydown', onKey);
-        window.addEventListener('resize', onResize);
-        fx = { close };
-      }, FADE);
-
+      const onResize = () => root.style.setProperty('--ab-top', hdrH() + 'px');
+      let closing = false;
       function close() {
         if (busy || closing) return;
         closing = true; busy = true;
         document.removeEventListener('keydown', onKey);
         window.removeEventListener('resize', onResize);
-        root.classList.remove('is-title', 'is-info'); root.classList.add('is-out');
-        setTimeout(() => {
-          hero.classList.remove('afx-hide-bg');
-          const g = geom();                                            // la cámara sale: vuelve al encuadre del banner
-          const cs = getComputedStyle(img).transform, ccs = getComputedStyle(frame).clipPath;
-          cancelAnims();
-          const o = { duration: OUT, easing: EASE_OUT, fill: 'forwards' };
-          anims = [
-            img.animate([{ transform: cs === 'none' ? g.end : cs }, { transform: g.start }], o),
-            frame.animate([{ clipPath: ccs && ccs !== 'none' ? ccs : g.clipEnd }, { clipPath: g.clipStart }], o)
-          ];
-          root.classList.remove('is-in');
-        }, 350);
-        setTimeout(() => {                                             // la imagen del banner vuelve a estar sola; después reaparece todo lo demás
-          root.remove(); document.body.classList.remove('about-open');
-          document.body.classList.remove('about-prep');
-          resumeThumbs();
-          fx = null; setTimeout(() => { busy = false; }, FADE);
-        }, 350 + OUT + 60);
+        burst(OUT_T, 'CH 01', () => {
+          root.remove(); document.body.classList.remove('about-open'); resumeThumbs(); fx = null;
+        }, () => { busy = false; });
       }
+      closeBtn.addEventListener('click', close);
+      burst(IN_T, 'CH 02', () => {
+        document.body.appendChild(root);
+        document.body.classList.add('about-open');
+        void root.offsetWidth;
+        root.classList.add('is-on');
+        fx = { close };
+        document.addEventListener('keydown', onKey);
+        window.addEventListener('resize', onResize);
+      }, () => { busy = false; });
     }
     window.openAbout = openAbout;
     document.querySelectorAll('[data-about]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); if (fx) fx.close(); else openAbout(); }));
-    // Con "Sobre mí" abierto, Work cierra primero la escena y luego hace lo suyo (bajar a los proyectos)
+    // Con About abierto, Work cierra primero la pantalla y luego hace lo suyo (bajar a los proyectos)
     document.querySelectorAll('.nav-work-link').forEach((a) => a.addEventListener('click', (e) => {
       if (!fx) return;
       e.preventDefault(); e.stopImmediatePropagation();
       fx.close();
-      setTimeout(() => a.click(), OUT + FADE + 900);
+      setTimeout(() => a.click(), OUT_T + 250);
     }, true));
     if (location.hash === '#sobre-mi') {
       history.replaceState(null, '', location.pathname + location.search);
