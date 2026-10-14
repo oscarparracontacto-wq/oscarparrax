@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Óscar Parra | Portfolio</title>
 <meta name="description" content="Discover the portfolio of Óscar Parra, Film Director &amp; Generative AI, specialized in advertising, branded content and AI projects.">
-<link rel="stylesheet" href="style.css?v=136">
+<link rel="stylesheet" href="style.css?v=137">
 <script>
 /* Móvil — pantalla de inicio: primero solo el banner en el centro; al deslizar hacia arriba (o tocar) el banner sube, aparece la barra y todo lo demás.
    Para quitarlo: borrar este bloque, el <div class="splash-hint"> del final y el bloque "CAMBIOS 111" de style.css. */
@@ -40,7 +40,7 @@
 </script>
 </head>
 <body>
-<div id="verTag" data-v="136" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v136</div>
+<div id="verTag" data-v="137" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v137</div>
 <script>(function(){var t=document.getElementById("verTag");if(!t)return;var c=getComputedStyle(document.documentElement).getPropertyValue("--ver").replace(/[^0-9]/g,"");if(c!==t.getAttribute("data-v")){t.textContent+=" · style.css antiguo ("+(c?"v"+c:"sin versión")+")";t.style.color="#ffe600";}})();</script>
 
 <header>
@@ -896,7 +896,7 @@
       const ax = 0.47, ay = 0.38;                                          // punto de Óscar en la foto (pecho), en fracción de la foto
       let s = mobile ? 1.1 : Math.max(1.5, 0.95 * H / (0.6 * rh));         // plano medio: de la cabeza a la cintura
       s = Math.min(s, 2.4);
-      const tx = mobile ? W * 0.5 : W * 0.25, ty = mobile ? H * 0.33 : H * 0.52;
+      const tx = mobile ? W * 0.5 : W * 0.16, ty = mobile ? H * 0.33 : H * 0.52;
       let Tx = tx - ox - s * ax * rw, Ty = ty - oy - s * ay * rh;
       if (ox + Tx > 0) Tx = -ox; else if (ox + Tx + s * rw < W) Tx = W - s * rw - ox;       // la foto nunca deja huecos
       if (oy + Ty > 0) Ty = -oy; else if (oy + Ty + s * rh < H) Ty = H - s * rh - oy;
