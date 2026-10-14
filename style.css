@@ -2258,4 +2258,26 @@ footer .ft-legal{font-size:11px;opacity:.75;letter-spacing:.02em;}
 @keyframes abTune{0%{opacity:1;transform:translateX(-10px);}20%{opacity:.35;transform:translateX(7px);}40%{opacity:1;transform:translateX(-4px);}60%{opacity:.6;transform:translateX(2px);}80%,100%{opacity:1;transform:none;}}
 .ab-scr.is-on .ab-seq{animation-duration:.4s;}
 
-/* VERSION */:root{--ver:'140';}
+/* ===== CAMBIOS 141: glitch sutil — solo toques verdes (#a3ff12) y el temblor; sin colores extra ===== */
+@keyframes abShake{
+  0%{translate:0 0;filter:none;}
+  16%{translate:-9px 0;filter:drop-shadow(3px 0 0 rgba(163,255,18,.32));}
+  33%{translate:7px 1px;filter:drop-shadow(-3px 0 0 rgba(163,255,18,.25));}
+  50%{translate:-3px -1px;filter:none;}
+  66%{translate:11px 0;filter:drop-shadow(3px 0 0 rgba(163,255,18,.3));}
+  83%{translate:-6px 1px;filter:drop-shadow(-2px 0 0 rgba(163,255,18,.22));}
+  100%{translate:0 0;filter:none;}
+}
+.ab-bar{mix-blend-mode:normal;}
+.ab-slice{display:none!important;}
+
+
+@keyframes abPhoto{
+  0%{filter:contrast(1.2) drop-shadow(5px 0 0 rgba(163,255,18,.45));transform:translateX(-8px);}
+  25%{filter:contrast(1.12) drop-shadow(-4px 0 0 rgba(163,255,18,.35));transform:translateX(6px);}
+  50%{filter:contrast(1.08) drop-shadow(3px 0 0 rgba(163,255,18,.25));transform:translateX(-3px);}
+  75%{filter:contrast(1.05);transform:translateX(1px);}
+  100%{filter:contrast(1.04) brightness(.94);transform:none;}
+}
+
+/* VERSION */:root{--ver:'141';}

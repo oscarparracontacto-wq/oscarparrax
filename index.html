@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Óscar Parra | Portfolio</title>
 <meta name="description" content="Discover the portfolio of Óscar Parra, Film Director &amp; Generative AI, specialized in advertising, branded content and AI projects.">
-<link rel="stylesheet" href="style.css?v=140">
+<link rel="stylesheet" href="style.css?v=141">
 <script>
 /* Móvil — pantalla de inicio: primero solo el banner en el centro; al deslizar hacia arriba (o tocar) el banner sube, aparece la barra y todo lo demás.
    Para quitarlo: borrar este bloque, el <div class="splash-hint"> del final y el bloque "CAMBIOS 111" de style.css. */
@@ -40,7 +40,7 @@
 </script>
 </head>
 <body>
-<div id="verTag" data-v="140" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v140</div>
+<div id="verTag" data-v="141" style="position:fixed;top:4px;right:10px;z-index:100000;font:700 12px/1 Inter,Arial,sans-serif;letter-spacing:.12em;color:#ff1a1a;text-shadow:0 0 4px rgba(0,0,0,.9);pointer-events:none;user-select:none;">v141</div>
 <script>(function(){var t=document.getElementById("verTag");if(!t)return;var c=getComputedStyle(document.documentElement).getPropertyValue("--ver").replace(/[^0-9]/g,"");if(c!==t.getAttribute("data-v")){t.textContent+=" · style.css antiguo ("+(c?"v"+c:"sin versión")+")";t.style.color="#ffe600";}})();</script>
 
 <header>
@@ -887,19 +887,19 @@
     });
 
     // Glitch (sin estática ni cambio de canal): el propio banner tiembla, con barras de color y franjas que distorsionan lo que hay detrás
-    const BAR_COLORS = ['#ff1a1a', '#00e5ff', '#a3ff12'];
+    const BAR_COLORS = ['#a3ff12'];
     function makeGlitch() {
       const el = document.createElement('div');
       el.className = 'ab-glitch';
       const bars = [], slices = [];
-      for (let i = 0; i < 7; i++) { const b = document.createElement('i'); b.className = 'ab-bar'; el.appendChild(b); bars.push(b); }
-      for (let i = 0; i < 5; i++) { const b = document.createElement('i'); b.className = 'ab-slice'; el.appendChild(b); slices.push(b); }
+      for (let i = 0; i < 3; i++) { const b = document.createElement('i'); b.className = 'ab-bar'; el.appendChild(b); bars.push(b); }
+      // (sin franjas de color: el glitch es solo un detalle verde sutil)
       function draw(k) {                                               // k: 0..1 (intensidad)
         bars.forEach((b) => {
           if (Math.random() < k * 0.7) {
-            b.style.opacity = (0.25 + Math.random() * 0.4) * Math.min(1, k * 1.5);
+            b.style.opacity = (0.12 + Math.random() * 0.2) * Math.min(1, k * 1.5);
             b.style.top = (Math.random() * 100).toFixed(1) + '%';
-            b.style.height = (0.6 + Math.random() * 3.5).toFixed(1) + '%';
+            b.style.height = (0.4 + Math.random() * 1.2).toFixed(1) + '%';
             b.style.background = BAR_COLORS[Math.random() * BAR_COLORS.length | 0];
             b.style.transform = 'translateX(' + ((Math.random() - .5) * 20).toFixed(1) + '%)';
           } else b.style.opacity = 0;
